@@ -990,7 +990,17 @@ class Rule34MobileApp {
             // Update modal title with artist info if available
             const modalTitle = document.getElementById('modal-title');
             if (artistName) {
-                modalTitle.innerHTML = `Image ID: ${imageData.id}<br><small style="color: #aaa; font-weight: normal;">Artist: <span class="artist-link" style="color: #667eea; cursor: pointer; text-decoration: underline;" onclick="app.searchByArtist('${artistName.replace(/'/g, "\\'")}')">${artistName}</span></small>`;
+                modalTitle.innerHTML = `Image ID: ${imageData.id}<br><small style="color: #aaa; font-weight: normal;">Artist: <span class="artist-link" data-artist="${artistName}" style="color: #667eea; cursor: pointer; text-decoration: underline;">${artistName}</span></small>`;
+
+                // Add click event listener to the artist link
+                const artistLink = modalTitle.querySelector('.artist-link');
+                if (artistLink) {
+                    artistLink.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const artist = e.target.getAttribute('data-artist');
+                        this.searchByArtist(artist);
+                    });
+                }
             } else {
                 modalTitle.innerHTML = `Image ID: ${imageData.id}`;
             }
