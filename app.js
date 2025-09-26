@@ -1925,19 +1925,42 @@ class Rule34MobileApp {
     setupAutocompleteInput(inputId, dropdownId) {
         console.log(`Setting up autocomplete for input: ${inputId}, dropdown: ${dropdownId}`);
         const input = document.getElementById(inputId);
-        const dropdown = document.getElementById(dropdownId);
+        let dropdown = document.getElementById(dropdownId);
 
-        if (!input || !dropdown) {
-            console.error(`Missing elements - Input: ${!!input}, Dropdown: ${!!dropdown}`);
+        if (!input) {
+            console.error(`Missing input element: ${inputId}`);
             return;
         }
+
+        // Remove existing dropdown if it exists
+        if (dropdown) {
+            dropdown.remove();
+        }
+
+        // Create new dropdown and append to body
+        dropdown = document.createElement('div');
+        dropdown.id = dropdownId;
+        dropdown.className = 'autocomplete-dropdown-body';
+        dropdown.style.cssText = `
+            position: fixed !important;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 2147483647 !important;
+            display: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            pointer-events: auto !important;
+        `;
+        document.body.appendChild(dropdown);
 
         let debounceTimeout;
         let selectedIndex = -1;
         let suggestions = [];
 
         const hideSuggestions = () => {
-            dropdown.classList.remove('active');
+            dropdown.style.display = 'none';
             selectedIndex = -1;
         };
 
@@ -1950,9 +1973,7 @@ class Rule34MobileApp {
                 dropdown.style.left = rect.left + 'px';
                 dropdown.style.top = (rect.bottom + 2) + 'px';
                 dropdown.style.width = rect.width + 'px';
-                dropdown.style.zIndex = '2147483647';
-
-                dropdown.classList.add('active');
+                dropdown.style.display = 'block';
             }
         };
 
@@ -1969,10 +1990,25 @@ class Rule34MobileApp {
             suggestions.forEach((suggestion, index) => {
                 const item = document.createElement('div');
                 item.className = 'autocomplete-item';
-                item.innerHTML = `
-                    <span class="tag-name">${suggestion.name}</span>
-                    <span class="tag-count">(${suggestion.count})</span>
+                item.style.cssText = `
+                    padding: 12px 16px;
+                    cursor: pointer;
+                    transition: background-color 0.2s ease;
+                    color: var(--text-primary);
+                    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
                 `;
+                item.innerHTML = `
+                    <span style="font-weight: 500;">${suggestion.name}</span>
+                    <span style="font-size: 0.85em; color: var(--text-muted); margin-left: 8px;">(${suggestion.count})</span>
+                `;
+
+                item.addEventListener('mouseenter', () => {
+                    item.style.background = 'rgba(102, 126, 234, 0.2)';
+                });
+
+                item.addEventListener('mouseleave', () => {
+                    item.style.background = '';
+                });
 
                 item.addEventListener('click', () => {
                     const currentValue = input.value;
@@ -1992,7 +2028,7 @@ class Rule34MobileApp {
         };
 
         const handleKeyNavigation = (e) => {
-            if (!dropdown.classList.contains('active')) return;
+            if (dropdown.style.display === 'none') return;
 
             switch (e.key) {
                 case 'ArrowDown':
