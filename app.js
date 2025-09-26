@@ -1161,37 +1161,11 @@ class Rule34MobileApp {
                         // Set the source immediately
                         modalImage.src = fullImageUrl;
 
-                        // Check periodically if image has started loading (has dimensions)
-                        const checkImageLoaded = () => {
-                            if (modalImage.naturalWidth > 0 || modalImage.naturalHeight > 0) {
-                                this.hideImageLoadingCat(modalImage);
-                                console.log(`Modal content dimensions available: ${fullImageUrl}`);
-                                return true;
-                            }
-                            return false;
-                        };
-
-                        // Check immediately
-                        if (!checkImageLoaded()) {
-                            // Check every 100ms for up to 2 seconds
-                            let attempts = 0;
-                            const interval = setInterval(() => {
-                                attempts++;
-                                if (checkImageLoaded() || attempts >= 20) {
-                                    clearInterval(interval);
-                                    if (attempts >= 20) {
-                                        this.hideImageLoadingCat(modalImage);
-                                        console.log('Modal content timeout after dimension checks');
-                                    }
-                                }
-                            }, 100);
-                        }
-
-                        // Absolute fallback timeout
+                        // Simple aggressive timeout - just hide after 1 second
                         setTimeout(() => {
                             this.hideImageLoadingCat(modalImage);
-                            console.log('Modal content absolute timeout reached');
-                        }, 2000);
+                            console.log('Modal content timeout reached - hiding loading cat');
+                        }, 1000);
 
                         console.log(`Successfully loaded test image: ${fullImageUrl}`);
                     };
@@ -1208,37 +1182,11 @@ class Rule34MobileApp {
                             // Set the source immediately
                             modalImage.src = proxyImageUrl;
 
-                            // Check periodically if image has started loading (has dimensions)
-                            const checkImageLoaded = () => {
-                                if (modalImage.naturalWidth > 0 || modalImage.naturalHeight > 0) {
-                                    this.hideImageLoadingCat(modalImage);
-                                    console.log(`Modal proxied content dimensions available: ${proxyImageUrl}`);
-                                    return true;
-                                }
-                                return false;
-                            };
-
-                            // Check immediately
-                            if (!checkImageLoaded()) {
-                                // Check every 100ms for up to 2 seconds
-                                let attempts = 0;
-                                const interval = setInterval(() => {
-                                    attempts++;
-                                    if (checkImageLoaded() || attempts >= 20) {
-                                        clearInterval(interval);
-                                        if (attempts >= 20) {
-                                            this.hideImageLoadingCat(modalImage);
-                                            console.log('Modal proxied content timeout after dimension checks');
-                                        }
-                                    }
-                                }, 100);
-                            }
-
-                            // Absolute fallback timeout
+                            // Simple aggressive timeout - just hide after 1 second
                             setTimeout(() => {
                                 this.hideImageLoadingCat(modalImage);
-                                console.log('Modal proxied content absolute timeout reached');
-                            }, 2000);
+                                console.log('Modal proxied content timeout reached - hiding loading cat');
+                            }, 1000);
 
                             console.log(`Successfully loaded proxied test image: ${proxyImageUrl}`);
                         };
