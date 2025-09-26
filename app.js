@@ -1878,12 +1878,6 @@ class Rule34MobileApp {
 
         // Store reference for removal
         modalImage.loadingOverlay = loadingOverlay;
-
-        // Set timeout to auto-hide loading cat after 30 seconds (for stuck GIFs)
-        modalImage.loadingTimeout = setTimeout(() => {
-            console.log('Loading timeout reached, hiding cat');
-            this.hideImageLoadingCat(modalImage);
-        }, 30000);
     }
 
     hideImageLoadingCat(modalImage) {
