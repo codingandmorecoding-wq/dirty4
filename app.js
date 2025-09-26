@@ -206,7 +206,7 @@ class Rule34MobileApp {
                 this.updateProgress(imageUrls.length, maxImages, `Scraping page ${pageNum + 1}`);
 
                 const targetUrl = `https://rule34.xxx/index.php?page=post&s=list&tags=${encodeURIComponent(searchQuery)}${pageNum > 0 ? `&pid=${pageNum * postsPerPage}` : ''}`;
-                const proxyUrl = `${CONFIG.API_BASE}/proxy?url=${encodeURIComponent(targetUrl)}`;
+                const proxyUrl = `${CONFIG.API_BASE}/proxy-debug?url=${encodeURIComponent(targetUrl)}`;
 
                 const response = await fetch(proxyUrl);
                 const data = await response.json();
@@ -310,7 +310,7 @@ class Rule34MobileApp {
             console.log(`Downloading image from post: ${imageData.postUrl}`);
 
             // Get the real image URL by scraping the post page
-            const postPageResponse = await fetch(`${CONFIG.API_BASE}/proxy?url=${encodeURIComponent(imageData.postUrl)}`);
+            const postPageResponse = await fetch(`${CONFIG.API_BASE}/proxy-debug?url=${encodeURIComponent(imageData.postUrl)}`);
             const postData = await postPageResponse.json();
 
             if (!postData.contents) {
@@ -473,7 +473,7 @@ class Rule34MobileApp {
 
         // Use our local server proxy
         const proxyServices = [
-            `${CONFIG.API_BASE}/proxy?url=${encodeURIComponent(targetUrl)}`
+            `${CONFIG.API_BASE}/proxy-debug?url=${encodeURIComponent(targetUrl)}`
         ];
 
         let data = null;
@@ -882,7 +882,7 @@ class Rule34MobileApp {
             console.log(`Loading full-size image from post: ${imageData.postUrl}`);
 
             // Fetch the post page to get the real image URL
-            const postPageResponse = await fetch(`${CONFIG.API_BASE}/proxy?url=${encodeURIComponent(imageData.postUrl)}`);
+            const postPageResponse = await fetch(`${CONFIG.API_BASE}/proxy-debug?url=${encodeURIComponent(imageData.postUrl)}`);
             const postData = await postPageResponse.json();
 
             if (!postData.contents) {
@@ -1939,7 +1939,7 @@ class Rule34MobileApp {
 
                 // Try to get real tags from Rule34 search results
                 const searchUrl = `https://rule34.xxx/index.php?page=post&s=list&tags=${encodeURIComponent(query)}*`;
-                const response = await fetch(`${CONFIG.API_BASE}/proxy?url=${encodeURIComponent(searchUrl)}`);
+                const response = await fetch(`${CONFIG.API_BASE}/proxy-debug?url=${encodeURIComponent(searchUrl)}`);
                 const data = await response.json();
 
                 let extractedTags = [];
