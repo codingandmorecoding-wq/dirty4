@@ -1063,43 +1063,7 @@ class Rule34MobileApp {
                     const modalImageWrapper = document.querySelector('.modal-image-wrapper');
                     const currentElement = document.getElementById('modal-image');
 
-                    // Create loading element with animated cat
-                    const loadingElement = document.createElement('div');
-                    loadingElement.id = 'modal-image';
-                    loadingElement.className = 'modal-image video-loading';
-                    loadingElement.style.cssText = `
-                        display: flex;
-                        flex-direction: column;
-                        align-items: center;
-                        justify-content: center;
-                        background: rgba(0, 0, 0, 0.8);
-                        color: white;
-                        height: 70vh;
-                        border-radius: 12px;
-                        pointer-events: none;
-                    `;
-                    loadingElement.innerHTML = `
-                        <div style="font-size: 48px; animation: cat-loading 1.5s ease-in-out infinite; margin-bottom: 16px;">
-                            🐱
-                        </div>
-                        <div style="font-size: 16px; opacity: 0.9;">Loading video...</div>
-                        <style>
-                            @keyframes cat-loading {
-                                0%, 100% { transform: scale(1) rotate(0deg); }
-                                25% { transform: scale(1.1) rotate(-5deg); }
-                                50% { transform: scale(1.2) rotate(5deg); }
-                                75% { transform: scale(1.1) rotate(-5deg); }
-                            }
-                        </style>
-                    `;
-
-                    // Replace current element with loading
-                    currentElement.replaceWith(loadingElement);
-
-                    // Try loading video through proxy directly (skip direct attempt to avoid CORS error)
-                    const proxiedVideoUrl = `${CONFIG.API_BASE}/video-proxy?url=${encodeURIComponent(fullImageUrl)}`;
-
-                    // Create video element
+                    // Create video element with fade-in effect
                     const videoElement = document.createElement('video');
                     videoElement.id = 'modal-image';
                     videoElement.className = 'modal-image';
@@ -1108,13 +1072,20 @@ class Rule34MobileApp {
                     videoElement.loop = true;
                     videoElement.muted = true; // Start muted to allow autoplay
 
+                    // Start hidden for fade-in effect
+                    videoElement.style.opacity = '0';
+                    videoElement.style.transition = 'opacity 0.3s ease-in-out';
+
+                    // Replace current element with video
+                    currentElement.replaceWith(videoElement);
+
+                    // Try loading video through proxy directly (skip direct attempt to avoid CORS error)
+                    const proxiedVideoUrl = `${CONFIG.API_BASE}/video-proxy?url=${encodeURIComponent(fullImageUrl)}`;
+
                     videoElement.onloadeddata = () => {
                         console.log(`Successfully loaded video through proxy: ${proxiedVideoUrl}`);
-                        // Replace loading element with video
-                        const currentLoading = document.getElementById('modal-image');
-                        if (currentLoading && currentLoading.classList.contains('video-loading')) {
-                            currentLoading.replaceWith(videoElement);
-                        }
+                        // Fade in the video when it's ready
+                        videoElement.style.opacity = '1';
                     };
 
                     videoElement.onerror = () => {
@@ -1124,6 +1095,10 @@ class Rule34MobileApp {
                         const currentLoading = document.getElementById('modal-image');
                         if (currentLoading) {
                             currentLoading.replaceWith(errorElement);
+                            // Fade in the error element
+                            setTimeout(() => {
+                                errorElement.style.opacity = '1';
+                            }, 50);
                         }
                     };
 
@@ -1851,6 +1826,10 @@ class Rule34MobileApp {
         errorDiv.style.border = '1px dashed rgba(255, 255, 255, 0.2)';
         errorDiv.style.borderRadius = '8px';
         errorDiv.style.color = '#ff6b6b';
+
+        // Add fade-in effect
+        errorDiv.style.opacity = '0';
+        errorDiv.style.transition = 'opacity 0.3s ease-in-out';
         errorDiv.innerHTML = `
             <i class="fas fa-video-slash" style="font-size: 48px; margin-bottom: 16px; opacity: 0.7;"></i>
             <div style="font-size: 16px; font-weight: 500; margin-bottom: 8px;">Video Unavailable</div>
