@@ -769,6 +769,26 @@ class Rule34MobileApp {
         document.getElementById('next-page').disabled = this.currentImages.length === 0;
     }
 
+    searchByArtist(artistName) {
+        console.log(`Searching for artist: ${artistName}`);
+
+        // Close the modal first
+        this.closeModal();
+
+        // Set the search input to the artist name
+        const searchInput = document.getElementById('browser-search');
+        searchInput.value = artistName;
+
+        // Reset to first page
+        this.currentPage = 0;
+
+        // Trigger the search
+        this.loadBrowserImages();
+
+        // Show success message
+        this.showToast(`Searching for artist: ${artistName}`, 'info');
+    }
+
     // === GALLERY FUNCTIONALITY ===
     loadGallery() {
         const galleryGrid = document.getElementById('gallery-grid');
@@ -970,7 +990,7 @@ class Rule34MobileApp {
             // Update modal title with artist info if available
             const modalTitle = document.getElementById('modal-title');
             if (artistName) {
-                modalTitle.innerHTML = `Image ID: ${imageData.id}<br><small style="color: #aaa; font-weight: normal;">Artist: ${artistName}</small>`;
+                modalTitle.innerHTML = `Image ID: ${imageData.id}<br><small style="color: #aaa; font-weight: normal;">Artist: <span class="artist-link" style="color: #667eea; cursor: pointer; text-decoration: underline;" onclick="app.searchByArtist('${artistName.replace(/'/g, "\\'")}')">${artistName}</span></small>`;
             } else {
                 modalTitle.innerHTML = `Image ID: ${imageData.id}`;
             }
@@ -1937,30 +1957,45 @@ class Rule34MobileApp {
             dropdown.remove();
         }
 
-        // Create new dropdown and append to body
+        // Create overlay container that covers entire viewport
+        const overlay = document.createElement('div');
+        overlay.id = dropdownId + '-overlay';
+        overlay.style.cssText = `
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100vw !important;
+            height: 100vh !important;
+            z-index: 2147483647 !important;
+            pointer-events: none !important;
+            display: none;
+        `;
+
+        // Create dropdown inside overlay
         dropdown = document.createElement('div');
         dropdown.id = dropdownId;
         dropdown.className = 'autocomplete-dropdown-body';
         dropdown.style.cssText = `
-            position: fixed !important;
+            position: absolute !important;
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
             max-height: 200px;
             overflow-y: auto;
-            z-index: 2147483647 !important;
-            display: none;
+            z-index: 1 !important;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             pointer-events: auto !important;
         `;
-        document.body.appendChild(dropdown);
+
+        overlay.appendChild(dropdown);
+        document.body.appendChild(overlay);
 
         let debounceTimeout;
         let selectedIndex = -1;
         let suggestions = [];
 
         const hideSuggestions = () => {
-            dropdown.style.display = 'none';
+            overlay.style.display = 'none';
             selectedIndex = -1;
         };
 
@@ -1968,12 +2003,13 @@ class Rule34MobileApp {
             if (suggestions.length > 0) {
                 console.log('Showing autocomplete dropdown for:', inputId);
 
-                // Get input position for fixed positioning
+                // Get input position for positioning within overlay
                 const rect = input.getBoundingClientRect();
                 dropdown.style.left = rect.left + 'px';
                 dropdown.style.top = (rect.bottom + 2) + 'px';
                 dropdown.style.width = rect.width + 'px';
-                dropdown.style.display = 'block';
+
+                overlay.style.display = 'block';
             }
         };
 
@@ -2028,7 +2064,7 @@ class Rule34MobileApp {
         };
 
         const handleKeyNavigation = (e) => {
-            if (dropdown.style.display === 'none') return;
+            if (overlay.style.display === 'none') return;
 
             switch (e.key) {
                 case 'ArrowDown':
