@@ -779,19 +779,16 @@
         }
 
         .autocomplete-dropdown {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
+            position: fixed !important;
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
             max-height: 200px;
             overflow-y: auto;
-            z-index: 999999 !important;
+            z-index: 2147483647 !important;
             display: none;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transform: translateZ(0);
+            pointer-events: auto !important;
         }
 
         .autocomplete-dropdown.active {
