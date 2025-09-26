@@ -1,7 +1,7 @@
 // Production Configuration
 const CONFIG = {
     PRODUCTION: true,
-    API_BASE: 'https://dirty4-vercel-qsc8-ccnkzkhjk-codingandmorecoding-wqs-projects.vercel.app/api',
+    API_BASE: 'https://dirty4-vercel-qsc8-6dqhgr1dg-codingandmorecoding-wqs-projects.vercel.app/api',
     VERSION: '1.0.0'
 };
 
