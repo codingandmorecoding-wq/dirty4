@@ -1112,11 +1112,13 @@
 
         <!-- Mode Tabs -->
         <div class="mode-tabs">
+            <!-- COMMENTED OUT FOR WEB VERSION - NEEDED FOR ANDROID APP ONLY
             <button class="mode-tab active" data-mode="downloader">
                 <i class="fas fa-download"></i>
                 <span>Downloader</span>
             </button>
-            <button class="mode-tab" data-mode="browser">
+            -->
+            <button class="mode-tab active" data-mode="browser">
                 <i class="fas fa-images"></i>
                 <span>Browser</span>
             </button>
@@ -1145,6 +1147,7 @@
 
         <!-- Main Content -->
         <main class="main-content">
+            <!-- COMMENTED OUT FOR WEB VERSION - NEEDED FOR ANDROID APP ONLY
             <!-- Downloader Mode -->
             <div id="downloader-view" class="mode-view active">
                 <div class="card">
@@ -1217,9 +1220,10 @@
                     </div>
                 </div>
             </div>
+            END COMMENTED OUT SECTION -->
 
             <!-- Browser Mode -->
-            <div id="browser-view" class="mode-view">
+            <div id="browser-view" class="mode-view active">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-icon">
@@ -1345,10 +1349,12 @@
                         <i class="fas fa-star"></i>
                         Star
                     </button>
+                    <!-- COMMENTED OUT FOR WEB VERSION - NEEDED FOR ANDROID APP ONLY
                     <button id="modal-download" class="btn btn-success">
                         <i class="fas fa-download"></i>
                         Download
                     </button>
+                    -->
                 </div>
             </div>
         </div>

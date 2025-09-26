@@ -15,7 +15,7 @@ const CONFIG = {
 // Rule34 Mobile Downloader App
 class Rule34MobileApp {
     constructor() {
-        this.currentMode = 'downloader';
+        this.currentMode = 'browser'; // Start with browser mode (downloader hidden for web version)
         this.currentPage = 0;
         this.isDownloading = false;
         this.starredImages = this.loadStarredImages();
@@ -92,10 +92,11 @@ class Rule34MobileApp {
             });
         });
 
+        // COMMENTED OUT FOR WEB VERSION - NEEDED FOR ANDROID APP ONLY
         // Downloader controls
-        document.getElementById('start-download').addEventListener('click', () => {
-            this.startDownload();
-        });
+        // document.getElementById('start-download').addEventListener('click', () => {
+        //     this.startDownload();
+        // });
 
         // Browser controls
         document.getElementById('browse-btn').addEventListener('click', () => {
@@ -127,9 +128,10 @@ class Rule34MobileApp {
             this.toggleStarInModal();
         });
 
-        document.getElementById('modal-download').addEventListener('click', () => {
-            this.downloadFromModal();
-        });
+        // COMMENTED OUT FOR WEB VERSION - NEEDED FOR ANDROID APP ONLY
+        // document.getElementById('modal-download').addEventListener('click', () => {
+        //     this.downloadFromModal();
+        // });
 
         // Close modal on background click
         document.getElementById('image-modal').addEventListener('click', (e) => {
@@ -726,18 +728,19 @@ class Rule34MobileApp {
             this.showToast(isNowStarred ? 'Image starred' : 'Star removed', 'success');
         };
 
-        const downloadBtn = document.createElement('button');
-        downloadBtn.className = 'btn btn-success btn-icon';
-        downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
-        downloadBtn.title = 'Download image';
-        downloadBtn.onclick = (e) => {
-            e.stopPropagation();
-            this.downloadSingleImage(imageData);
-            this.showToast('Download started', 'success');
-        };
+        // COMMENTED OUT FOR WEB VERSION - NEEDED FOR ANDROID APP ONLY
+        // const downloadBtn = document.createElement('button');
+        // downloadBtn.className = 'btn btn-success btn-icon';
+        // downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
+        // downloadBtn.title = 'Download image';
+        // downloadBtn.onclick = (e) => {
+        //     e.stopPropagation();
+        //     this.downloadSingleImage(imageData);
+        //     this.showToast('Download started', 'success');
+        // };
 
         actions.appendChild(starBtn);
-        actions.appendChild(downloadBtn);
+        // actions.appendChild(downloadBtn);
 
         card.appendChild(loadingDiv);
         card.appendChild(img);
@@ -829,18 +832,19 @@ class Rule34MobileApp {
             this.showToast('Removed from gallery', 'warning');
         };
 
-        const downloadBtn = document.createElement('button');
-        downloadBtn.className = 'btn btn-success btn-icon';
-        downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
-        downloadBtn.title = 'Download image';
-        downloadBtn.onclick = (e) => {
-            e.stopPropagation();
-            this.downloadSingleImage(imageData);
-            this.showToast('Download started', 'success');
-        };
+        // COMMENTED OUT FOR WEB VERSION - NEEDED FOR ANDROID APP ONLY
+        // const downloadBtn = document.createElement('button');
+        // downloadBtn.className = 'btn btn-success btn-icon';
+        // downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
+        // downloadBtn.title = 'Download image';
+        // downloadBtn.onclick = (e) => {
+        //     e.stopPropagation();
+        //     this.downloadSingleImage(imageData);
+        //     this.showToast('Download started', 'success');
+        // };
 
         actions.appendChild(removeBtn);
-        actions.appendChild(downloadBtn);
+        // actions.appendChild(downloadBtn);
 
         card.appendChild(loadingDiv);
         card.appendChild(img);
