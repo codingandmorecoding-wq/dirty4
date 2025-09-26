@@ -4,8 +4,10 @@ const CONFIG = {
     API_BASE: 'https://dirty4-vercel-qsc8-6dqhgr1dg-codingandmorecoding-wqs-projects.vercel.app/api',
     FALLBACK_PROXIES: [
         'https://api.allorigins.win/get?url=',
-        'https://corsproxy.io/?',
-        'https://cors-anywhere.herokuapp.com/'
+        'https://thingproxy.freeboard.io/fetch/',
+        'https://cors.eu.org/',
+        'https://proxy.cors.sh/',
+        'https://corsproxy.io/?'
     ],
     VERSION: '1.0.0'
 };
@@ -48,15 +50,23 @@ class Rule34MobileApp {
 
                 const response = await fetch(fallbackUrl);
                 if (response.ok) {
-                    const data = await response.json();
-                    // Handle different proxy response formats
-                    if (data.contents) {
-                        return data.contents; // allorigins format
-                    } else if (typeof data === 'string') {
-                        return data; // plain text response
-                    } else {
+                    // Try JSON first
+                    try {
+                        const data = await response.json();
+                        // Handle different proxy response formats
+                        if (data.contents) {
+                            return data.contents; // allorigins format
+                        } else if (typeof data === 'string') {
+                            return data; // plain text response
+                        } else if (data.body) {
+                            return data.body; // some proxies use body field
+                        }
+                    } catch (jsonError) {
+                        // If JSON parsing fails, try as text
                         const text = await response.text();
-                        return text;
+                        if (text && text.length > 0) {
+                            return text;
+                        }
                     }
                 }
             } catch (error) {
