@@ -935,7 +935,7 @@ class Rule34MobileApp {
             const postDoc = parser.parseFromString(postHtmlContent, 'text/html');
 
             // Extract artist information from tags
-            let artistName = null;
+            let artistNames = [];
 
             // Try multiple selectors to find artist tags
             const artistSelectors = [
@@ -948,21 +948,21 @@ class Rule34MobileApp {
 
             for (const selector of artistSelectors) {
                 const elements = postDoc.querySelectorAll(selector);
-                if (elements.length > 0) {
-                    const candidateName = elements[0].textContent?.trim();
+                for (const element of elements) {
+                    const candidateName = element.textContent?.trim();
                     if (candidateName && candidateName.length > 0) {
                         // Clean up the artist name - remove question marks and other unwanted characters
-                        artistName = candidateName.replace(/^\?+/, '').trim();
-                        console.log(`Found artist: "${artistName}" using selector: ${selector}`);
-                        if (artistName.length > 0) {
-                            break;
+                        const cleanName = candidateName.replace(/^\?+/, '').trim();
+                        if (cleanName.length > 0 && !artistNames.includes(cleanName)) {
+                            artistNames.push(cleanName);
+                            console.log(`Found artist: "${cleanName}" using selector: ${selector}`);
                         }
                     }
                 }
             }
 
-            // If no artist found with the above selectors, try looking in the tags list
-            if (!artistName) {
+            // If no artists found with the above selectors, try looking in the tags list
+            if (artistNames.length === 0) {
                 const allTagLinks = postDoc.querySelectorAll('a[href*="tags="]');
                 for (const link of allTagLinks) {
                     const href = link.getAttribute('href');
@@ -977,10 +977,10 @@ class Rule34MobileApp {
 
                         if (isArtistTag) {
                             // Clean up the artist name
-                            artistName = text.replace(/^\?+/, '').trim();
-                            console.log(`Found artist via fallback: "${artistName}"`);
-                            if (artistName.length > 0) {
-                                break;
+                            const cleanName = text.replace(/^\?+/, '').trim();
+                            if (cleanName.length > 0 && !artistNames.includes(cleanName)) {
+                                artistNames.push(cleanName);
+                                console.log(`Found artist via fallback: "${cleanName}"`);
                             }
                         }
                     }
@@ -989,18 +989,24 @@ class Rule34MobileApp {
 
             // Update modal title with artist info if available
             const modalTitle = document.getElementById('modal-title');
-            if (artistName) {
-                modalTitle.innerHTML = `Image ID: ${imageData.id}<br><small style="color: #aaa; font-weight: normal;">Artist: <span class="artist-link" data-artist="${artistName}" style="color: #667eea; cursor: pointer; text-decoration: underline;">${artistName}</span></small>`;
+            if (artistNames.length > 0) {
+                // Create clickable links for all artists
+                const artistLinksHtml = artistNames.map(artist =>
+                    `<span class="artist-link" data-artist="${artist}" style="color: #667eea; cursor: pointer; text-decoration: underline;">${artist}</span>`
+                ).join(', ');
 
-                // Add click event listener to the artist link
-                const artistLink = modalTitle.querySelector('.artist-link');
-                if (artistLink) {
-                    artistLink.addEventListener('click', (e) => {
+                const artistLabel = artistNames.length === 1 ? 'Artist' : 'Artists';
+                modalTitle.innerHTML = `Image ID: ${imageData.id}<br><small style="color: #aaa; font-weight: normal;">${artistLabel}: ${artistLinksHtml}</small>`;
+
+                // Add click event listeners to all artist links
+                const artistLinks = modalTitle.querySelectorAll('.artist-link');
+                artistLinks.forEach(link => {
+                    link.addEventListener('click', (e) => {
                         e.preventDefault();
                         const artist = e.target.getAttribute('data-artist');
                         this.searchByArtist(artist);
                     });
-                }
+                });
             } else {
                 modalTitle.innerHTML = `Image ID: ${imageData.id}`;
             }
