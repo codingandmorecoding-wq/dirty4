@@ -1,0 +1,20 @@
+# Development files
+node_modules/
+server.js
+package.json
+start.bat
+
+# Environment variables
+.env
+.env.local
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Backend files
+netlify/
+functions/
