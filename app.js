@@ -128,10 +128,9 @@ class Rule34MobileApp {
             this.toggleStarInModal();
         });
 
-        // COMMENTED OUT FOR WEB VERSION - NEEDED FOR ANDROID APP ONLY
-        // document.getElementById('modal-download').addEventListener('click', () => {
-        //     this.downloadFromModal();
-        // });
+        document.getElementById('modal-download').addEventListener('click', () => {
+            this.downloadFromModal();
+        });
 
         // Close modal on background click
         document.getElementById('image-modal').addEventListener('click', (e) => {
@@ -728,19 +727,18 @@ class Rule34MobileApp {
             this.showToast(isNowStarred ? 'Image starred' : 'Star removed', 'success');
         };
 
-        // COMMENTED OUT FOR WEB VERSION - NEEDED FOR ANDROID APP ONLY
-        // const downloadBtn = document.createElement('button');
-        // downloadBtn.className = 'btn btn-success btn-icon';
-        // downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
-        // downloadBtn.title = 'Download image';
-        // downloadBtn.onclick = (e) => {
-        //     e.stopPropagation();
-        //     this.downloadSingleImage(imageData);
-        //     this.showToast('Download started', 'success');
-        // };
+        const downloadBtn = document.createElement('button');
+        downloadBtn.className = 'btn btn-success btn-icon';
+        downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
+        downloadBtn.title = 'Download image';
+        downloadBtn.onclick = (e) => {
+            e.stopPropagation();
+            this.downloadSingleImage(imageData);
+            this.showToast('Download started', 'success');
+        };
 
         actions.appendChild(starBtn);
-        // actions.appendChild(downloadBtn);
+        actions.appendChild(downloadBtn);
 
         card.appendChild(loadingDiv);
         card.appendChild(img);
@@ -832,19 +830,18 @@ class Rule34MobileApp {
             this.showToast('Removed from gallery', 'warning');
         };
 
-        // COMMENTED OUT FOR WEB VERSION - NEEDED FOR ANDROID APP ONLY
-        // const downloadBtn = document.createElement('button');
-        // downloadBtn.className = 'btn btn-success btn-icon';
-        // downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
-        // downloadBtn.title = 'Download image';
-        // downloadBtn.onclick = (e) => {
-        //     e.stopPropagation();
-        //     this.downloadSingleImage(imageData);
-        //     this.showToast('Download started', 'success');
-        // };
+        const downloadBtn = document.createElement('button');
+        downloadBtn.className = 'btn btn-success btn-icon';
+        downloadBtn.innerHTML = '<i class="fas fa-download"></i>';
+        downloadBtn.title = 'Download image';
+        downloadBtn.onclick = (e) => {
+            e.stopPropagation();
+            this.downloadSingleImage(imageData);
+            this.showToast('Download started', 'success');
+        };
 
         actions.appendChild(removeBtn);
-        // actions.appendChild(downloadBtn);
+        actions.appendChild(downloadBtn);
 
         card.appendChild(loadingDiv);
         card.appendChild(img);
