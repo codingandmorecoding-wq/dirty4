@@ -1147,10 +1147,32 @@ class Rule34MobileApp {
 
                     // Create new image element to test loading
                     const img = new Image();
+
+                    // Add comprehensive event listeners for better GIF handling
+                    img.addEventListener('loadstart', () => {
+                        console.log('Image loading started');
+                    });
+
+                    img.addEventListener('progress', () => {
+                        console.log('Image loading in progress');
+                    });
+
                     img.onload = () => {
                         modalImage.src = fullImageUrl;
-                        this.hideImageLoadingCat(modalImage);
-                        console.log(`Successfully loaded image: ${fullImageUrl}`);
+
+                        // Add event listeners to the actual modal image for GIF completion
+                        modalImage.addEventListener('load', () => {
+                            this.hideImageLoadingCat(modalImage);
+                            console.log(`Modal image fully loaded: ${fullImageUrl}`);
+                        }, { once: true });
+
+                        // Fallback timeout for the modal image itself
+                        setTimeout(() => {
+                            this.hideImageLoadingCat(modalImage);
+                            console.log('Modal image fallback timeout reached');
+                        }, 5000);
+
+                        console.log(`Successfully loaded test image: ${fullImageUrl}`);
                     };
 
                     img.onerror = () => {
@@ -1163,8 +1185,20 @@ class Rule34MobileApp {
                         const proxyImg = new Image();
                         proxyImg.onload = () => {
                             modalImage.src = proxyImageUrl;
-                            this.hideImageLoadingCat(modalImage);
-                            console.log(`Successfully loaded proxied image: ${proxyImageUrl}`);
+
+                            // Add event listeners to the actual modal image for GIF completion
+                            modalImage.addEventListener('load', () => {
+                                this.hideImageLoadingCat(modalImage);
+                                console.log(`Modal proxied image fully loaded: ${proxyImageUrl}`);
+                            }, { once: true });
+
+                            // Fallback timeout for the modal image itself
+                            setTimeout(() => {
+                                this.hideImageLoadingCat(modalImage);
+                                console.log('Modal proxied image fallback timeout reached');
+                            }, 5000);
+
+                            console.log(`Successfully loaded proxied test image: ${proxyImageUrl}`);
                         };
                         proxyImg.onerror = () => {
                             this.hideImageLoadingCat(modalImage);
@@ -1802,12 +1836,24 @@ class Rule34MobileApp {
 
         // Store reference for removal
         modalImage.loadingOverlay = loadingOverlay;
+
+        // Set timeout to auto-hide loading cat after 30 seconds (for stuck GIFs)
+        modalImage.loadingTimeout = setTimeout(() => {
+            console.log('Loading timeout reached, hiding cat');
+            this.hideImageLoadingCat(modalImage);
+        }, 30000);
     }
 
     hideImageLoadingCat(modalImage) {
         if (modalImage && modalImage.loadingOverlay) {
             modalImage.loadingOverlay.remove();
             modalImage.loadingOverlay = null;
+        }
+
+        // Clear timeout if it exists
+        if (modalImage && modalImage.loadingTimeout) {
+            clearTimeout(modalImage.loadingTimeout);
+            modalImage.loadingTimeout = null;
         }
     }
 
