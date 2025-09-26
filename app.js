@@ -895,8 +895,9 @@ class Rule34MobileApp {
     async loadFullSizeImage(imageData) {
         const modalImage = document.getElementById('modal-image');
 
-        // Show loading cat animation
-        this.showImageLoadingCat(modalImage);
+        // Start with modal image hidden for fade-in effect
+        modalImage.style.opacity = '0';
+        modalImage.style.transition = 'opacity 0.3s ease-in-out';
 
         try {
             console.log(`Loading full-size image from post: ${imageData.postUrl}`);
@@ -1158,14 +1159,12 @@ class Rule34MobileApp {
                     });
 
                     img.onload = () => {
-                        // Set the source immediately
+                        // Set the source and fade in when loaded
                         modalImage.src = fullImageUrl;
-
-                        // Simple aggressive timeout - just hide after 1 second
-                        setTimeout(() => {
-                            this.hideImageLoadingCat(modalImage);
-                            console.log('Modal content timeout reached - hiding loading cat');
-                        }, 1000);
+                        modalImage.onload = () => {
+                            modalImage.style.opacity = '1';
+                            console.log(`Modal image faded in: ${fullImageUrl}`);
+                        };
 
                         console.log(`Successfully loaded test image: ${fullImageUrl}`);
                     };
@@ -1179,19 +1178,17 @@ class Rule34MobileApp {
                         // Setup proxy image loading handlers
                         const proxyImg = new Image();
                         proxyImg.onload = () => {
-                            // Set the source immediately
+                            // Set the source and fade in when loaded
                             modalImage.src = proxyImageUrl;
-
-                            // Simple aggressive timeout - just hide after 1 second
-                            setTimeout(() => {
-                                this.hideImageLoadingCat(modalImage);
-                                console.log('Modal proxied content timeout reached - hiding loading cat');
-                            }, 1000);
+                            modalImage.onload = () => {
+                                modalImage.style.opacity = '1';
+                                console.log(`Modal proxied image faded in: ${proxyImageUrl}`);
+                            };
 
                             console.log(`Successfully loaded proxied test image: ${proxyImageUrl}`);
                         };
                         proxyImg.onerror = () => {
-                            this.hideImageLoadingCat(modalImage);
+                            modalImage.style.opacity = '1'; // Show anyway
                             console.error(`Failed to load proxied image: ${proxyImageUrl}`);
                         };
                         proxyImg.src = proxyImageUrl;
@@ -1207,7 +1204,7 @@ class Rule34MobileApp {
         } catch (error) {
             console.error('Error loading full-size image:', error);
             const modalImage = document.getElementById('modal-image');
-            this.hideImageLoadingCat(modalImage);
+            modalImage.style.opacity = '1'; // Show thumbnail anyway
             // Keep the thumbnail as fallback
         }
     }
