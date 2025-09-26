@@ -1,7 +1,7 @@
 // Production Configuration
 const CONFIG = {
     PRODUCTION: true,
-    API_BASE: 'https://dirty4-vercel-qsc8-1md1jwuda-codingandmorecoding-wqs-projects.vercel.app/api',
+    API_BASE: 'https://dirty4-vercel-i330kwmi1-codingandmorecoding-wqs-projects.vercel.app/api',
     FALLBACK_PROXIES: [
         'https://api.allorigins.win/get?url=',
         'https://thingproxy.freeboard.io/fetch/',
