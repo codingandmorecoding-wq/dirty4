@@ -774,19 +774,24 @@
             position: relative;
             display: inline-block;
             width: 100%;
-            z-index: 10003 !important;
+            z-index: 999998 !important;
+            isolation: isolate;
         }
 
         .autocomplete-dropdown {
-            position: fixed;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius);
             max-height: 200px;
             overflow-y: auto;
-            z-index: 999999;
+            z-index: 999999 !important;
             display: none;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transform: translateZ(0);
         }
 
         .autocomplete-dropdown.active {

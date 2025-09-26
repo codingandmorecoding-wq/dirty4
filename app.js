@@ -1944,16 +1944,6 @@ class Rule34MobileApp {
         const showSuggestions = () => {
             if (suggestions.length > 0) {
                 console.log('Showing autocomplete dropdown for:', inputId);
-
-                // Position the fixed dropdown relative to the input
-                const inputRect = input.getBoundingClientRect();
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
-
-                dropdown.style.left = (inputRect.left + scrollLeft) + 'px';
-                dropdown.style.top = (inputRect.bottom + scrollTop + 2) + 'px';
-                dropdown.style.width = inputRect.width + 'px';
-
                 dropdown.classList.add('active');
             }
         };
