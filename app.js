@@ -1,7 +1,7 @@
 // Production Configuration
 const CONFIG = {
     PRODUCTION: true,
-    API_BASE: 'https://delicate-hamster-6efc68.netlify.app/.netlify/functions',
+    API_BASE: 'https://dirty4-vercel-qsc8-ccnkzkhjk-codingandmorecoding-wqs-projects.vercel.app/api',
     VERSION: '1.0.0'
 };
 
