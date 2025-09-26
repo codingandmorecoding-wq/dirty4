@@ -2,6 +2,11 @@
 const CONFIG = {
     PRODUCTION: true,
     API_BASE: 'https://dirty4-vercel-qsc8-6dqhgr1dg-codingandmorecoding-wqs-projects.vercel.app/api',
+    FALLBACK_PROXIES: [
+        'https://api.allorigins.win/get?url=',
+        'https://corsproxy.io/?',
+        'https://cors-anywhere.herokuapp.com/'
+    ],
     VERSION: '1.0.0'
 };
 
@@ -16,6 +21,50 @@ class Rule34MobileApp {
         this.currentSearchQuery = '';
 
         this.init();
+    }
+
+    async fetchWithFallback(targetUrl) {
+        // Try Vercel API first
+        const primaryProxyUrl = `${CONFIG.API_BASE}/proxy-debug?url=${encodeURIComponent(targetUrl)}`;
+
+        try {
+            console.log(`Trying primary proxy: ${primaryProxyUrl}`);
+            const response = await fetch(primaryProxyUrl);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.contents) {
+                    return data.contents;
+                }
+            }
+        } catch (error) {
+            console.warn('Primary proxy failed:', error.message);
+        }
+
+        // Try fallback proxies
+        for (const proxyBase of CONFIG.FALLBACK_PROXIES) {
+            try {
+                const fallbackUrl = proxyBase + encodeURIComponent(targetUrl);
+                console.log(`Trying fallback proxy: ${fallbackUrl}`);
+
+                const response = await fetch(fallbackUrl);
+                if (response.ok) {
+                    const data = await response.json();
+                    // Handle different proxy response formats
+                    if (data.contents) {
+                        return data.contents; // allorigins format
+                    } else if (typeof data === 'string') {
+                        return data; // plain text response
+                    } else {
+                        const text = await response.text();
+                        return text;
+                    }
+                }
+            } catch (error) {
+                console.warn(`Fallback proxy failed: ${proxyBase}`, error.message);
+            }
+        }
+
+        throw new Error('All proxy services failed');
     }
 
     init() {
@@ -206,18 +255,16 @@ class Rule34MobileApp {
                 this.updateProgress(imageUrls.length, maxImages, `Scraping page ${pageNum + 1}`);
 
                 const targetUrl = `https://rule34.xxx/index.php?page=post&s=list&tags=${encodeURIComponent(searchQuery)}${pageNum > 0 ? `&pid=${pageNum * postsPerPage}` : ''}`;
-                const proxyUrl = `${CONFIG.API_BASE}/proxy-debug?url=${encodeURIComponent(targetUrl)}`;
 
-                const response = await fetch(proxyUrl);
-                const data = await response.json();
+                const htmlContent = await this.fetchWithFallback(targetUrl);
 
-                if (!data.contents) {
+                if (!htmlContent) {
                     this.log('Failed to fetch page content');
                     break;
                 }
 
                 const parser = new DOMParser();
-                const doc = parser.parseFromString(data.contents, 'text/html');
+                const doc = parser.parseFromString(htmlContent, 'text/html');
 
                 // Find post links
                 const postLinks = doc.querySelectorAll('a[href*="page=post&s=view&id="]');
@@ -310,16 +357,15 @@ class Rule34MobileApp {
             console.log(`Downloading image from post: ${imageData.postUrl}`);
 
             // Get the real image URL by scraping the post page
-            const postPageResponse = await fetch(`${CONFIG.API_BASE}/proxy-debug?url=${encodeURIComponent(imageData.postUrl)}`);
-            const postData = await postPageResponse.json();
+            const postHtmlContent = await this.fetchWithFallback(imageData.postUrl);
 
-            if (!postData.contents) {
+            if (!postHtmlContent) {
                 throw new Error('Failed to load post page for download');
             }
 
             // Parse the post page HTML
             const parser = new DOMParser();
-            const postDoc = parser.parseFromString(postData.contents, 'text/html');
+            const postDoc = parser.parseFromString(postHtmlContent, 'text/html');
 
             // Find the main image URL
             let fullImageUrl = null;
@@ -471,46 +517,7 @@ class Rule34MobileApp {
 
         console.log(`Target URL: ${targetUrl}`);
 
-        // Use our local server proxy
-        const proxyServices = [
-            `${CONFIG.API_BASE}/proxy-debug?url=${encodeURIComponent(targetUrl)}`
-        ];
-
-        let data = null;
-        let lastError = null;
-
-        for (const proxyUrl of proxyServices) {
-            try {
-                console.log(`Trying proxy: ${proxyUrl}`);
-
-                const response = await fetch(proxyUrl, {
-                    method: 'GET'
-                });
-
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-
-                const responseData = await response.json();
-                console.log(`Response data keys:`, Object.keys(responseData));
-
-                if (responseData.contents || responseData.data || responseData.response) {
-                    data = responseData;
-                    break;
-                }
-            } catch (error) {
-                console.error(`Proxy failed: ${proxyUrl}`, error);
-                lastError = error;
-                continue;
-            }
-        }
-
-        if (!data) {
-            console.error('All proxies failed, last error:', lastError);
-            throw new Error(`Failed to fetch content through all proxies. Last error: ${lastError?.message || 'Unknown error'}`);
-        }
-
-        const htmlContent = data.contents || data.data || data.response;
+        const htmlContent = await this.fetchWithFallback(targetUrl);
         if (!htmlContent) {
             throw new Error('No HTML content in response');
         }
@@ -882,16 +889,15 @@ class Rule34MobileApp {
             console.log(`Loading full-size image from post: ${imageData.postUrl}`);
 
             // Fetch the post page to get the real image URL
-            const postPageResponse = await fetch(`${CONFIG.API_BASE}/proxy-debug?url=${encodeURIComponent(imageData.postUrl)}`);
-            const postData = await postPageResponse.json();
+            const postHtmlContent = await this.fetchWithFallback(imageData.postUrl);
 
-            if (!postData.contents) {
+            if (!postHtmlContent) {
                 throw new Error('Failed to load post page');
             }
 
             // Parse the post page HTML
             const parser = new DOMParser();
-            const postDoc = parser.parseFromString(postData.contents, 'text/html');
+            const postDoc = parser.parseFromString(postHtmlContent, 'text/html');
 
             // Extract artist information from tags
             let artistName = null;
@@ -1939,15 +1945,14 @@ class Rule34MobileApp {
 
                 // Try to get real tags from Rule34 search results
                 const searchUrl = `https://rule34.xxx/index.php?page=post&s=list&tags=${encodeURIComponent(query)}*`;
-                const response = await fetch(`${CONFIG.API_BASE}/proxy-debug?url=${encodeURIComponent(searchUrl)}`);
-                const data = await response.json();
+                const htmlContent = await this.fetchWithFallback(searchUrl);
 
                 let extractedTags = [];
 
-                if (data.contents) {
+                if (htmlContent) {
                     // Parse HTML to extract tags from search results
                     const parser = new DOMParser();
-                    const doc = parser.parseFromString(data.contents, 'text/html');
+                    const doc = parser.parseFromString(htmlContent, 'text/html');
 
                     // Extract tags from tag links and tag lists
                     const tagElements = doc.querySelectorAll('a[href*="tags="]');
