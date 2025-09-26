@@ -1947,8 +1947,11 @@ class Rule34MobileApp {
 
                 // Position the fixed dropdown relative to the input
                 const inputRect = input.getBoundingClientRect();
-                dropdown.style.left = inputRect.left + 'px';
-                dropdown.style.top = (inputRect.bottom + 2) + 'px';
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+                dropdown.style.left = (inputRect.left + scrollLeft) + 'px';
+                dropdown.style.top = (inputRect.bottom + scrollTop + 2) + 'px';
                 dropdown.style.width = inputRect.width + 'px';
 
                 dropdown.classList.add('active');
