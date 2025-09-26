@@ -1158,26 +1158,32 @@ class Rule34MobileApp {
                     });
 
                     img.onload = () => {
-                        // Add event listeners to the actual modal image BEFORE setting src
-                        modalImage.addEventListener('load', () => {
+                        // Add multiple event listeners to catch when content starts displaying
+                        const hideLoadingCat = () => {
                             this.hideImageLoadingCat(modalImage);
-                            console.log(`Modal image fully loaded: ${fullImageUrl}`);
-                        }, { once: true });
+                            console.log(`Modal content started displaying: ${fullImageUrl}`);
+                        };
 
-                        // Also add an error handler for the modal image
+                        // For images/GIFs - fire when first frame is available
+                        modalImage.addEventListener('loadstart', hideLoadingCat, { once: true });
+                        modalImage.addEventListener('loadeddata', hideLoadingCat, { once: true }); // For videos
+                        modalImage.addEventListener('canplay', hideLoadingCat, { once: true }); // For videos
+                        modalImage.addEventListener('progress', hideLoadingCat, { once: true }); // When data starts loading
+
+                        // Error handler
                         modalImage.addEventListener('error', () => {
                             this.hideImageLoadingCat(modalImage);
-                            console.log(`Modal image failed to load: ${fullImageUrl}`);
+                            console.log(`Modal content failed to load: ${fullImageUrl}`);
                         }, { once: true });
 
-                        // Set the source - this will trigger the load event
+                        // Set the source - this will trigger events
                         modalImage.src = fullImageUrl;
 
-                        // Fallback timeout for the modal image itself
+                        // Quick fallback timeout since we want to catch streaming content
                         setTimeout(() => {
                             this.hideImageLoadingCat(modalImage);
-                            console.log('Modal image fallback timeout reached');
-                        }, 10000); // Increased to 10 seconds for large GIFs
+                            console.log('Modal content quick timeout reached');
+                        }, 3000); // Reduced to 3 seconds for faster hiding
 
                         console.log(`Successfully loaded test image: ${fullImageUrl}`);
                     };
@@ -1191,26 +1197,32 @@ class Rule34MobileApp {
                         // Setup proxy image loading handlers
                         const proxyImg = new Image();
                         proxyImg.onload = () => {
-                            // Add event listeners to the actual modal image BEFORE setting src
-                            modalImage.addEventListener('load', () => {
+                            // Add multiple event listeners to catch when content starts displaying
+                            const hideLoadingCat = () => {
                                 this.hideImageLoadingCat(modalImage);
-                                console.log(`Modal proxied image fully loaded: ${proxyImageUrl}`);
-                            }, { once: true });
+                                console.log(`Modal proxied content started displaying: ${proxyImageUrl}`);
+                            };
 
-                            // Also add an error handler for the modal image
+                            // For images/GIFs - fire when first frame is available
+                            modalImage.addEventListener('loadstart', hideLoadingCat, { once: true });
+                            modalImage.addEventListener('loadeddata', hideLoadingCat, { once: true }); // For videos
+                            modalImage.addEventListener('canplay', hideLoadingCat, { once: true }); // For videos
+                            modalImage.addEventListener('progress', hideLoadingCat, { once: true }); // When data starts loading
+
+                            // Error handler
                             modalImage.addEventListener('error', () => {
                                 this.hideImageLoadingCat(modalImage);
-                                console.log(`Modal proxied image failed to load: ${proxyImageUrl}`);
+                                console.log(`Modal proxied content failed to load: ${proxyImageUrl}`);
                             }, { once: true });
 
-                            // Set the source - this will trigger the load event
+                            // Set the source - this will trigger events
                             modalImage.src = proxyImageUrl;
 
-                            // Fallback timeout for the modal image itself
+                            // Quick fallback timeout since we want to catch streaming content
                             setTimeout(() => {
                                 this.hideImageLoadingCat(modalImage);
-                                console.log('Modal proxied image fallback timeout reached');
-                            }, 10000); // Increased to 10 seconds for large GIFs
+                                console.log('Modal proxied content quick timeout reached');
+                            }, 3000); // Reduced to 3 seconds for faster hiding
 
                             console.log(`Successfully loaded proxied test image: ${proxyImageUrl}`);
                         };
