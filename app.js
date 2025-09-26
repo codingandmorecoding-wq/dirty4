@@ -1158,32 +1158,40 @@ class Rule34MobileApp {
                     });
 
                     img.onload = () => {
-                        // Add multiple event listeners to catch when content starts displaying
-                        const hideLoadingCat = () => {
-                            this.hideImageLoadingCat(modalImage);
-                            console.log(`Modal content started displaying: ${fullImageUrl}`);
-                        };
-
-                        // For images/GIFs - fire when first frame is available
-                        modalImage.addEventListener('loadstart', hideLoadingCat, { once: true });
-                        modalImage.addEventListener('loadeddata', hideLoadingCat, { once: true }); // For videos
-                        modalImage.addEventListener('canplay', hideLoadingCat, { once: true }); // For videos
-                        modalImage.addEventListener('progress', hideLoadingCat, { once: true }); // When data starts loading
-
-                        // Error handler
-                        modalImage.addEventListener('error', () => {
-                            this.hideImageLoadingCat(modalImage);
-                            console.log(`Modal content failed to load: ${fullImageUrl}`);
-                        }, { once: true });
-
-                        // Set the source - this will trigger events
+                        // Set the source immediately
                         modalImage.src = fullImageUrl;
 
-                        // Quick fallback timeout since we want to catch streaming content
+                        // Check periodically if image has started loading (has dimensions)
+                        const checkImageLoaded = () => {
+                            if (modalImage.naturalWidth > 0 || modalImage.naturalHeight > 0) {
+                                this.hideImageLoadingCat(modalImage);
+                                console.log(`Modal content dimensions available: ${fullImageUrl}`);
+                                return true;
+                            }
+                            return false;
+                        };
+
+                        // Check immediately
+                        if (!checkImageLoaded()) {
+                            // Check every 100ms for up to 2 seconds
+                            let attempts = 0;
+                            const interval = setInterval(() => {
+                                attempts++;
+                                if (checkImageLoaded() || attempts >= 20) {
+                                    clearInterval(interval);
+                                    if (attempts >= 20) {
+                                        this.hideImageLoadingCat(modalImage);
+                                        console.log('Modal content timeout after dimension checks');
+                                    }
+                                }
+                            }, 100);
+                        }
+
+                        // Absolute fallback timeout
                         setTimeout(() => {
                             this.hideImageLoadingCat(modalImage);
-                            console.log('Modal content quick timeout reached');
-                        }, 3000); // Reduced to 3 seconds for faster hiding
+                            console.log('Modal content absolute timeout reached');
+                        }, 2000);
 
                         console.log(`Successfully loaded test image: ${fullImageUrl}`);
                     };
@@ -1197,32 +1205,40 @@ class Rule34MobileApp {
                         // Setup proxy image loading handlers
                         const proxyImg = new Image();
                         proxyImg.onload = () => {
-                            // Add multiple event listeners to catch when content starts displaying
-                            const hideLoadingCat = () => {
-                                this.hideImageLoadingCat(modalImage);
-                                console.log(`Modal proxied content started displaying: ${proxyImageUrl}`);
-                            };
-
-                            // For images/GIFs - fire when first frame is available
-                            modalImage.addEventListener('loadstart', hideLoadingCat, { once: true });
-                            modalImage.addEventListener('loadeddata', hideLoadingCat, { once: true }); // For videos
-                            modalImage.addEventListener('canplay', hideLoadingCat, { once: true }); // For videos
-                            modalImage.addEventListener('progress', hideLoadingCat, { once: true }); // When data starts loading
-
-                            // Error handler
-                            modalImage.addEventListener('error', () => {
-                                this.hideImageLoadingCat(modalImage);
-                                console.log(`Modal proxied content failed to load: ${proxyImageUrl}`);
-                            }, { once: true });
-
-                            // Set the source - this will trigger events
+                            // Set the source immediately
                             modalImage.src = proxyImageUrl;
 
-                            // Quick fallback timeout since we want to catch streaming content
+                            // Check periodically if image has started loading (has dimensions)
+                            const checkImageLoaded = () => {
+                                if (modalImage.naturalWidth > 0 || modalImage.naturalHeight > 0) {
+                                    this.hideImageLoadingCat(modalImage);
+                                    console.log(`Modal proxied content dimensions available: ${proxyImageUrl}`);
+                                    return true;
+                                }
+                                return false;
+                            };
+
+                            // Check immediately
+                            if (!checkImageLoaded()) {
+                                // Check every 100ms for up to 2 seconds
+                                let attempts = 0;
+                                const interval = setInterval(() => {
+                                    attempts++;
+                                    if (checkImageLoaded() || attempts >= 20) {
+                                        clearInterval(interval);
+                                        if (attempts >= 20) {
+                                            this.hideImageLoadingCat(modalImage);
+                                            console.log('Modal proxied content timeout after dimension checks');
+                                        }
+                                    }
+                                }, 100);
+                            }
+
+                            // Absolute fallback timeout
                             setTimeout(() => {
                                 this.hideImageLoadingCat(modalImage);
-                                console.log('Modal proxied content quick timeout reached');
-                            }, 3000); // Reduced to 3 seconds for faster hiding
+                                console.log('Modal proxied content absolute timeout reached');
+                            }, 2000);
 
                             console.log(`Successfully loaded proxied test image: ${proxyImageUrl}`);
                         };
