@@ -1,7 +1,7 @@
 // Production Configuration
 const CONFIG = {
     PRODUCTION: true,
-    API_BASE: 'https://dirty4-vercel-i330kwmi1-codingandmorecoding-wqs-projects.vercel.app/api',
+    API_BASE: 'https://dirty4-vercel-4l9gc8bsb-codingandmorecoding-wqs-projects.vercel.app/api',
     FALLBACK_PROXIES: [
         'https://api.allorigins.win/get?url=',
         'https://thingproxy.freeboard.io/fetch/',
@@ -895,6 +895,9 @@ class Rule34MobileApp {
     async loadFullSizeImage(imageData) {
         const modalImage = document.getElementById('modal-image');
 
+        // Show loading cat animation
+        this.showImageLoadingCat(modalImage);
+
         try {
             console.log(`Loading full-size image from post: ${imageData.postUrl}`);
 
@@ -1146,6 +1149,7 @@ class Rule34MobileApp {
                     const img = new Image();
                     img.onload = () => {
                         modalImage.src = fullImageUrl;
+                        this.hideImageLoadingCat(modalImage);
                         console.log(`Successfully loaded image: ${fullImageUrl}`);
                     };
 
@@ -1154,7 +1158,19 @@ class Rule34MobileApp {
                         // Try using a proxy for the image
                         const proxyImageUrl = `https://images.weserv.nl/?url=${encodeURIComponent(fullImageUrl)}`;
                         console.log(`Trying proxied image: ${proxyImageUrl}`);
-                        modalImage.src = proxyImageUrl;
+
+                        // Setup proxy image loading handlers
+                        const proxyImg = new Image();
+                        proxyImg.onload = () => {
+                            modalImage.src = proxyImageUrl;
+                            this.hideImageLoadingCat(modalImage);
+                            console.log(`Successfully loaded proxied image: ${proxyImageUrl}`);
+                        };
+                        proxyImg.onerror = () => {
+                            this.hideImageLoadingCat(modalImage);
+                            console.error(`Failed to load proxied image: ${proxyImageUrl}`);
+                        };
+                        proxyImg.src = proxyImageUrl;
                     };
 
                     img.src = fullImageUrl;
@@ -1166,6 +1182,8 @@ class Rule34MobileApp {
 
         } catch (error) {
             console.error('Error loading full-size image:', error);
+            const modalImage = document.getElementById('modal-image');
+            this.hideImageLoadingCat(modalImage);
             // Keep the thumbnail as fallback
         }
     }
@@ -1740,6 +1758,59 @@ class Rule34MobileApp {
     }
 
     // === UI HELPERS ===
+    showImageLoadingCat(modalImage) {
+        // Create overlay with loading cat
+        const loadingOverlay = document.createElement('div');
+        loadingOverlay.className = 'image-loading-overlay';
+        loadingOverlay.style.cssText = `
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            border-radius: 12px;
+        `;
+
+        loadingOverlay.innerHTML = `
+            <div class="cat-loading" style="
+                font-size: 3rem;
+                animation: bounce 1s infinite, rotate 2s linear infinite;
+                margin-bottom: 16px;
+                filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+            ">🐱</div>
+            <div style="
+                color: white;
+                font-size: 1.1rem;
+                text-align: center;
+                font-weight: 500;
+                text-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+            ">Loading full-size image...</div>
+        `;
+
+        // Find the modal image wrapper and add overlay
+        const modalWrapper = modalImage.parentElement;
+        if (modalWrapper) {
+            modalWrapper.style.position = 'relative';
+            modalWrapper.appendChild(loadingOverlay);
+        }
+
+        // Store reference for removal
+        modalImage.loadingOverlay = loadingOverlay;
+    }
+
+    hideImageLoadingCat(modalImage) {
+        if (modalImage && modalImage.loadingOverlay) {
+            modalImage.loadingOverlay.remove();
+            modalImage.loadingOverlay = null;
+        }
+    }
+
     createVideoErrorElement() {
         const errorDiv = document.createElement('div');
         errorDiv.id = 'modal-image';
