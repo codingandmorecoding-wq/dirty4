@@ -787,10 +787,54 @@ class Rule34MobileApp {
         // Final check - if no results from either source
         const totalResults = danbooruResults.length + rule34Results.length;
         if (totalResults === 0) {
-            throw new Error('No results found from any source');
+            // Try demo mode with sample data as last resort
+            console.log('All sources failed, attempting demo mode...');
+            const demoResults = this.generateDemoResults(this.currentSearchQuery);
+            if (demoResults.length > 0) {
+                this.currentImages = demoResults;
+                this.displayBrowserImages(demoResults);
+                this.updatePagination();
+                this.showToast('Demo mode: Showing sample data (external sources unavailable)', 'warning');
+                return;
+            }
+
+            // Show helpful error message with troubleshooting info
+            throw new Error('Unable to connect to image sources. This may be due to network restrictions or proxy service issues. Please try again later or check your internet connection.');
         }
 
         console.log(`Progressive loading complete: ${totalResults} total images`);
+    }
+
+    generateDemoResults(searchQuery) {
+        // Generate demo data when external sources are unavailable
+        const demoImages = [
+            {
+                id: 'demo_1',
+                thumbUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzY2N2VlYSIvPjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+RGVtbyBJbWFnZSAxPC90ZXh0Pjwvc3ZnPg==',
+                fullUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0iIzY2N2VlYSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+RGVtbyBJbWFnZSAxIC0gRnVsbCBTaXplPC90ZXh0Pjwvc3ZnPg==',
+                title: `Demo Image 1 - ${searchQuery}`,
+                site: 'danbooru',
+                artists: ['demo_artist', 'sample_creator']
+            },
+            {
+                id: 'demo_2',
+                thumbUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iI2Y1NTc2YyIvPjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+RGVtbyBJbWFnZSAyPC90ZXh0Pjwvc3ZnPg==',
+                fullUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0iI2Y1NTc2YyIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+RGVtbyBJbWFnZSAyIC0gRnVsbCBTaXplPC90ZXh0Pjwvc3ZnPg==',
+                title: `Demo Image 2 - ${searchQuery}`,
+                site: 'danbooru',
+                artists: ['another_artist']
+            },
+            {
+                id: 'demo_3',
+                thumbUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzRmYWNmZSIvPjx0ZXh0IHg9IjEwMCIgeT0iMTAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+RGVtbyBJbWFnZSAzPC90ZXh0Pjwvc3ZnPg==',
+                fullUrl: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgZmlsbD0iIzRmYWNmZSIvPjx0ZXh0IHg9IjQwMCIgeT0iMzAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+RGVtbyBJbWFnZSAzIC0gRnVsbCBTaXplPC90ZXh0Pjwvc3ZnPg==',
+                title: `Demo Image 3 - ${searchQuery}`,
+                site: 'rule34'
+            }
+        ];
+
+        console.log(`Generated ${demoImages.length} demo images for search: "${searchQuery}"`);
+        return demoImages;
     }
 
     async getBrowserImageData(searchQuery, page) {
