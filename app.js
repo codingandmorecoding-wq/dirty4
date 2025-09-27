@@ -48,10 +48,8 @@ class Rule34MobileApp {
 
         try {
             const response = await fetch(url, {
-                signal: controller.signal,
-                headers: {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-                }
+                signal: controller.signal
+                // Removed User-Agent header to avoid CORS issues
             });
             clearTimeout(timeoutId);
             return response;
@@ -146,13 +144,11 @@ class Rule34MobileApp {
 
         // Fallback to proxy if direct fetch fails
         try {
-            const response = await fetch(`${CONFIG.API_BASE}/proxy-debug?url=${encodeURIComponent(targetUrl)}`);
-            if (response.ok) {
-                const data = await response.json();
-                if (data.contents) {
-                    const jsonData = JSON.parse(data.contents);
-                    return this.processDanbooruData(jsonData);
-                }
+            console.log('Trying Danbooru via proxy...');
+            const jsonContent = await this.fetchWithFallback(targetUrl, true);
+            if (jsonContent) {
+                const jsonData = JSON.parse(jsonContent);
+                return this.processDanbooruData(jsonData);
             }
         } catch (error) {
             console.error('Proxy Danbooru fetch failed:', error);
