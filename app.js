@@ -1382,7 +1382,34 @@ class Rule34MobileApp {
             container.appendChild(modalImage);
         }
 
-        modalTitle.innerHTML = `Image ID: ${imageData.id}`;
+        // Set initial modal title with artist info for Danbooru images
+        if (imageData.site === 'danbooru' && imageData.artists && imageData.artists.length > 0) {
+            const validArtists = imageData.artists.filter(artist => artist && artist.trim().length > 0);
+            if (validArtists.length > 0) {
+                const artistLabel = validArtists.length === 1 ? 'Artist' : 'Artists';
+                const artistLinksHtml = validArtists.map(artist =>
+                    `<span class="artist-link" data-artist="${artist}" style="color: #667eea; cursor: pointer; text-decoration: underline;">${artist}</span>`
+                ).join(', ');
+
+                modalTitle.innerHTML = `Image ID: ${imageData.id}<br><small style="color: #aaa; font-weight: normal; font-size: 14px; margin-top: 4px; display: block;">${artistLabel}: ${artistLinksHtml}</small>`;
+
+                // Add click event listeners to artist links
+                setTimeout(() => {
+                    const artistLinks = modalTitle.querySelectorAll('.artist-link');
+                    artistLinks.forEach(link => {
+                        link.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            const artist = e.target.getAttribute('data-artist');
+                            this.searchByArtist(artist);
+                        });
+                    });
+                }, 0);
+            } else {
+                modalTitle.innerHTML = `Image ID: ${imageData.id}`;
+            }
+        } else {
+            modalTitle.innerHTML = `Image ID: ${imageData.id}`;
+        }
 
         // Use correct thumbnail URL for different sites
         const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl;
