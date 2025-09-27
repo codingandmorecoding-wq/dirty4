@@ -37,7 +37,7 @@ class Rule34MobileApp {
         this.starredImages = this.loadStarredImages();
         this.currentImages = [];
         this.currentSearchQuery = '';
-        this.currentSite = CONFIG.SITES.RULE34; // Default to Rule34
+        // currentSite removed - now uses automatic multiple sources
 
         this.init();
     }
@@ -197,13 +197,7 @@ class Rule34MobileApp {
             });
         });
 
-        // Site switcher
-        document.querySelectorAll('.site-tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                const siteId = tab.dataset.site;
-                this.switchSite(siteId);
-            });
-        });
+        // Site switcher removed - now uses automatic multiple sources
 
         // COMMENTED OUT FOR WEB VERSION - NEEDED FOR ANDROID APP ONLY
         // Downloader controls
@@ -272,30 +266,7 @@ class Rule34MobileApp {
         }
     }
 
-    switchSite(siteId) {
-        // Update site tab states
-        document.querySelectorAll('.site-tab').forEach(tab => {
-            tab.classList.toggle('active', tab.dataset.site === siteId);
-        });
-
-        // Update current site
-        if (siteId === 'rule34') {
-            this.currentSite = CONFIG.SITES.RULE34;
-        } else if (siteId === 'danbooru') {
-            this.currentSite = CONFIG.SITES.DANBOORU;
-        }
-
-        console.log(`Switched to site: ${this.currentSite.name}`);
-
-        // Show toast notification
-        this.showToast(`Switched to ${this.currentSite.name}`, 'info');
-
-        // Reload current search if we're in browser mode and have a search
-        if (this.currentMode === 'browser' && this.currentSearchQuery) {
-            this.currentPage = 0; // Reset to first page
-            this.loadBrowserImages();
-        }
-    }
+    // switchSite method removed - now uses automatic multiple sources
 
     // === STARRED IMAGES MANAGEMENT ===
     loadStarredImages() {
@@ -680,18 +651,61 @@ class Rule34MobileApp {
     }
 
     async getBrowserImageData(searchQuery, page) {
-        console.log(`getBrowserImageData called - Searching for: "${searchQuery}", page: ${page}, site: ${this.currentSite.name}`);
+        console.log(`getBrowserImageData called - Searching for: "${searchQuery}", page: ${page}`);
 
-        // Use Danbooru API if current site is Danbooru
-        if (this.currentSite.id === 'danbooru') {
-            return await this.fetchDanbooruData(searchQuery, page);
+        const allResults = [];
+
+        // Try Rule34 first
+        try {
+            console.log('Trying Rule34...');
+            const rule34Results = await this.fetchRule34Data(searchQuery, page);
+            if (rule34Results && rule34Results.length > 0) {
+                console.log(`Rule34 returned ${rule34Results.length} results`);
+                allResults.push(...rule34Results);
+            }
+        } catch (error) {
+            console.log('Rule34 failed:', error.message);
+            // Rule34 failed, we'll fall back to Danbooru
         }
 
-        // Rule34 logic (existing)
+        // Always try Danbooru as well (or as fallback)
+        try {
+            console.log('Trying Danbooru...');
+            const danbooruResults = await this.fetchDanbooruData(searchQuery, page);
+            if (danbooruResults && danbooruResults.length > 0) {
+                console.log(`Danbooru returned ${danbooruResults.length} results`);
+                allResults.push(...danbooruResults);
+            }
+        } catch (error) {
+            console.log('Danbooru failed:', error.message);
+        }
+
+        // If we have results from both, shuffle them for variety
+        if (allResults.length > 0) {
+            console.log(`Combined total: ${allResults.length} results from multiple sources`);
+            return this.shuffleAndLimitResults(allResults, 42);
+        }
+
+        // If no results from either source
+        throw new Error('No results found from any source');
+    }
+
+    shuffleAndLimitResults(results, limit) {
+        // Shuffle the combined results for variety
+        const shuffled = [...results];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        // Limit to the requested number
+        return shuffled.slice(0, limit);
+    }
+
+    async fetchRule34Data(searchQuery, page) {
         const postsPerPage = 42;
         const targetUrl = `https://rule34.xxx/index.php?page=post&s=list&tags=${encodeURIComponent(searchQuery)}${page > 0 ? `&pid=${page * postsPerPage}` : ''}`;
 
-        console.log(`Target URL: ${targetUrl}`);
+        console.log(`Rule34 URL: ${targetUrl}`);
 
         const htmlContent = await this.fetchWithFallback(targetUrl);
         if (!htmlContent) {
@@ -2499,14 +2513,8 @@ class Rule34MobileApp {
                 dropdown.innerHTML = '<div class="autocomplete-loading">Loading...</div>';
                 showSuggestions();
 
-                // Handle different sites
-                if (this.currentSite.id === 'danbooru') {
-                    // For Danbooru, use a simpler approach with common tags
-                    await this.fetchDanbooruSuggestions(query, updateSuggestions, hideSuggestions);
-                    return;
-                }
-
-                // For Rule34, get real tags from search results
+                // Get suggestions from both sources
+                // Try to get Rule34 suggestions first
                 const searchUrl = `https://rule34.xxx/index.php?page=post&s=list&tags=${encodeURIComponent(query)}*`;
                 const htmlContent = await this.fetchWithFallback(searchUrl);
 
