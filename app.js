@@ -854,8 +854,13 @@ class Rule34MobileApp {
 
         const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl;
 
-        // Check if this is a video file
-        const isVideo = imageData.fileExt && ['webm', 'mp4', 'mov'].includes(imageData.fileExt.toLowerCase());
+        // Check if this is a video file - be more careful about detection
+        const isVideo = imageData.fileExt && ['webm', 'mp4', 'mov'].includes(imageData.fileExt.toLowerCase()) &&
+                       imageData.fullUrl && !imageData.fullUrl.toLowerCase().includes('.jpg') &&
+                       !imageData.fullUrl.toLowerCase().includes('.png') &&
+                       !imageData.fullUrl.toLowerCase().includes('.gif') &&
+                       !thumbnailUrl.toLowerCase().includes('.jpg') &&
+                       !thumbnailUrl.toLowerCase().includes('.png');
 
         let mediaElement;
         if (isVideo) {
@@ -940,8 +945,27 @@ class Rule34MobileApp {
 
         // Assign event listeners based on media type
         if (isVideo) {
+            console.log(`Creating video element for: ${thumbnailUrl}, fileExt: ${imageData.fileExt}`);
             img.onloadeddata = handleMediaLoad;
-            img.onerror = handleMediaError;
+            img.onerror = (e) => {
+                console.error(`Video failed to load, falling back to image: ${thumbnailUrl}`, e);
+                // If video fails, create an image element instead
+                const imgElement = document.createElement('img');
+                imgElement.className = 'image-thumbnail';
+                imgElement.alt = imageData.title;
+                imgElement.style.display = 'none';
+                imgElement.src = thumbnailUrl;
+                imgElement.onload = handleMediaLoad;
+                imgElement.onerror = handleMediaError;
+                imgElement.onclick = () => this.showImagePreview(imageData, index);
+
+                // Replace video with image
+                img.parentNode.replaceChild(imgElement, img);
+
+                // Remove video overlay if it exists
+                const overlay = card.querySelector('.video-overlay');
+                if (overlay) overlay.remove();
+            };
         } else {
             img.onload = handleMediaLoad;
             img.onerror = handleMediaError;
@@ -1162,8 +1186,11 @@ class Rule34MobileApp {
             if (imageData.site === 'danbooru') {
                 console.log(`Loading Danbooru full-size media: ${imageData.fullUrl}`);
 
-                // Check if this is a video file
-                const isVideo = imageData.fileExt && ['webm', 'mp4', 'mov'].includes(imageData.fileExt.toLowerCase());
+                // Check if this is a video file - be more careful about detection
+                const isVideo = imageData.fileExt && ['webm', 'mp4', 'mov'].includes(imageData.fileExt.toLowerCase()) &&
+                               imageData.fullUrl && !imageData.fullUrl.toLowerCase().includes('.jpg') &&
+                               !imageData.fullUrl.toLowerCase().includes('.png') &&
+                               !imageData.fullUrl.toLowerCase().includes('.gif');
 
                 if (isVideo) {
                     // Create video element for modal
