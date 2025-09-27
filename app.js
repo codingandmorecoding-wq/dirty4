@@ -369,6 +369,7 @@ class Rule34MobileApp {
             return false;
         } else {
             // Add to starred
+            console.log('Starring image with data:', imageData.id, 'thumbUrl:', imageData.thumbUrl, 'thumbnailUrl:', imageData.thumbnailUrl);
             this.starredImages.push(imageData);
             this.saveStarredImages();
             return true;
@@ -1434,8 +1435,14 @@ class Rule34MobileApp {
         card.appendChild(img);
         card.appendChild(actions);
 
-        // Set image source
-        img.src = imageData.thumbnailUrl;
+        // Set image source - handle both property names
+        const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl;
+        if (thumbnailUrl) {
+            img.src = thumbnailUrl;
+        } else {
+            console.error('No thumbnail URL found for gallery image:', imageData.id);
+            loadingDiv.innerHTML = '<i class="fas fa-image" style="color: var(--text-muted); font-size: 24px;"></i><div style="margin-top: 8px; font-size: 12px;">No thumbnail</div>';
+        }
 
         return card;
     }
