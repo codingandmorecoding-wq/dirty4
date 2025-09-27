@@ -477,6 +477,7 @@ class Rule34MobileApp {
     // === BROWSER FUNCTIONALITY ===
     async startBrowsing() {
         const searchQuery = document.getElementById('browser-search').value.trim();
+        console.log(`startBrowsing called with query: "${searchQuery}"`);
 
         if (!searchQuery) {
             this.showToast('Please enter a search query', 'error');
@@ -485,6 +486,7 @@ class Rule34MobileApp {
 
         this.currentSearchQuery = searchQuery;
         this.currentPage = 0;
+        console.log(`Set currentSearchQuery to: "${this.currentSearchQuery}", page: ${this.currentPage}`);
         await this.loadBrowserImages();
     }
 
@@ -521,7 +523,7 @@ class Rule34MobileApp {
     }
 
     async getBrowserImageData(searchQuery, page) {
-        console.log(`Searching for: ${searchQuery}, page: ${page}`);
+        console.log(`getBrowserImageData called - Searching for: "${searchQuery}", page: ${page}`);
 
         const postsPerPage = 42;
         const targetUrl = `https://rule34.xxx/index.php?page=post&s=list&tags=${encodeURIComponent(searchQuery)}${page > 0 ? `&pid=${page * postsPerPage}` : ''}`;
