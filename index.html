@@ -11,7 +11,62 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google-adsense-account" content="ca-pub-4520354171749096">
-    <title>Media Downloader - Mobile Image Browser</title>
+    <title>Dirty4 - Advanced Anime Art Gallery & Archival Tool | Danbooru Alternative</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Professional anime art gallery and archival tool. Browse, download, and organize artwork from multiple sources including Danbooru. Perfect for gaming, anime fans, and one-handed browsing with instant search.">
+    <meta name="keywords" content="danbooru, anime art, gaming gallery, archival tool, image downloader, anime browser, art collection, digital gallery, one handed browsing, mobile gallery">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Dirty4">
+    <link rel="canonical" href="https://dirty4.com/">
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Dirty4 - Advanced Anime Art Gallery & Archival Tool">
+    <meta property="og:description" content="Professional anime art gallery and archival tool. Browse, download, and organize artwork from multiple sources including Danbooru.">
+    <meta property="og:url" content="https://dirty4.com/">
+    <meta property="og:site_name" content="Dirty4">
+    <meta property="og:image" content="https://dirty4.com/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dirty4 - Advanced Anime Art Gallery & Archival Tool">
+    <meta name="twitter:description" content="Professional anime art gallery and archival tool. Browse, download, and organize artwork from multiple sources.">
+    <meta name="twitter:image" content="https://dirty4.com/og-image.jpg">
+
+    <!-- Additional SEO Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="application-name" content="Dirty4">
+    <meta name="apple-mobile-web-app-title" content="Dirty4">
+    <meta name="msapplication-TileColor" content="#667eea">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Dirty4",
+        "description": "Advanced anime art gallery and archival tool for browsing, downloading, and organizing artwork from multiple sources including Danbooru",
+        "url": "https://dirty4.com/",
+        "applicationCategory": "MultimediaApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
+        "author": {
+            "@type": "Organization",
+            "name": "Dirty4"
+        },
+        "keywords": "danbooru, anime art, gaming gallery, archival tool, image downloader, anime browser, art collection",
+        "browserRequirements": "Modern web browser with JavaScript support",
+        "softwareVersion": "2.0",
+        "dateModified": "2025-09-27"
+    }
+    </script>
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -145,7 +200,7 @@
             flex-direction: column;
         }
 
-        .app-title-text {
+        .app-title-text, h1.app-title-text {
             font-weight: 700;
             font-size: 20px;
             line-height: 1.2;
@@ -153,6 +208,8 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            margin: 0;
+            padding: 0;
         }
 
         .app-subtitle {
@@ -340,10 +397,12 @@
             font-size: 18px;
         }
 
-        .card-title {
+        .card-title, h2.card-title {
             font-size: 18px;
             font-weight: 600;
             color: var(--text-primary);
+            margin: 0;
+            padding: 0;
         }
 
         .card-subtitle {
@@ -1183,10 +1242,10 @@
         <header class="header">
             <div class="header-content">
                 <div class="app-title">
-                    <div class="app-logo">34</div>
+                    <div class="app-logo">D4</div>
                     <div class="app-name">
-                        <div class="app-title-text">Media Downloader</div>
-                        <div class="app-subtitle">Gallery & Archive Tool</div>
+                        <h1 class="app-title-text">Dirty4 - Anime Art Gallery</h1>
+                        <div class="app-subtitle">Danbooru Alternative & Gaming Archival Tool</div>
                     </div>
                 </div>
                 <div style="display: flex; gap: 8px;">
@@ -1332,16 +1391,16 @@
                             <i class="fas fa-images"></i>
                         </div>
                         <div>
-                            <div class="card-title">Image Browser</div>
-                            <div class="card-subtitle">Browse and preview images</div>
+                            <h2 class="card-title">Anime Art Browser & Gallery</h2>
+                            <div class="card-subtitle">Professional Danbooru alternative for gaming, anime, and art archival. Optimized for one-handed mobile browsing.</div>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="browser-search">Search</label>
+                        <label class="form-label" for="browser-search">Search Anime & Gaming Art</label>
                         <div style="display: flex; gap: 12px;">
                             <div class="autocomplete-container" style="flex: 1;">
-                                <input type="text" id="browser-search" class="form-input" placeholder="Search images..." style="width: 100%;" autocomplete="off">
+                                <input type="text" id="browser-search" class="form-input" placeholder="Search anime art, gaming characters, danbooru tags..." style="width: 100%;" autocomplete="off">
                                 <div class="autocomplete-dropdown" id="browser-autocomplete"></div>
                             </div>
                             <button id="browse-btn" class="btn btn-primary">
@@ -1501,5 +1560,28 @@
             PayPal
         </a>
     </div>
+
+    <!-- SEO Content Section -->
+    <footer style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
+        <h3>Dirty4 - Professional Anime Art Gallery and Archival Tool</h3>
+        <p>Discover the ultimate Danbooru alternative for anime and gaming enthusiasts. Our advanced gallery tool offers seamless browsing, downloading, and archiving of high-quality anime art, gaming characters, and digital artwork. Perfect for one-handed mobile use with instant search suggestions.</p>
+
+        <h4>Features:</h4>
+        <ul>
+            <li>Professional anime art gallery with instant search</li>
+            <li>Danbooru integration and alternative browsing</li>
+            <li>Gaming character artwork archival system</li>
+            <li>One-handed mobile optimization for easy browsing</li>
+            <li>High-quality image downloader and organizer</li>
+            <li>Real-time tag suggestions and autocomplete</li>
+            <li>Multi-source artwork aggregation</li>
+            <li>Advanced filtering and search capabilities</li>
+        </ul>
+
+        <h4>Perfect For:</h4>
+        <p>Anime fans, gaming enthusiasts, digital art collectors, and anyone looking for a professional alternative to Danbooru. Our tool combines the best of gallery browsing, archival functionality, and mobile-optimized design for the ultimate anime art experience.</p>
+
+        <p>Keywords: danbooru alternative, anime art gallery, gaming artwork, digital art archival, mobile art browser, one handed browsing, anime character gallery, gaming art downloader, professional art tool</p>
+    </footer>
 </body>
 </html>
