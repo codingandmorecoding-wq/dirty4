@@ -818,6 +818,7 @@ class Rule34MobileApp {
                     imageDataList.push({
                         id: postId,
                         actualId: actualId,
+                        thumbUrl: thumbUrl,
                         thumbnailUrl: thumbUrl,
                         postUrl: `https://rule34.xxx/index.php${href}`,
                         title: img.getAttribute('title') || img.getAttribute('alt') || `Image ${postId}`,
@@ -830,7 +831,8 @@ class Rule34MobileApp {
                             `https://wimg.rule34.xxx/images/${actualId}.png`,
                             `https://wimg.rule34.xxx/images/${actualId}.gif`,
                             `https://wimg.rule34.xxx/images/${actualId}.webp`
-                        ]
+                        ],
+                        site: 'rule34'
                     });
                 }
             }
@@ -1039,7 +1041,9 @@ class Rule34MobileApp {
 
         // Add artist info for Danbooru images
         let artistInfo = null;
+        console.log('Checking artist info for image:', imageData.id, 'site:', imageData.site, 'artists:', imageData.artists);
         if (imageData.site === 'danbooru' && imageData.artists && imageData.artists.length > 0) {
+            console.log('Creating artist info for Danbooru image:', imageData.id, 'with artists:', imageData.artists);
             artistInfo = document.createElement('div');
             artistInfo.className = 'image-artist-info';
             artistInfo.style.cssText = `
