@@ -503,9 +503,28 @@ class Rule34MobileApp {
 
     async downloadSingleImage(imageData) {
         try {
+            // For Danbooru images, we already have the full image URL
+            if (imageData.site === 'danbooru') {
+                console.log(`Downloading Danbooru image: ${imageData.fullUrl}`);
+
+                const imageUrl = imageData.fullUrl || imageData.largeUrl;
+                const fileName = `danbooru_${imageData.id}.${imageData.fileExt || 'jpg'}`;
+
+                // Create download link
+                const link = document.createElement('a');
+                link.href = imageUrl;
+                link.download = fileName;
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                return true;
+            }
+
             console.log(`Downloading image from post: ${imageData.postUrl}`);
 
-            // Get the real image URL by scraping the post page
+            // For Rule34, get the real image URL by scraping the post page
             const postHtmlContent = await this.fetchWithFallback(imageData.postUrl);
 
             if (!postHtmlContent) {
@@ -1048,7 +1067,10 @@ class Rule34MobileApp {
         const modalStar = document.getElementById('modal-star');
 
         modalTitle.innerHTML = `Image ID: ${imageData.id}`;
-        modalImage.src = imageData.thumbnailUrl; // Start with thumbnail
+
+        // Use correct thumbnail URL for different sites
+        const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl;
+        modalImage.src = thumbnailUrl; // Start with thumbnail
 
         // Update star button
         const isStarred = this.isStarred(imageData.id);
@@ -1078,9 +1100,20 @@ class Rule34MobileApp {
         modalImage.style.transition = 'opacity 0.3s ease-in-out';
 
         try {
+            // For Danbooru images, we already have the full image URL
+            if (imageData.site === 'danbooru') {
+                console.log(`Loading Danbooru full-size image: ${imageData.fullUrl}`);
+
+                // Use large or full URL directly
+                const fullImageUrl = imageData.largeUrl || imageData.fullUrl;
+                modalImage.src = fullImageUrl;
+                modalImage.style.opacity = '1';
+                return;
+            }
+
             console.log(`Loading full-size image from post: ${imageData.postUrl}`);
 
-            // Fetch the post page to get the real image URL
+            // For Rule34, fetch the post page to get the real image URL
             const postHtmlContent = await this.fetchWithFallback(imageData.postUrl);
 
             if (!postHtmlContent) {
