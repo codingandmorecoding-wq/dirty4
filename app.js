@@ -854,13 +854,13 @@ class Rule34MobileApp {
 
         const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl;
 
-        // Check if this is a video file - be more careful about detection
-        const isVideo = imageData.fileExt && ['webm', 'mp4', 'mov'].includes(imageData.fileExt.toLowerCase()) &&
-                       imageData.fullUrl && !imageData.fullUrl.toLowerCase().includes('.jpg') &&
-                       !imageData.fullUrl.toLowerCase().includes('.png') &&
-                       !imageData.fullUrl.toLowerCase().includes('.gif') &&
-                       !thumbnailUrl.toLowerCase().includes('.jpg') &&
-                       !thumbnailUrl.toLowerCase().includes('.png');
+        // Check if this is a video file for display purposes (but always use img element for thumbnails)
+        const isVideoContent = imageData.fileExt && ['webm', 'mp4', 'mov'].includes(imageData.fileExt.toLowerCase()) &&
+                               imageData.fullUrl && !imageData.fullUrl.toLowerCase().includes('.jpg') &&
+                               !imageData.fullUrl.toLowerCase().includes('.png') &&
+                               !imageData.fullUrl.toLowerCase().includes('.gif');
+
+        const isVideo = false; // Always use img element for thumbnails to avoid JPEG loading issues
 
         let mediaElement;
         if (isVideo) {
@@ -898,6 +898,28 @@ class Rule34MobileApp {
             mediaElement.className = 'image-thumbnail';
             mediaElement.alt = imageData.title;
             mediaElement.style.display = 'none';
+        }
+
+        // Add video overlay even for image thumbnails if content is actually video
+        if (isVideoContent && !isVideo) {
+            const videoOverlay = document.createElement('div');
+            videoOverlay.className = 'video-overlay';
+            videoOverlay.innerHTML = '<i class="fas fa-play-circle"></i>';
+            videoOverlay.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: white;
+                font-size: 24px;
+                background: rgba(0,0,0,0.5);
+                border-radius: 50%;
+                padding: 8px;
+                pointer-events: none;
+                z-index: 1;
+            `;
+            card.style.position = 'relative';
+            card.appendChild(videoOverlay);
         }
 
         const img = mediaElement; // Keep compatibility with existing code
@@ -1145,8 +1167,20 @@ class Rule34MobileApp {
 
         const modal = document.getElementById('image-modal');
         const modalTitle = document.getElementById('modal-title');
-        const modalImage = document.getElementById('modal-image');
+        let modalImage = document.getElementById('modal-image');
         const modalStar = document.getElementById('modal-star');
+
+        // Ensure we have a proper image element (not video) at start
+        if (!modalImage || modalImage.tagName !== 'IMG') {
+            const container = modal.querySelector('.modal-image-container');
+            if (modalImage) {
+                container.removeChild(modalImage);
+            }
+            modalImage = document.createElement('img');
+            modalImage.id = 'modal-image';
+            modalImage.style.cssText = 'max-width: 100%; max-height: 100%; object-fit: contain;';
+            container.appendChild(modalImage);
+        }
 
         modalTitle.innerHTML = `Image ID: ${imageData.id}`;
 
@@ -1195,6 +1229,7 @@ class Rule34MobileApp {
                 if (isVideo) {
                     // Create video element for modal
                     const videoElement = document.createElement('video');
+                    videoElement.id = 'modal-image'; // Keep the same ID
                     videoElement.controls = true;
                     videoElement.muted = true;
                     videoElement.loop = true;
@@ -1204,7 +1239,9 @@ class Rule34MobileApp {
                     videoElement.src = fullVideoUrl;
 
                     // Replace the image with video
-                    modalImage.parentNode.replaceChild(videoElement, modalImage);
+                    const container = modalImage.parentNode;
+                    container.removeChild(modalImage);
+                    container.appendChild(videoElement);
                     videoElement.style.opacity = '1';
 
                     // Auto-play the video
