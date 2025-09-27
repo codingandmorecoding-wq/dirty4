@@ -2657,14 +2657,20 @@ class Rule34MobileApp {
     }
 
     async fetchNetworkSuggestions(query) {
-        // Use Danbooru's fast tag autocomplete API
+        // Use Danbooru's fast tag autocomplete API with timeout
         const danbooruUrl = `https://danbooru.donmai.us/tags.json?search[name_matches]=${encodeURIComponent(query)}*&search[order]=count&limit=10`;
 
         try {
-            // Try direct fetch first
-            const response = await fetch(danbooruUrl);
+            // Try direct fetch first with 3 second timeout
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 3000);
+
+            const response = await fetch(danbooruUrl, { signal: controller.signal });
+            clearTimeout(timeoutId);
+
             if (response.ok) {
                 const tags = await response.json();
+                console.log(`Danbooru API returned ${tags.length} suggestions for "${query}"`);
                 return tags.map(tag => ({
                     name: tag.name,
                     count: tag.post_count || 0
@@ -2934,39 +2940,50 @@ class Rule34MobileApp {
 
             const queryLower = query.toLowerCase();
 
-            // Check cache first for instant results
+            // Check cache first (keep recent network results)
             const cached = this.suggestionCache.get(queryLower);
-            if (cached && (cached.isCommon || Date.now() - cached.timestamp < 300000)) { // 5 min cache
+            if (cached && Date.now() - cached.timestamp < 60000) { // 1 min cache for network results
                 this.displaySuggestions(cached.suggestions, updateSuggestions);
                 showSuggestions();
                 return;
             }
 
-            // Show instant local matches while loading network results
-            const localMatches = this.getLocalMatches(queryLower);
-            if (localMatches.length > 0) {
-                this.displaySuggestions(localMatches, updateSuggestions);
-                showSuggestions();
-            } else {
-                dropdown.innerHTML = '<div class="autocomplete-loading">Loading...</div>';
-                showSuggestions();
-            }
+            // Show loading immediately and fetch from Danbooru API (fastest)
+            dropdown.innerHTML = '<div class="autocomplete-loading">Loading...</div>';
+            showSuggestions();
 
-            // Try network request (non-blocking if we have local results)
             try {
                 const networkSuggestions = await this.fetchNetworkSuggestions(queryLower);
                 if (networkSuggestions.length > 0) {
-                    // Cache the results
+                    // Cache the results for 1 minute
                     this.suggestionCache.set(queryLower, {
                         suggestions: networkSuggestions,
                         timestamp: Date.now(),
                         isCommon: false
                     });
                     this.displaySuggestions(networkSuggestions, updateSuggestions);
+                } else {
+                    // Fallback to local matches if API returns nothing
+                    const localMatches = this.getLocalMatches(queryLower);
+                    if (localMatches.length > 0) {
+                        this.displaySuggestions(localMatches, updateSuggestions);
+                    } else {
+                        dropdown.innerHTML = '<div class="autocomplete-no-results">No suggestions found</div>';
+                        showSuggestions();
+                        setTimeout(hideSuggestions, 2000);
+                    }
                 }
             } catch (error) {
-                console.log('Network suggestions failed, using local only:', error.message);
-                // If network fails but we have local matches, keep showing them
+                console.log('Danbooru API failed, using local suggestions:', error.message);
+                // Fallback to local matches
+                const localMatches = this.getLocalMatches(queryLower);
+                if (localMatches.length > 0) {
+                    this.displaySuggestions(localMatches, updateSuggestions);
+                } else {
+                    dropdown.innerHTML = '<div class="autocomplete-no-results">No suggestions available</div>';
+                    showSuggestions();
+                    setTimeout(hideSuggestions, 2000);
+                }
                 if (localMatches.length === 0) {
                     hideSuggestions();
                 }
@@ -2984,7 +3001,7 @@ class Rule34MobileApp {
 
             debounceTimeout = setTimeout(() => {
                 fetchSuggestions(lastWord);
-            }, 100); // Near-instant autocomplete response
+            }, 50); // Instant autocomplete response
         });
 
         input.addEventListener('keydown', handleKeyNavigation);
