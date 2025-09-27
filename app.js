@@ -653,34 +653,37 @@ class Rule34MobileApp {
     async getBrowserImageData(searchQuery, page) {
         console.log(`getBrowserImageData called - Searching for: "${searchQuery}", page: ${page}`);
 
+        // Search both sources simultaneously
+        console.log('Searching Rule34 and Danbooru in parallel...');
+        const searchPromises = [
+            this.fetchRule34Data(searchQuery, page).catch(error => {
+                console.log('Rule34 failed:', error.message);
+                return [];
+            }),
+            this.fetchDanbooruData(searchQuery, page).catch(error => {
+                console.log('Danbooru failed:', error.message);
+                return [];
+            })
+        ];
+
+        // Wait for both searches to complete
+        const results = await Promise.all(searchPromises);
+
         const allResults = [];
 
-        // Try Rule34 first
-        try {
-            console.log('Trying Rule34...');
-            const rule34Results = await this.fetchRule34Data(searchQuery, page);
-            if (rule34Results && rule34Results.length > 0) {
-                console.log(`Rule34 returned ${rule34Results.length} results`);
-                allResults.push(...rule34Results);
-            }
-        } catch (error) {
-            console.log('Rule34 failed:', error.message);
-            // Rule34 failed, we'll fall back to Danbooru
+        // Process Rule34 results
+        if (results[0] && results[0].length > 0) {
+            console.log(`Rule34 returned ${results[0].length} results`);
+            allResults.push(...results[0]);
         }
 
-        // Always try Danbooru as well (or as fallback)
-        try {
-            console.log('Trying Danbooru...');
-            const danbooruResults = await this.fetchDanbooruData(searchQuery, page);
-            if (danbooruResults && danbooruResults.length > 0) {
-                console.log(`Danbooru returned ${danbooruResults.length} results`);
-                allResults.push(...danbooruResults);
-            }
-        } catch (error) {
-            console.log('Danbooru failed:', error.message);
+        // Process Danbooru results
+        if (results[1] && results[1].length > 0) {
+            console.log(`Danbooru returned ${results[1].length} results`);
+            allResults.push(...results[1]);
         }
 
-        // If we have results from both, shuffle them for variety
+        // If we have results from either source, shuffle them for variety
         if (allResults.length > 0) {
             console.log(`Combined total: ${allResults.length} results from multiple sources`);
             return this.shuffleAndLimitResults(allResults, 42);
@@ -688,6 +691,49 @@ class Rule34MobileApp {
 
         // If no results from either source
         throw new Error('No results found from any source');
+    }
+
+    // Progressive loading version that shows results as they come in
+    async getBrowserImageDataProgressive(searchQuery, page, onResultsCallback) {
+        console.log(`Progressive search for: "${searchQuery}", page: ${page}`);
+
+        const allResults = [];
+        let completedSources = 0;
+        const totalSources = 2;
+
+        // Function to handle results from each source
+        const handleResults = (sourceResults, sourceName) => {
+            if (sourceResults && sourceResults.length > 0) {
+                console.log(`${sourceName} returned ${sourceResults.length} results`);
+                allResults.push(...sourceResults);
+
+                // Shuffle and show current results
+                const currentResults = this.shuffleAndLimitResults([...allResults], 42);
+                onResultsCallback(currentResults, completedSources + 1, totalSources);
+            }
+
+            completedSources++;
+
+            // If all sources completed and no results, show error
+            if (completedSources === totalSources && allResults.length === 0) {
+                throw new Error('No results found from any source');
+            }
+        };
+
+        // Start both searches
+        this.fetchRule34Data(searchQuery, page)
+            .then(results => handleResults(results, 'Rule34'))
+            .catch(error => {
+                console.log('Rule34 failed:', error.message);
+                handleResults([], 'Rule34');
+            });
+
+        this.fetchDanbooruData(searchQuery, page)
+            .then(results => handleResults(results, 'Danbooru'))
+            .catch(error => {
+                console.log('Danbooru failed:', error.message);
+                handleResults([], 'Danbooru');
+            });
     }
 
     shuffleAndLimitResults(results, limit) {
@@ -1041,9 +1087,7 @@ class Rule34MobileApp {
 
         // Add artist info for Danbooru images
         let artistInfo = null;
-        console.log('Checking artist info for image:', imageData.id, 'site:', imageData.site, 'artists:', imageData.artists);
         if (imageData.site === 'danbooru' && imageData.artists && imageData.artists.length > 0) {
-            console.log('Creating artist info for Danbooru image:', imageData.id, 'with artists:', imageData.artists);
             artistInfo = document.createElement('div');
             artistInfo.className = 'image-artist-info';
             artistInfo.style.cssText = `
