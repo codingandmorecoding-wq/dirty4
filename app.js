@@ -1383,7 +1383,9 @@ class Rule34MobileApp {
         }
 
         // Set initial modal title with artist info for Danbooru images
+        console.log('Modal imageData:', imageData.id, 'site:', imageData.site, 'artists:', imageData.artists);
         if (imageData.site === 'danbooru' && imageData.artists && imageData.artists.length > 0) {
+            console.log('Setting up Danbooru artist display in modal');
             const validArtists = imageData.artists.filter(artist => artist && artist.trim().length > 0);
             if (validArtists.length > 0) {
                 const artistLabel = validArtists.length === 1 ? 'Artist' : 'Artists';
