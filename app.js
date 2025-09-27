@@ -1374,7 +1374,9 @@ class Rule34MobileApp {
         // Set current images for gallery navigation
         this.currentImages = this.starredImages;
 
+        console.log('Loading gallery with', this.starredImages.length, 'starred images');
         this.starredImages.forEach((imageData, index) => {
+            console.log('Creating gallery card for:', imageData.id, imageData);
             const imageCard = this.createGalleryCard(imageData, index);
             galleryGrid.appendChild(imageCard);
         });
@@ -1398,7 +1400,8 @@ class Rule34MobileApp {
             img.style.display = 'block';
         };
 
-        img.onerror = () => {
+        img.onerror = (e) => {
+            console.error('Gallery thumbnail failed to load:', img.src, 'for image:', imageData.id, e);
             loadingDiv.innerHTML = '<i class="fas fa-image" style="color: var(--text-muted); font-size: 24px;"></i><div style="margin-top: 8px; font-size: 12px;">Failed to load</div>';
         };
 
@@ -1437,10 +1440,13 @@ class Rule34MobileApp {
 
         // Set image source - handle both property names
         const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl;
+        console.log('Gallery image:', imageData.id, 'thumbUrl:', imageData.thumbUrl, 'thumbnailUrl:', imageData.thumbnailUrl, 'using:', thumbnailUrl);
+
         if (thumbnailUrl) {
             img.src = thumbnailUrl;
+            console.log('Setting gallery thumbnail src to:', thumbnailUrl);
         } else {
-            console.error('No thumbnail URL found for gallery image:', imageData.id);
+            console.error('No thumbnail URL found for gallery image:', imageData.id, imageData);
             loadingDiv.innerHTML = '<i class="fas fa-image" style="color: var(--text-muted); font-size: 24px;"></i><div style="margin-top: 8px; font-size: 12px;">No thumbnail</div>';
         }
 
