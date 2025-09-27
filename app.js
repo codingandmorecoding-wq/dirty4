@@ -852,21 +852,70 @@ class Rule34MobileApp {
         loadingDiv.className = 'image-loading';
         loadingDiv.innerHTML = '<div class="spinner"></div>';
 
-        const img = document.createElement('img');
-        img.className = 'image-thumbnail';
-        img.alt = imageData.title;
-        img.style.display = 'none';
-
         const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl;
 
-        img.onload = () => {
+        // Check if this is a video file
+        const isVideo = imageData.fileExt && ['webm', 'mp4', 'mov'].includes(imageData.fileExt.toLowerCase());
+
+        let mediaElement;
+        if (isVideo) {
+            // Create video element for video files
+            mediaElement = document.createElement('video');
+            mediaElement.className = 'image-thumbnail';
+            mediaElement.style.display = 'none';
+            mediaElement.muted = true;
+            mediaElement.loop = true;
+            mediaElement.playsInline = true;
+            mediaElement.preload = 'metadata';
+
+            // Add video controls overlay
+            const videoOverlay = document.createElement('div');
+            videoOverlay.className = 'video-overlay';
+            videoOverlay.innerHTML = '<i class="fas fa-play-circle"></i>';
+            videoOverlay.style.cssText = `
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                color: white;
+                font-size: 24px;
+                background: rgba(0,0,0,0.5);
+                border-radius: 50%;
+                padding: 8px;
+                pointer-events: none;
+                z-index: 1;
+            `;
+            card.style.position = 'relative';
+            card.appendChild(videoOverlay);
+        } else {
+            // Create img element for images
+            mediaElement = document.createElement('img');
+            mediaElement.className = 'image-thumbnail';
+            mediaElement.alt = imageData.title;
+            mediaElement.style.display = 'none';
+        }
+
+        const img = mediaElement; // Keep compatibility with existing code
+
+        const handleMediaLoad = () => {
             loadingDiv.style.display = 'none';
             img.style.display = 'block';
-            console.log(`Successfully loaded thumbnail: ${thumbnailUrl}`);
+            console.log(`Successfully loaded ${isVideo ? 'video' : 'image'} thumbnail: ${thumbnailUrl}`);
+
+            // Auto-play video on hover for preview
+            if (isVideo) {
+                img.addEventListener('mouseenter', () => {
+                    img.play().catch(() => {}); // Ignore autoplay failures
+                });
+                img.addEventListener('mouseleave', () => {
+                    img.pause();
+                    img.currentTime = 0;
+                });
+            }
         };
 
-        img.onerror = () => {
-            console.error(`Failed to load thumbnail: ${thumbnailUrl}`);
+        const handleMediaError = () => {
+            console.error(`Failed to load ${isVideo ? 'video' : 'image'} thumbnail: ${thumbnailUrl}`);
             // Try alternative image proxy services
             const alternativeProxies = [
                 `https://images.weserv.nl/?url=${encodeURIComponent(thumbnailUrl)}&w=200&h=200&fit=cover`,
@@ -888,6 +937,15 @@ class Rule34MobileApp {
             img.onerror = tryNextProxy;
             tryNextProxy();
         };
+
+        // Assign event listeners based on media type
+        if (isVideo) {
+            img.onloadeddata = handleMediaLoad;
+            img.onerror = handleMediaError;
+        } else {
+            img.onload = handleMediaLoad;
+            img.onerror = handleMediaError;
+        }
 
         img.onclick = () => this.showImagePreview(imageData, index);
 
@@ -1102,12 +1160,34 @@ class Rule34MobileApp {
         try {
             // For Danbooru images, we already have the full image URL
             if (imageData.site === 'danbooru') {
-                console.log(`Loading Danbooru full-size image: ${imageData.fullUrl}`);
+                console.log(`Loading Danbooru full-size media: ${imageData.fullUrl}`);
 
-                // Use large or full URL directly
-                const fullImageUrl = imageData.largeUrl || imageData.fullUrl;
-                modalImage.src = fullImageUrl;
-                modalImage.style.opacity = '1';
+                // Check if this is a video file
+                const isVideo = imageData.fileExt && ['webm', 'mp4', 'mov'].includes(imageData.fileExt.toLowerCase());
+
+                if (isVideo) {
+                    // Create video element for modal
+                    const videoElement = document.createElement('video');
+                    videoElement.controls = true;
+                    videoElement.muted = true;
+                    videoElement.loop = true;
+                    videoElement.style.cssText = 'max-width: 100%; max-height: 100%; object-fit: contain;';
+
+                    const fullVideoUrl = imageData.largeUrl || imageData.fullUrl;
+                    videoElement.src = fullVideoUrl;
+
+                    // Replace the image with video
+                    modalImage.parentNode.replaceChild(videoElement, modalImage);
+                    videoElement.style.opacity = '1';
+
+                    // Auto-play the video
+                    videoElement.play().catch(() => {});
+                } else {
+                    // Use large or full URL directly for images
+                    const fullImageUrl = imageData.largeUrl || imageData.fullUrl;
+                    modalImage.src = fullImageUrl;
+                    modalImage.style.opacity = '1';
+                }
                 return;
             }
 
