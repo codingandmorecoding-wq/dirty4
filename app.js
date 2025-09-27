@@ -42,13 +42,35 @@ class Rule34MobileApp {
         this.init();
     }
 
-    async fetchWithFallback(targetUrl) {
+    async fetchWithTimeout(url, timeout = 10000) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+        try {
+            const response = await fetch(url, {
+                signal: controller.signal,
+                headers: {
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                }
+            });
+            clearTimeout(timeoutId);
+            return response;
+        } catch (error) {
+            clearTimeout(timeoutId);
+            throw error;
+        }
+    }
+
+    async fetchWithFallback(targetUrl, fastMode = false) {
+        const timeout = fastMode ? 5000 : 10000; // Faster timeout for fast mode
+        const maxDelay = fastMode ? 500 : 2000; // Shorter delays for fast mode
+
         // Try Vercel API first
         const primaryProxyUrl = `${CONFIG.API_BASE}/proxy-debug?url=${encodeURIComponent(targetUrl)}`;
 
         try {
             console.log(`Trying primary proxy: ${primaryProxyUrl}`);
-            const response = await fetch(primaryProxyUrl);
+            const response = await this.fetchWithTimeout(primaryProxyUrl, timeout);
             if (response.ok) {
                 const data = await response.json();
                 if (data.contents) {
@@ -59,19 +81,22 @@ class Rule34MobileApp {
             console.warn('Primary proxy failed:', error.message);
         }
 
-        // Try fallback proxies with delays
-        for (let i = 0; i < CONFIG.FALLBACK_PROXIES.length; i++) {
+        // In fast mode, only try first fallback proxy
+        const fallbackLimit = fastMode ? 1 : CONFIG.FALLBACK_PROXIES.length;
+
+        // Try fallback proxies with shorter delays
+        for (let i = 0; i < fallbackLimit; i++) {
             const proxyBase = CONFIG.FALLBACK_PROXIES[i];
             try {
-                // Add delay between fallback attempts
+                // Add shorter delay between fallback attempts
                 if (i > 0) {
-                    await new Promise(resolve => setTimeout(resolve, 2000 + Math.random() * 1000));
+                    await new Promise(resolve => setTimeout(resolve, maxDelay));
                 }
 
                 const fallbackUrl = proxyBase + encodeURIComponent(targetUrl);
                 console.log(`Trying fallback proxy: ${fallbackUrl}`);
 
-                const response = await fetch(fallbackUrl);
+                const response = await this.fetchWithTimeout(fallbackUrl, timeout);
                 if (response.ok) {
                     // Try JSON first
                     try {
@@ -109,8 +134,8 @@ class Rule34MobileApp {
         console.log(`Danbooru URL: ${targetUrl}`);
 
         try {
-            // Danbooru doesn't need proxy, try direct fetch first
-            const response = await fetch(targetUrl);
+            // Danbooru doesn't need proxy, try direct fetch first with timeout
+            const response = await this.fetchWithTimeout(targetUrl, 8000);
             if (response.ok) {
                 const jsonData = await response.json();
                 return this.processDanbooruData(jsonData);
@@ -620,18 +645,13 @@ class Rule34MobileApp {
 
     async loadBrowserImages() {
         const imageGrid = document.getElementById('image-grid');
-        imageGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;"><div class="spinner"></div><p style="margin-top: 16px; color: var(--text-muted);">Loading images...</p></div>';
+        imageGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px;"><div class="spinner"></div><p style="margin-top: 16px; color: var(--text-muted);">Searching multiple sources...</p></div>';
 
         try {
             console.log(`Loading browser images for query: "${this.currentSearchQuery}", page: ${this.currentPage}`);
 
-            const imageData = await this.getBrowserImageData(this.currentSearchQuery, this.currentPage);
-            this.currentImages = imageData;
-
-            console.log(`Successfully loaded ${imageData.length} images`);
-
-            this.displayBrowserImages(imageData);
-            this.updatePagination();
+            // Use progressive loading
+            await this.loadBrowserImagesProgressive();
 
         } catch (error) {
             console.error('Failed to load browser images:', error);
@@ -648,6 +668,86 @@ class Rule34MobileApp {
                 </div>
             `;
         }
+    }
+
+    async loadBrowserImagesProgressive() {
+        const imageGrid = document.getElementById('image-grid');
+        let allResults = [];
+        let hasShownResults = false;
+
+        // Function to update display when results come in
+        const updateDisplay = (newResults, sourcesCompleted, totalSources) => {
+            if (newResults && newResults.length > 0) {
+                allResults = [...newResults];
+                this.currentImages = allResults;
+
+                if (!hasShownResults) {
+                    // First results - clear loading spinner
+                    imageGrid.innerHTML = '';
+                    hasShownResults = true;
+                }
+
+                this.displayBrowserImages(allResults);
+                this.updatePagination();
+
+                // Update status message
+                const statusMsg = sourcesCompleted === totalSources
+                    ? `Loaded ${allResults.length} images from multiple sources`
+                    : `Loading... ${allResults.length} images found (${sourcesCompleted}/${totalSources} sources)`;
+
+                console.log(statusMsg);
+            }
+        };
+
+        // Start progressive search
+        const searchPromises = [];
+
+        // Search Danbooru first (usually faster)
+        searchPromises.push(
+            this.fetchDanbooruData(this.currentSearchQuery, this.currentPage)
+                .then(results => {
+                    if (results && results.length > 0) {
+                        console.log(`Danbooru returned ${results.length} results`);
+                        updateDisplay(this.shuffleAndLimitResults([...allResults, ...results], 42), 1, 2);
+                    }
+                    return results || [];
+                })
+                .catch(error => {
+                    console.log('Danbooru failed:', error.message);
+                    return [];
+                })
+        );
+
+        // Search Rule34 in parallel but with more aggressive timeout
+        searchPromises.push(
+            this.fetchRule34Data(this.currentSearchQuery, this.currentPage)
+                .then(results => {
+                    if (results && results.length > 0) {
+                        console.log(`Rule34 returned ${results.length} results`);
+                        const combinedResults = [...allResults, ...results];
+                        updateDisplay(this.shuffleAndLimitResults(combinedResults, 42), 2, 2);
+                    }
+                    return results || [];
+                })
+                .catch(error => {
+                    console.log('Rule34 failed:', error.message);
+                    // If Rule34 fails but we have Danbooru results, just log and continue
+                    if (allResults.length > 0) {
+                        updateDisplay(allResults, 2, 2);
+                    }
+                    return [];
+                })
+        );
+
+        // Wait for both to complete
+        const results = await Promise.all(searchPromises);
+
+        // Final check - if no results from either source
+        if (allResults.length === 0) {
+            throw new Error('No results found from any source');
+        }
+
+        console.log(`Progressive loading complete: ${allResults.length} total images`);
     }
 
     async getBrowserImageData(searchQuery, page) {
@@ -753,7 +853,7 @@ class Rule34MobileApp {
 
         console.log(`Rule34 URL: ${targetUrl}`);
 
-        const htmlContent = await this.fetchWithFallback(targetUrl);
+        const htmlContent = await this.fetchWithFallback(targetUrl, true); // Use fast mode
         if (!htmlContent) {
             throw new Error('No HTML content in response');
         }
@@ -2602,7 +2702,7 @@ class Rule34MobileApp {
                 // Get suggestions from both sources
                 // Try to get Rule34 suggestions first
                 const searchUrl = `https://rule34.xxx/index.php?page=post&s=list&tags=${encodeURIComponent(query)}*`;
-                const htmlContent = await this.fetchWithFallback(searchUrl);
+                const htmlContent = await this.fetchWithFallback(searchUrl, true); // Use fast mode for autocomplete
 
                 let extractedTags = [];
 
@@ -2711,7 +2811,7 @@ class Rule34MobileApp {
 
             debounceTimeout = setTimeout(() => {
                 fetchSuggestions(lastWord);
-            }, 500);
+            }, 300); // Faster autocomplete response
         });
 
         input.addEventListener('keydown', handleKeyNavigation);
