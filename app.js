@@ -2622,9 +2622,137 @@ class Rule34MobileApp {
     // === AUTOCOMPLETE FUNCTIONALITY ===
     setupAutocomplete() {
         console.log('Setting up autocomplete...');
+        // Initialize suggestion cache
+        this.suggestionCache = new Map();
+        this.lastCacheClean = Date.now();
+        // Pre-populate with common suggestions for instant results
+        this.initCommonSuggestions();
         this.setupAutocompleteInput('search-query', 'downloader-autocomplete');
         this.setupAutocompleteInput('browser-search', 'browser-autocomplete');
         console.log('Autocomplete setup complete');
+    }
+
+    initCommonSuggestions() {
+        // Pre-populate cache with common tags for instant results
+        const commonTags = [
+            'anime', 'manga', 'girl', 'cute', 'kawaii', 'beautiful', 'art', 'artwork',
+            'digital_art', 'illustration', 'character', 'original', 'fan_art',
+            'blonde_hair', 'brown_hair', 'black_hair', 'red_hair', 'blue_hair',
+            'blue_eyes', 'green_eyes', 'brown_eyes', 'long_hair', 'short_hair',
+            'dress', 'school_uniform', 'bikini', 'swimsuit', 'casual',
+            'smile', 'happy', 'sad', 'serious', 'blush', 'wink',
+            'solo', 'duo', 'group', 'sitting', 'standing', 'lying',
+            'outdoors', 'indoors', 'beach', 'school', 'bedroom', 'kitchen'
+        ];
+
+        commonTags.forEach(tag => {
+            const suggestions = commonTags.filter(t => t.includes(tag) && t !== tag);
+            this.suggestionCache.set(tag, {
+                suggestions: suggestions.slice(0, 8).map(s => ({ name: s, count: '∞' })),
+                timestamp: Date.now(),
+                isCommon: true
+            });
+        });
+        console.log(`Pre-populated cache with ${commonTags.length} common suggestions`);
+    }
+
+    async fetchNetworkSuggestions(query) {
+        const searchUrl = `https://rule34.xxx/index.php?page=post&s=list&tags=${encodeURIComponent(query)}*`;
+
+        try {
+            const htmlContent = await this.fetchWithFallback(searchUrl, true);
+            let extractedTags = [];
+
+            if (htmlContent) {
+                // Parse HTML to extract tags from search results
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlContent, 'text/html');
+
+                // Extract tags from tag links and tag lists
+                const tagElements = doc.querySelectorAll('a[href*="tags="]');
+                const tagSet = new Set();
+
+                tagElements.forEach(element => {
+                    const href = element.getAttribute('href');
+                    if (href && href.includes('tags=')) {
+                        const tagMatch = href.match(/tags=([^&]+)/);
+                        if (tagMatch) {
+                            const tag = decodeURIComponent(tagMatch[1]).toLowerCase();
+                            if (tag.includes(query.toLowerCase()) && tag.length > 1) {
+                                tagSet.add(tag);
+                            }
+                        }
+                    }
+                });
+
+                // Also check for tag spans and other tag containers
+                const tagSpans = doc.querySelectorAll('.tag, .tag-type-general, .tag-type-character, .tag-type-copyright, .tag-type-artist');
+                tagSpans.forEach(span => {
+                    const tagText = span.textContent?.trim().toLowerCase();
+                    if (tagText && tagText.includes(query.toLowerCase()) && tagText.length > 1) {
+                        tagSet.add(tagText);
+                    }
+                });
+
+                extractedTags = Array.from(tagSet)
+                    .filter(tag => tag.includes(query.toLowerCase()))
+                    .slice(0, 8)
+                    .map(tag => ({
+                        name: tag,
+                        count: Math.floor(Math.random() * 5000) + 100
+                    }));
+            }
+
+            // Fallback to static popular tags if no dynamic tags found
+            if (extractedTags.length === 0) {
+                const popularTags = [
+                    'anime', 'manga', 'girl', 'cute', 'kawaii', 'beautiful', 'art', 'artwork',
+                    'ahri', 'jinx', 'lux', 'katarina', 'sona', 'miss_fortune', 'akali', 'riven'
+                ];
+
+                extractedTags = popularTags
+                    .filter(tag => tag.includes(query.toLowerCase()))
+                    .slice(0, 6)
+                    .map(tag => ({
+                        name: tag,
+                        count: Math.floor(Math.random() * 3000) + 500
+                    }));
+            }
+
+            return extractedTags;
+        } catch (error) {
+            console.log('Network suggestion fetch failed:', error.message);
+            return [];
+        }
+    }
+
+    getLocalMatches(query) {
+        // Get instant matches from cached data
+        const matches = [];
+
+        for (const [cachedQuery, data] of this.suggestionCache.entries()) {
+            if (cachedQuery.includes(query) || query.includes(cachedQuery)) {
+                matches.push(...data.suggestions.filter(s =>
+                    s.name.toLowerCase().includes(query) &&
+                    !matches.some(m => m.name === s.name)
+                ));
+            }
+        }
+
+        // Also check direct tag matches
+        const directMatches = Array.from(this.suggestionCache.keys())
+            .filter(tag => tag.includes(query))
+            .slice(0, 5)
+            .map(tag => ({ name: tag, count: 'cached' }));
+
+        const combined = [...directMatches, ...matches].slice(0, 8);
+        return combined;
+    }
+
+    displaySuggestions(suggestions, updateCallback) {
+        if (suggestions && suggestions.length > 0) {
+            updateCallback(suggestions);
+        }
     }
 
     async fetchDanbooruSuggestions(query, updateSuggestions, hideSuggestions) {
@@ -2824,111 +2952,47 @@ class Rule34MobileApp {
                 return;
             }
 
-            try {
+            const queryLower = query.toLowerCase();
+
+            // Check cache first for instant results
+            const cached = this.suggestionCache.get(queryLower);
+            if (cached && (cached.isCommon || Date.now() - cached.timestamp < 300000)) { // 5 min cache
+                this.displaySuggestions(cached.suggestions, updateSuggestions);
+                showSuggestions();
+                return;
+            }
+
+            // Show instant local matches while loading network results
+            const localMatches = this.getLocalMatches(queryLower);
+            if (localMatches.length > 0) {
+                this.displaySuggestions(localMatches, updateSuggestions);
+                showSuggestions();
+            } else {
                 dropdown.innerHTML = '<div class="autocomplete-loading">Loading...</div>';
                 showSuggestions();
+            }
 
-                // Get suggestions from both sources
-                // Try to get Rule34 suggestions first
-                const searchUrl = `https://rule34.xxx/index.php?page=post&s=list&tags=${encodeURIComponent(query)}*`;
-                const htmlContent = await this.fetchWithFallback(searchUrl, true); // Use fast mode for autocomplete
-
-                let extractedTags = [];
-
-                if (htmlContent) {
-                    // Parse HTML to extract tags from search results
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(htmlContent, 'text/html');
-
-                    // Extract tags from tag links and tag lists
-                    const tagElements = doc.querySelectorAll('a[href*="tags="]');
-                    const tagSet = new Set();
-
-                    tagElements.forEach(element => {
-                        const href = element.getAttribute('href');
-                        if (href && href.includes('tags=')) {
-                            const tagMatch = href.match(/tags=([^&]+)/);
-                            if (tagMatch) {
-                                const tag = decodeURIComponent(tagMatch[1]).toLowerCase();
-                                if (tag.includes(query.toLowerCase()) && tag.length > 1) {
-                                    tagSet.add(tag);
-                                }
-                            }
-                        }
+            // Try network request (non-blocking if we have local results)
+            try {
+                const networkSuggestions = await this.fetchNetworkSuggestions(queryLower);
+                if (networkSuggestions.length > 0) {
+                    // Cache the results
+                    this.suggestionCache.set(queryLower, {
+                        suggestions: networkSuggestions,
+                        timestamp: Date.now(),
+                        isCommon: false
                     });
-
-                    // Also check for tag spans and other tag containers
-                    const tagSpans = doc.querySelectorAll('.tag, .tag-type-general, .tag-type-character, .tag-type-copyright, .tag-type-artist');
-                    tagSpans.forEach(span => {
-                        const tagText = span.textContent?.trim().toLowerCase();
-                        if (tagText && tagText.includes(query.toLowerCase()) && tagText.length > 1) {
-                            tagSet.add(tagText);
-                        }
-                    });
-
-                    extractedTags = Array.from(tagSet)
-                        .filter(tag => tag.includes(query.toLowerCase()))
-                        .slice(0, 8)
-                        .map(tag => ({
-                            name: tag,
-                            count: Math.floor(Math.random() * 5000) + 100 // Mock count for display
-                        }));
+                    this.displaySuggestions(networkSuggestions, updateSuggestions);
                 }
-
-                // Fallback to static popular tags if no dynamic tags found
-                if (extractedTags.length === 0) {
-                    const popularTags = [
-                        'ahri', 'jinx', 'lux', 'katarina', 'sona', 'miss_fortune', 'akali', 'riven',
-                        'senna_(league_of_legends)', 'vi_(league_of_legends)', 'caitlyn_(league_of_legends)',
-                        'ashe_(league_of_legends)', 'annie_(league_of_legends)', 'diana_(league_of_legends)',
-                        'league_of_legends', 'pokemon', 'naruto', 'one_piece', 'attack_on_titan',
-                        'my_hero_academia', 'demon_slayer', 'overwatch', 'genshin_impact',
-                        'solo', 'nude', 'breasts', 'ass', 'thighs', 'blonde_hair', 'brown_hair',
-                        'big_breasts', 'small_breasts', 'long_hair', 'short_hair', 'blue_eyes',
-                        'sakimichan', 'personalami', 'cutesexyrobutts', 'dandon_fuga', 'neocoill'
-                    ];
-
-                    const queryLower = query.toLowerCase();
-                    extractedTags = popularTags
-                        .filter(tag => tag.includes(queryLower))
-                        .slice(0, 8)
-                        .map(tag => ({
-                            name: tag,
-                            count: Math.floor(Math.random() * 5000) + 100
-                        }));
-                }
-
-                updateSuggestions(extractedTags);
-
             } catch (error) {
-                console.error('Autocomplete error:', error);
-
-                // Final fallback to static tags
-                const popularTags = [
-                    'ahri', 'jinx', 'lux', 'katarina', 'sona', 'miss_fortune', 'akali', 'riven',
-                    'league_of_legends', 'pokemon', 'naruto', 'one_piece', 'overwatch', 'genshin_impact',
-                    'solo', 'nude', 'breasts', 'ass', 'thighs', 'blonde_hair', 'brown_hair',
-                    'sakimichan', 'personalami', 'cutesexyrobutts', 'dandon_fuga', 'neocoill'
-                ];
-
-                const queryLower = query.toLowerCase();
-                const fallbackSuggestions = popularTags
-                    .filter(tag => tag.includes(queryLower))
-                    .slice(0, 8)
-                    .map(tag => ({
-                        name: tag,
-                        count: Math.floor(Math.random() * 5000) + 100
-                    }));
-
-                if (fallbackSuggestions.length > 0) {
-                    updateSuggestions(fallbackSuggestions);
-                } else {
-                    dropdown.innerHTML = '<div class="autocomplete-no-results">No suggestions found</div>';
-                    showSuggestions();
-                    setTimeout(hideSuggestions, 2000);
+                console.log('Network suggestions failed, using local only:', error.message);
+                // If network fails but we have local matches, keep showing them
+                if (localMatches.length === 0) {
+                    hideSuggestions();
                 }
             }
         };
+
 
         // Event listeners
         input.addEventListener('input', (e) => {
@@ -2940,7 +3004,7 @@ class Rule34MobileApp {
 
             debounceTimeout = setTimeout(() => {
                 fetchSuggestions(lastWord);
-            }, 300); // Faster autocomplete response
+            }, 150); // Snappy autocomplete response
         });
 
         input.addEventListener('keydown', handleKeyNavigation);
