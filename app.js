@@ -2657,73 +2657,53 @@ class Rule34MobileApp {
     }
 
     async fetchNetworkSuggestions(query) {
-        const searchUrl = `https://rule34.xxx/index.php?page=post&s=list&tags=${encodeURIComponent(query)}*`;
+        // Use Danbooru's fast tag autocomplete API
+        const danbooruUrl = `https://danbooru.donmai.us/tags.json?search[name_matches]=${encodeURIComponent(query)}*&search[order]=count&limit=10`;
 
         try {
-            const htmlContent = await this.fetchWithFallback(searchUrl, true);
-            let extractedTags = [];
-
-            if (htmlContent) {
-                // Parse HTML to extract tags from search results
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlContent, 'text/html');
-
-                // Extract tags from tag links and tag lists
-                const tagElements = doc.querySelectorAll('a[href*="tags="]');
-                const tagSet = new Set();
-
-                tagElements.forEach(element => {
-                    const href = element.getAttribute('href');
-                    if (href && href.includes('tags=')) {
-                        const tagMatch = href.match(/tags=([^&]+)/);
-                        if (tagMatch) {
-                            const tag = decodeURIComponent(tagMatch[1]).toLowerCase();
-                            if (tag.includes(query.toLowerCase()) && tag.length > 1) {
-                                tagSet.add(tag);
-                            }
-                        }
-                    }
-                });
-
-                // Also check for tag spans and other tag containers
-                const tagSpans = doc.querySelectorAll('.tag, .tag-type-general, .tag-type-character, .tag-type-copyright, .tag-type-artist');
-                tagSpans.forEach(span => {
-                    const tagText = span.textContent?.trim().toLowerCase();
-                    if (tagText && tagText.includes(query.toLowerCase()) && tagText.length > 1) {
-                        tagSet.add(tagText);
-                    }
-                });
-
-                extractedTags = Array.from(tagSet)
-                    .filter(tag => tag.includes(query.toLowerCase()))
-                    .slice(0, 8)
-                    .map(tag => ({
-                        name: tag,
-                        count: Math.floor(Math.random() * 5000) + 100
-                    }));
+            // Try direct fetch first
+            const response = await fetch(danbooruUrl);
+            if (response.ok) {
+                const tags = await response.json();
+                return tags.map(tag => ({
+                    name: tag.name,
+                    count: tag.post_count || 0
+                })).slice(0, 8);
             }
-
-            // Fallback to static popular tags if no dynamic tags found
-            if (extractedTags.length === 0) {
-                const popularTags = [
-                    'anime', 'manga', 'girl', 'cute', 'kawaii', 'beautiful', 'art', 'artwork',
-                    'ahri', 'jinx', 'lux', 'katarina', 'sona', 'miss_fortune', 'akali', 'riven'
-                ];
-
-                extractedTags = popularTags
-                    .filter(tag => tag.includes(query.toLowerCase()))
-                    .slice(0, 6)
-                    .map(tag => ({
-                        name: tag,
-                        count: Math.floor(Math.random() * 3000) + 500
-                    }));
-            }
-
-            return extractedTags;
         } catch (error) {
-            console.log('Network suggestion fetch failed:', error.message);
-            return [];
+            console.log('Direct Danbooru fetch failed, trying proxy...');
         }
+
+        // Fallback to proxy if direct fails
+        try {
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(danbooruUrl)}`;
+            const response = await fetch(proxyUrl);
+            if (response.ok) {
+                const data = await response.json();
+                const tags = JSON.parse(data.contents);
+                return tags.map(tag => ({
+                    name: tag.name,
+                    count: tag.post_count || 0
+                })).slice(0, 8);
+            }
+        } catch (error) {
+            console.log('Proxy Danbooru fetch failed:', error.message);
+        }
+
+        // Final fallback to popular tags
+        const popularTags = [
+            'anime', 'manga', 'girl', 'cute', 'kawaii', 'beautiful', 'art', 'artwork',
+            'ahri', 'jinx', 'lux', 'katarina', 'sona', 'miss_fortune', 'akali', 'riven',
+            'blonde_hair', 'brown_hair', 'blue_eyes', 'long_hair', 'solo', 'smile'
+        ];
+
+        return popularTags
+            .filter(tag => tag.includes(query.toLowerCase()))
+            .slice(0, 6)
+            .map(tag => ({
+                name: tag,
+                count: Math.floor(Math.random() * 3000) + 500
+            }));
     }
 
     getLocalMatches(query) {
@@ -3004,7 +2984,7 @@ class Rule34MobileApp {
 
             debounceTimeout = setTimeout(() => {
                 fetchSuggestions(lastWord);
-            }, 150); // Snappy autocomplete response
+            }, 100); // Near-instant autocomplete response
         });
 
         input.addEventListener('keydown', handleKeyNavigation);
