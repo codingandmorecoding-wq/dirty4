@@ -779,7 +779,8 @@ class Rule34MobileApp {
         const searchInput = document.getElementById('browser-search');
         searchInput.value = artistName;
 
-        // Reset to first page
+        // Update the current search query and trigger search
+        this.currentSearchQuery = artistName;
         this.currentPage = 0;
 
         // Trigger the search
