@@ -214,6 +214,68 @@
             animation: shimmer 2s infinite;
         }
 
+        /* Site Switcher */
+        .site-switcher {
+            display: flex;
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius);
+            padding: 4px;
+            margin: 10px 20px 0 20px;
+            gap: 4px;
+            border: 1px solid var(--border-color);
+            align-items: center;
+        }
+
+        .site-switcher-label {
+            padding: 0 12px;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .site-tab {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: calc(var(--border-radius) - 4px);
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 11px;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            text-align: center;
+            min-height: 32px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .site-tab:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .site-tab.active {
+            background: var(--accent-gradient);
+            color: white;
+            box-shadow: 0 0 15px rgba(240, 147, 251, 0.3);
+            transform: scale(1.02);
+        }
+
+        .site-tab .site-icon {
+            font-size: 10px;
+        }
+
+        .site-tab .site-name {
+            white-space: nowrap;
+        }
+
         @keyframes shimmer {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
@@ -1128,6 +1190,19 @@
             <button class="mode-tab" data-mode="gallery">
                 <i class="fas fa-star"></i>
                 <span>Gallery</span>
+            </button>
+        </div>
+
+        <!-- Site Switcher -->
+        <div class="site-switcher">
+            <span class="site-switcher-label">Source:</span>
+            <button class="site-tab active" data-site="rule34">
+                <i class="fas fa-globe site-icon"></i>
+                <span class="site-name">Rule34</span>
+            </button>
+            <button class="site-tab" data-site="danbooru">
+                <i class="fas fa-palette site-icon"></i>
+                <span class="site-name">Danbooru</span>
             </button>
         </div>
 

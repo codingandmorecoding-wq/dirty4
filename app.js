@@ -9,6 +9,22 @@ const CONFIG = {
         'https://proxy.cors.sh/',
         'https://corsproxy.io/?'
     ],
+    SITES: {
+        RULE34: {
+            name: 'Rule34.xxx',
+            id: 'rule34',
+            baseUrl: 'https://rule34.xxx',
+            requiresProxy: true,
+            description: 'Original Rule34 content'
+        },
+        DANBOORU: {
+            name: 'Danbooru',
+            id: 'danbooru',
+            baseUrl: 'https://danbooru.donmai.us',
+            requiresProxy: false,
+            description: 'High-quality anime artwork'
+        }
+    },
     VERSION: '1.0.0'
 };
 
@@ -21,6 +37,7 @@ class Rule34MobileApp {
         this.starredImages = this.loadStarredImages();
         this.currentImages = [];
         this.currentSearchQuery = '';
+        this.currentSite = CONFIG.SITES.RULE34; // Default to Rule34
 
         this.init();
     }
@@ -83,6 +100,88 @@ class Rule34MobileApp {
         throw new Error('All proxy services failed');
     }
 
+    async fetchDanbooruData(searchQuery, page) {
+        console.log(`fetchDanbooruData called - Searching for: "${searchQuery}", page: ${page}`);
+
+        const limit = 42; // Match Rule34's posts per page
+        const targetUrl = `https://danbooru.donmai.us/posts.json?tags=${encodeURIComponent(searchQuery)}&limit=${limit}&page=${page + 1}`;
+
+        console.log(`Danbooru URL: ${targetUrl}`);
+
+        try {
+            // Danbooru doesn't need proxy, try direct fetch first
+            const response = await fetch(targetUrl);
+            if (response.ok) {
+                const jsonData = await response.json();
+                return this.processDanbooruData(jsonData);
+            }
+        } catch (error) {
+            console.warn('Direct Danbooru fetch failed, trying with proxy:', error.message);
+        }
+
+        // Fallback to proxy if direct fetch fails
+        try {
+            const response = await fetch(`${CONFIG.API_BASE}/proxy-debug?url=${encodeURIComponent(targetUrl)}`);
+            if (response.ok) {
+                const data = await response.json();
+                if (data.contents) {
+                    const jsonData = JSON.parse(data.contents);
+                    return this.processDanbooruData(jsonData);
+                }
+            }
+        } catch (error) {
+            console.error('Proxy Danbooru fetch failed:', error);
+        }
+
+        throw new Error('Failed to fetch Danbooru data');
+    }
+
+    processDanbooruData(jsonData) {
+        console.log(`Processing ${jsonData.length} Danbooru posts`);
+
+        const imageDataList = [];
+
+        for (const post of jsonData) {
+            if (post.id && post.preview_file_url && post.file_url) {
+                const imageData = {
+                    id: post.id.toString(),
+                    thumbUrl: post.preview_file_url,
+                    fullUrl: post.file_url,
+                    largeUrl: post.large_file_url || post.file_url,
+                    width: post.image_width,
+                    height: post.image_height,
+                    fileSize: post.file_size,
+                    fileExt: post.file_ext,
+                    rating: post.rating,
+                    score: post.score,
+                    favCount: post.fav_count,
+                    source: post.source,
+                    createdAt: post.created_at,
+                    artists: post.tag_string_artist ? post.tag_string_artist.split(' ') : [],
+                    characters: post.tag_string_character ? post.tag_string_character.split(' ') : [],
+                    copyright: post.tag_string_copyright ? post.tag_string_copyright.split(' ') : [],
+                    generalTags: post.tag_string_general ? post.tag_string_general.split(' ') : [],
+                    site: 'danbooru'
+                };
+
+                // Ensure URLs are absolute
+                if (imageData.thumbUrl && imageData.thumbUrl.startsWith('//')) {
+                    imageData.thumbUrl = 'https:' + imageData.thumbUrl;
+                }
+                if (imageData.fullUrl && imageData.fullUrl.startsWith('//')) {
+                    imageData.fullUrl = 'https:' + imageData.fullUrl;
+                }
+                if (imageData.largeUrl && imageData.largeUrl.startsWith('//')) {
+                    imageData.largeUrl = 'https:' + imageData.largeUrl;
+                }
+
+                imageDataList.push(imageData);
+            }
+        }
+
+        return imageDataList;
+    }
+
     init() {
         this.setupEventListeners();
         this.loadGallery();
@@ -95,6 +194,14 @@ class Rule34MobileApp {
             tab.addEventListener('click', () => {
                 const mode = tab.dataset.mode;
                 this.switchMode(mode);
+            });
+        });
+
+        // Site switcher
+        document.querySelectorAll('.site-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const siteId = tab.dataset.site;
+                this.switchSite(siteId);
             });
         });
 
@@ -162,6 +269,31 @@ class Rule34MobileApp {
         // Load data for specific modes
         if (mode === 'gallery') {
             this.loadGallery();
+        }
+    }
+
+    switchSite(siteId) {
+        // Update site tab states
+        document.querySelectorAll('.site-tab').forEach(tab => {
+            tab.classList.toggle('active', tab.dataset.site === siteId);
+        });
+
+        // Update current site
+        if (siteId === 'rule34') {
+            this.currentSite = CONFIG.SITES.RULE34;
+        } else if (siteId === 'danbooru') {
+            this.currentSite = CONFIG.SITES.DANBOORU;
+        }
+
+        console.log(`Switched to site: ${this.currentSite.name}`);
+
+        // Show toast notification
+        this.showToast(`Switched to ${this.currentSite.name}`, 'info');
+
+        // Reload current search if we're in browser mode and have a search
+        if (this.currentMode === 'browser' && this.currentSearchQuery) {
+            this.currentPage = 0; // Reset to first page
+            this.loadBrowserImages();
         }
     }
 
@@ -529,8 +661,14 @@ class Rule34MobileApp {
     }
 
     async getBrowserImageData(searchQuery, page) {
-        console.log(`getBrowserImageData called - Searching for: "${searchQuery}", page: ${page}`);
+        console.log(`getBrowserImageData called - Searching for: "${searchQuery}", page: ${page}, site: ${this.currentSite.name}`);
 
+        // Use Danbooru API if current site is Danbooru
+        if (this.currentSite.id === 'danbooru') {
+            return await this.fetchDanbooruData(searchQuery, page);
+        }
+
+        // Rule34 logic (existing)
         const postsPerPage = 42;
         const targetUrl = `https://rule34.xxx/index.php?page=post&s=list&tags=${encodeURIComponent(searchQuery)}${page > 0 ? `&pid=${page * postsPerPage}` : ''}`;
 
@@ -700,19 +838,21 @@ class Rule34MobileApp {
         img.alt = imageData.title;
         img.style.display = 'none';
 
+        const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl;
+
         img.onload = () => {
             loadingDiv.style.display = 'none';
             img.style.display = 'block';
-            console.log(`Successfully loaded thumbnail: ${imageData.thumbnailUrl}`);
+            console.log(`Successfully loaded thumbnail: ${thumbnailUrl}`);
         };
 
         img.onerror = () => {
-            console.error(`Failed to load thumbnail: ${imageData.thumbnailUrl}`);
+            console.error(`Failed to load thumbnail: ${thumbnailUrl}`);
             // Try alternative image proxy services
             const alternativeProxies = [
-                `https://images.weserv.nl/?url=${encodeURIComponent(imageData.thumbnailUrl)}&w=200&h=200&fit=cover`,
-                `https://wsrv.nl/?url=${encodeURIComponent(imageData.thumbnailUrl)}&w=200&h=200&fit=cover`,
-                imageData.thumbnailUrl // Try direct URL as fallback
+                `https://images.weserv.nl/?url=${encodeURIComponent(thumbnailUrl)}&w=200&h=200&fit=cover`,
+                `https://wsrv.nl/?url=${encodeURIComponent(thumbnailUrl)}&w=200&h=200&fit=cover`,
+                thumbnailUrl // Try direct URL as fallback
             ];
 
             let proxyIndex = 0;
@@ -765,7 +905,7 @@ class Rule34MobileApp {
         card.appendChild(actions);
 
         // Set image source to start loading
-        img.src = imageData.thumbnailUrl;
+        img.src = thumbnailUrl;
 
         return card;
     }
@@ -954,7 +1094,12 @@ class Rule34MobileApp {
             // Extract artist information from tags
             let artistNames = [];
 
-            // Try multiple selectors to find artist tags
+            // For Danbooru images, use the artist data directly
+            if (imageData.site === 'danbooru' && imageData.artists && imageData.artists.length > 0) {
+                artistNames = imageData.artists.filter(artist => artist && artist.trim().length > 0);
+                console.log(`Found Danbooru artists: ${artistNames.join(', ')}`);
+            } else {
+                // For Rule34 or other sites, try multiple selectors to find artist tags
             const artistSelectors = [
                 '.tag-type-artist a',           // Direct artist tag links
                 'a[href*="tags="][href*="artist"]', // Links with artist in href
@@ -1003,6 +1148,7 @@ class Rule34MobileApp {
                     }
                 }
             }
+            } // End of Rule34 artist extraction
 
             // Update modal title with artist info if available
             const modalTitle = document.getElementById('modal-title');
