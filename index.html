@@ -1,1590 +1,1031 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4520354171749096"
-     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="msapplication-tap-highlight" content="no">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="google-adsense-account" content="ca-pub-4520354171749096">
-    <title>Dirty4 - Advanced Anime Art Gallery & Archival Tool | Danbooru Alternative</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dirty4 - Revolutionary Anime Art Gallery & Archival Platform</title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Professional anime art gallery and archival tool. Browse, download, and organize artwork from multiple sources including Danbooru. Perfect for gaming, anime fans, and one-handed browsing with instant search.">
-    <meta name="keywords" content="danbooru, anime art, gaming gallery, archival tool, image downloader, anime browser, art collection, digital gallery, one handed browsing, mobile gallery">
-    <meta name="robots" content="index, follow">
-    <meta name="author" content="Dirty4">
-    <link rel="canonical" href="https://dirty4.com/">
-
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Dirty4 - Advanced Anime Art Gallery & Archival Tool">
-    <meta property="og:description" content="Professional anime art gallery and archival tool. Browse, download, and organize artwork from multiple sources including Danbooru.">
-    <meta property="og:url" content="https://dirty4.com/">
-    <meta property="og:site_name" content="Dirty4">
-    <meta property="og:image" content="https://dirty4.com/og-image.jpg">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-
-    <!-- Twitter Card Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Dirty4 - Advanced Anime Art Gallery & Archival Tool">
-    <meta name="twitter:description" content="Professional anime art gallery and archival tool. Browse, download, and organize artwork from multiple sources.">
-    <meta name="twitter:image" content="https://dirty4.com/og-image.jpg">
-
-    <!-- Additional SEO Meta Tags -->
-    <meta name="theme-color" content="#667eea">
-    <meta name="application-name" content="Dirty4">
-    <meta name="apple-mobile-web-app-title" content="Dirty4">
-    <meta name="msapplication-TileColor" content="#667eea">
-
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Dirty4",
-        "description": "Advanced anime art gallery and archival tool for browsing, downloading, and organizing artwork from multiple sources including Danbooru",
-        "url": "https://dirty4.com/",
-        "applicationCategory": "MultimediaApplication",
-        "operatingSystem": "Web Browser",
-        "offers": {
-            "@type": "Offer",
-            "price": "0",
-            "priceCurrency": "USD"
-        },
-        "author": {
-            "@type": "Organization",
-            "name": "Dirty4"
-        },
-        "keywords": "danbooru, anime art, gaming gallery, archival tool, image downloader, anime browser, art collection",
-        "browserRequirements": "Modern web browser with JavaScript support",
-        "softwareVersion": "2.0",
-        "dateModified": "2025-09-27"
-    }
-    </script>
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta name="description" content="Experience the future of anime art browsing. Professional Danbooru alternative with glassmorphism design, instant search, and mobile-optimized one-handed navigation.">
+    <meta name="keywords" content="anime art gallery, danbooru alternative, gaming artwork, digital art archival, mobile art browser, glassmorphism design, modern art platform">
 
     <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXXX"
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4520354171749096"
             crossorigin="anonymous"></script>
+    <meta name="google-adsense-account" content="ca-pub-4520354171749096">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         :root {
-            /* Futuristic Color Palette */
+            /* Dirty4.com Theme Colors */
             --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             --accent-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
             --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
             --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
 
+            /* Dark Theme Background */
             --bg-primary: #0a0a0f;
-            --bg-secondary: #121218;
-            --bg-tertiary: #1a1a24;
-            --bg-card: rgba(255, 255, 255, 0.05);
-            --bg-glass: rgba(255, 255, 255, 0.1);
+            --bg-secondary: #161622;
+            --bg-tertiary: #1e1e2e;
 
+            /* Glass Effects */
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-bg-strong: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.1);
+
+            /* Text Colors */
             --text-primary: #ffffff;
-            --text-secondary: #b8bcc8;
-            --text-muted: #6c7293;
-
-            --border-color: rgba(255, 255, 255, 0.1);
-            --border-focus: rgba(102, 126, 234, 0.5);
-
-            --shadow-glow: 0 0 20px rgba(102, 126, 234, 0.3);
-            --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.3);
-
-            --border-radius: 12px;
-            --border-radius-lg: 20px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-
-        input, textarea, select {
-            -webkit-user-select: text;
-            user-select: text;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --text-muted: rgba(255, 255, 255, 0.6);
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-primary);
-            background-image:
-                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(120, 200, 255, 0.2) 0%, transparent 50%);
-            background-attachment: fixed;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
             color: var(--text-primary);
-            line-height: 1.5;
             overflow-x: hidden;
-        }
-
-        /* App Container */
-        .app-container {
+            background: var(--bg-primary);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            max-width: 100vw;
+            position: relative;
         }
 
-        /* Header */
-        .header {
-            background: rgba(10, 10, 15, 0.9);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-color);
-            padding: env(safe-area-inset-top) 20px 15px 20px;
-            position: sticky;
+        /* Abstract Art Background */
+        .bg-animation {
+            position: fixed;
             top: 0;
-            z-index: 100;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
         }
 
-        .header-content {
+        /* Abstract Geometric Shapes */
+        .abstract-shape {
+            position: absolute;
+            opacity: 0.06;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .shape-1 {
+            top: 10%;
+            left: 15%;
+            width: 200px;
+            height: 200px;
+            background: #667eea;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+            animation-delay: 0s;
+        }
+
+        .shape-2 {
+            top: 20%;
+            right: 10%;
+            width: 150px;
+            height: 150px;
+            background: #f093fb;
+            border-radius: 50% 0 50% 0;
+            animation-delay: -5s;
+        }
+
+        .shape-3 {
+            bottom: 30%;
+            left: 10%;
+            width: 180px;
+            height: 180px;
+            background: #4facfe;
+            clip-path: polygon(25% 0%, 100% 0%, 75% 100%, 0% 100%);
+            animation-delay: -10s;
+        }
+
+        .shape-4 {
+            top: 60%;
+            right: 20%;
+            width: 120px;
+            height: 120px;
+            background: #764ba2;
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            animation-delay: -15s;
+        }
+
+        .shape-5 {
+            bottom: 10%;
+            right: 30%;
+            width: 160px;
+            height: 160px;
+            background: #f5576c;
+            border-radius: 20px;
+            transform: rotate(45deg);
+            animation-delay: -7s;
+        }
+
+        .shape-6 {
+            top: 40%;
+            left: 5%;
+            width: 100px;
+            height: 100px;
+            background: #00f2fe;
+            clip-path: circle(50% at 50% 50%);
+            animation-delay: -12s;
+        }
+
+        /* Abstract Lines */
+        .abstract-line {
+            position: absolute;
+            background: linear-gradient(45deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            animation: slide 15s ease-in-out infinite;
+        }
+
+        .line-1 {
+            top: 25%;
+            left: -10%;
+            width: 300px;
+            height: 2px;
+            transform: rotate(30deg);
+            animation-delay: 0s;
+        }
+
+        .line-2 {
+            top: 70%;
+            right: -10%;
+            width: 250px;
+            height: 2px;
+            transform: rotate(-20deg);
+            animation-delay: -5s;
+            background: linear-gradient(45deg, transparent, rgba(240, 147, 251, 0.1), transparent);
+        }
+
+        .line-3 {
+            top: 50%;
+            left: 30%;
+            width: 200px;
+            height: 2px;
+            transform: rotate(60deg);
+            animation-delay: -3s;
+            background: linear-gradient(45deg, transparent, rgba(79, 172, 254, 0.1), transparent);
+        }
+
+        /* Floating Dots Pattern */
+        .dots-pattern {
+            position: absolute;
+            top: 15%;
+            right: 25%;
+            width: 150px;
+            height: 150px;
+            background-image: radial-gradient(circle, rgba(102, 126, 234, 0.1) 2px, transparent 2px);
+            background-size: 20px 20px;
+            animation: float 25s ease-in-out infinite;
+            animation-delay: -8s;
+        }
+
+        .dots-pattern-2 {
+            position: absolute;
+            bottom: 20%;
+            left: 25%;
+            width: 120px;
+            height: 120px;
+            background-image: radial-gradient(circle, rgba(240, 147, 251, 0.08) 1.5px, transparent 1.5px);
+            background-size: 15px 15px;
+            animation: float 20s ease-in-out infinite reverse;
+            animation-delay: -2s;
+        }
+
+        /* Subtle Grid Pattern */
+        .grid-pattern {
+            position: absolute;
+            top: 30%;
+            right: 5%;
+            width: 300px;
+            height: 300px;
+            background-image:
+                linear-gradient(rgba(102, 126, 234, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(102, 126, 234, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: float 30s ease-in-out infinite;
+            animation-delay: -10s;
+        }
+
+        /* Abstract Curved Line */
+        .curved-line {
+            position: absolute;
+            top: 45%;
+            left: 70%;
+            width: 200px;
+            height: 200px;
+            border: 2px solid rgba(240, 147, 251, 0.08);
+            border-radius: 50% 0 50% 0;
+            animation: float 18s ease-in-out infinite;
+            animation-delay: -6s;
+        }
+
+        /* Floating Hexagon */
+        .hexagon {
+            position: absolute;
+            bottom: 40%;
+            right: 15%;
+            width: 80px;
+            height: 80px;
+            background: rgba(79, 172, 254, 0.06);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            animation: float 22s ease-in-out infinite;
+            animation-delay: -4s;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translate(0, 0) rotate(0deg) scale(1);
+                opacity: 0.06;
+            }
+            25% {
+                transform: translate(30px, -20px) rotate(90deg) scale(1.1);
+                opacity: 0.08;
+            }
+            50% {
+                transform: translate(-20px, 30px) rotate(180deg) scale(0.9);
+                opacity: 0.04;
+            }
+            75% {
+                transform: translate(40px, 10px) rotate(270deg) scale(1.05);
+                opacity: 0.07;
+            }
+        }
+
+        @keyframes slide {
+            0%, 100% {
+                transform: translateX(0) rotate(30deg);
+                opacity: 0.1;
+            }
+            50% {
+                transform: translateX(100px) rotate(35deg);
+                opacity: 0.05;
+            }
+        }
+
+        /* Glassmorphism Container */
+        .glass {
+            background: var(--glass-bg-strong);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            padding: 15px 30px;
+            width: calc(100% - 40px);
+            max-width: 1200px;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            gap: 12px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            background: var(--primary-gradient);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 20px 60px;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 10;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 30px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 50px;
+            line-height: 1.5;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        .app-title {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            color: var(--text-primary);
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
         }
 
-        .app-logo {
-            width: 50px;
-            height: 50px;
-            background: var(--primary-gradient);
-            border-radius: var(--border-radius);
+        .section-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            background: var(--accent-gradient);
+            color: white;
+        }
+
+        .section-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 24px;
-            font-weight: 900;
-            font-family: 'JetBrains Mono', monospace;
-            box-shadow: var(--shadow-glow);
+            font-size: 32px;
+            margin: 0 auto 25px;
             position: relative;
         }
 
-        .app-logo::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            right: -2px;
-            width: 12px;
-            height: 12px;
-            background: var(--accent-gradient);
-            border-radius: 50%;
-            border: 2px solid var(--bg-primary);
-        }
+        .feature-icon.primary { background: var(--primary-gradient); }
+        .feature-icon.secondary { background: var(--accent-gradient); }
+        .feature-icon.accent { background: var(--success-gradient); }
 
-        .app-name {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .app-title-text, h1.app-title-text {
+        .feature-title {
+            font-size: 1.5rem;
             font-weight: 700;
-            font-size: 20px;
-            line-height: 1.2;
+            margin-bottom: 15px;
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .stats-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 40px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
             background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin: 0;
-            padding: 0;
+            margin-bottom: 10px;
         }
 
-        .app-subtitle {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 400;
-            margin-top: 2px;
-        }
-
-        /* Mode Tabs */
-        .mode-tabs {
-            display: flex;
-            background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            border-radius: var(--border-radius-lg);
-            padding: 4px;
-            margin: 20px 20px 0 20px;
-            gap: 4px;
-            border: 1px solid var(--border-color);
-        }
-
-        .mode-tab {
-            flex: 1;
-            padding: 12px 16px;
-            border: none;
-            border-radius: calc(var(--border-radius-lg) - 4px);
-            background: transparent;
+        .stat-label {
             color: var(--text-secondary);
             font-weight: 500;
-            font-size: 14px;
-            transition: var(--transition);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            min-height: 44px;
-            position: relative;
-            overflow: hidden;
         }
 
-        .mode-tab:hover {
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .mode-tab.active {
-            background: var(--primary-gradient);
-            color: white;
-            box-shadow: var(--shadow-glow);
-            transform: scale(1.02);
-        }
-
-        .mode-tab.active::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
-            animation: shimmer 2s infinite;
-        }
-
-        /* Site Switcher */
-        .site-switcher {
-            display: flex;
-            background: var(--bg-card);
-            backdrop-filter: blur(10px);
-            border-radius: var(--border-radius);
-            padding: 4px;
-            margin: 10px 20px 0 20px;
-            gap: 4px;
-            border: 1px solid var(--border-color);
-            align-items: center;
-        }
-
-        .site-switcher-label {
-            padding: 0 12px;
-            color: var(--text-muted);
-            font-size: 12px;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        .site-tab {
-            flex: 1;
-            padding: 8px 12px;
-            border: none;
-            border-radius: calc(var(--border-radius) - 4px);
-            background: transparent;
-            color: var(--text-muted);
-            font-size: 11px;
-            font-weight: 500;
-            transition: var(--transition);
-            cursor: pointer;
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 20px;
             text-align: center;
-            min-height: 32px;
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
         }
 
-        .site-tab:hover {
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.05);
+        .cta-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px 40px;
         }
 
-        .site-tab.active {
-            background: var(--accent-gradient);
-            color: white;
-            box-shadow: 0 0 15px rgba(240, 147, 251, 0.3);
-            transform: scale(1.02);
+        .cta-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .site-tab .site-icon {
-            font-size: 10px;
+        .cta-description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
         }
 
-        .site-tab .site-name {
-            white-space: nowrap;
+        /* Footer */
+        .footer {
+            padding: 60px 20px 30px;
+            border-top: 1px solid var(--glass-border);
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
         }
 
-        @keyframes shimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            padding: 20px;
+        .footer-content {
             max-width: 1200px;
             margin: 0 auto;
-            width: 100%;
+            text-align: center;
         }
 
-        .mode-view {
-            display: none;
-            animation: fadeInUp 0.3s ease-out;
+        .footer-text {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
         }
 
-        .mode-view.active {
-            display: block;
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 15px 20px;
+                width: calc(100% - 20px);
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 100px 20px 40px;
+            }
+
+            .features {
+                padding: 60px 20px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .feature-card {
+                padding: 30px 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
         }
 
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        /* Cards */
-        .card {
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            border-radius: var(--border-radius-lg);
-            border: 1px solid var(--border-color);
-            padding: 24px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-card);
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .card-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--primary-gradient);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 18px;
-        }
-
-        .card-title, h2.card-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 0;
-            padding: 0;
-        }
-
-        .card-subtitle {
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
-        /* Form Elements */
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-
-        .form-input {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 14px 16px;
-            color: var(--text-primary);
-            font-size: 16px;
-            transition: var(--transition);
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--border-focus);
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .form-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        /* Radio Group */
-        .radio-group {
-            display: flex;
-            gap: 16px;
-            margin-top: 8px;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            padding: 8px 12px;
-            border-radius: var(--border-radius);
-            transition: var(--transition);
-        }
-
-        .radio-option:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .radio-option input {
-            width: 18px;
-            height: 18px;
-            accent-color: #667eea;
-        }
-
-        .radio-option label {
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            cursor: pointer;
-        }
-
-        /* Buttons */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 14px 24px;
-            border: none;
-            border-radius: var(--border-radius);
-            font-size: 14px;
-            font-weight: 600;
-            text-decoration: none;
-            cursor: pointer;
-            transition: var(--transition);
-            min-height: 48px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-
-        .btn-primary {
-            background: var(--primary-gradient);
-            color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-primary:hover:not(:disabled) {
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
-            border: 1px solid var(--border-color);
-        }
-
-        .btn-secondary:hover:not(:disabled) {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: var(--border-focus);
-        }
-
-        .btn-success {
-            background: var(--success-gradient);
-            color: white;
-            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
-        }
-
-        .btn-warning {
-            background: var(--warning-gradient);
-            color: white;
-            box-shadow: 0 4px 15px rgba(250, 112, 154, 0.3);
-        }
-
-        .btn-icon {
-            padding: 12px;
-            min-width: 48px;
-        }
-
-        /* Progress */
-        .progress-container {
-            margin-top: 20px;
-        }
-
-        .progress-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: var(--primary-gradient);
-            border-radius: 4px;
-            transition: width 0.3s ease;
-            position: relative;
-        }
-
-        .progress-fill::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: progressShimmer 2s infinite;
-        }
-
-        @keyframes progressShimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        /* Log Area */
-        .log-container {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 16px;
-            margin-top: 20px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .log-text {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: var(--text-secondary);
-            line-height: 1.4;
-            white-space: pre-wrap;
-        }
-
-        /* Image Grid */
-        .image-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-            gap: 16px;
-            margin-top: 20px;
-            margin-bottom: 250px;
-        }
-
-        .image-card {
-            background: var(--bg-card);
-            border-radius: var(--border-radius);
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .image-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-card);
-            border-color: var(--border-focus);
-        }
-
-        .image-thumbnail {
-            width: 100%;
-            aspect-ratio: 1;
-            object-fit: cover;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.05);
-            margin-bottom: 12px;
-            cursor: pointer;
-        }
-
-        .image-loading {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            aspect-ratio: 1;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-bottom: 12px;
-        }
-
-        .image-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .star-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 18px;
-            cursor: pointer;
-            transition: var(--transition);
-            padding: 8px;
-            border-radius: 6px;
-        }
-
-        .star-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .star-btn.starred {
-            color: #ffd700;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-
-        /* Artist Info */
-        .image-artist-info {
-            font-size: 11px;
-            color: var(--text-muted);
-            text-align: center;
-            padding: 8px 0 4px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 8px;
-            line-height: 1.3;
-        }
-
-        .image-artist-info .artist-link {
-            color: #667eea;
-            cursor: pointer;
-            text-decoration: underline;
-            margin: 0 2px;
-            transition: var(--transition);
-            font-weight: 500;
-        }
-
-        .image-artist-info .artist-link:hover {
-            color: #4facfe;
-            text-shadow: 0 0 5px rgba(79, 172, 254, 0.3);
-        }
-
-        /* Pagination */
-        .pagination {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 32px;
-            padding: 20px;
-        }
-
-        .page-info {
-            color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        /* Modal */
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            padding: 20px;
-            opacity: 0;
-            pointer-events: none;
-            transition: var(--transition);
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .modal-content {
-            background: var(--bg-secondary);
-            border-radius: var(--border-radius-lg);
-            border: 1px solid var(--border-color);
-            max-width: 90vw;
-            max-height: 90vh;
-            overflow: hidden;
-            transform: scale(0.9) translateY(20px);
-            transition: var(--transition);
-        }
-
-        .modal-overlay.active .modal-content {
-            transform: scale(1) translateY(0);
-        }
-
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .modal-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 24px;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 6px;
-            transition: var(--transition);
-        }
-
-        .modal-close:hover {
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-image-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            touch-action: none;
-            user-select: none;
-            overflow: hidden;
-            cursor: grab;
-        }
-
-        .modal-image-container.zoomed {
-            cursor: grabbing;
-        }
-
-        .modal-image-wrapper {
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease;
-            transform-origin: center center;
-        }
-
-        .modal-image {
-            width: 100%;
-            max-height: 70vh;
-            object-fit: contain;
-            display: block;
-            pointer-events: none;
-        }
-
-        .modal-image[controls] {
-            /* Special styling for video elements with controls */
-            pointer-events: auto;
-        }
-
-        .modal-image[controls]::-webkit-media-controls-panel {
-            pointer-events: auto;
-            z-index: 10001;
-        }
-
-        .modal-nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.7);
-            border: none;
-            color: white;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            z-index: 10000;
-            pointer-events: auto;
-            touch-action: manipulation;
-            user-select: none;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-        }
-
-        .modal-nav-btn:hover {
-            background: rgba(102, 126, 234, 0.8);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .modal-nav-btn:active {
-            transform: translateY(-50%) scale(0.95);
-        }
-
-        .modal-prev {
-            left: 10px;
-        }
-
-        .modal-next {
-            right: 10px;
-        }
-
-        .modal-nav-btn:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        .modal-nav-btn:disabled:hover {
-            background: rgba(0, 0, 0, 0.7);
-            transform: translateY(-50%) scale(1);
-        }
-
-        .modal-zoom-reset {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            border: none;
-            color: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-            z-index: 1001;
-        }
-
-        .modal-zoom-reset:hover {
-            background: rgba(102, 126, 234, 0.8);
-            transform: scale(1.1);
-        }
-
-        .modal-zoom-reset:active {
-            transform: scale(0.95);
-        }
-
-        .modal-image-container.zoomed .modal-zoom-reset {
-            display: flex;
-        }
-
-        /* Autocomplete Styles */
-        .autocomplete-container {
-            position: relative;
-            display: inline-block;
-            width: 100%;
-            z-index: 999998 !important;
-            isolation: isolate;
-        }
-
-        .autocomplete-dropdown {
-            position: fixed !important;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 2147483647 !important;
-            display: none;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            pointer-events: auto !important;
-        }
-
-        .autocomplete-dropdown.active {
-            display: block;
-        }
-
-        .autocomplete-item {
-            padding: 12px 16px;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-            color: var(--text-primary);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .autocomplete-item:last-child {
-            border-bottom: none;
-        }
-
-        .autocomplete-item:hover,
-        .autocomplete-item.selected {
-            background: rgba(102, 126, 234, 0.2);
-        }
-
-        .autocomplete-item .tag-name {
-            font-weight: 500;
-        }
-
-        .autocomplete-item .tag-count {
-            font-size: 0.85em;
-            color: var(--text-muted);
-            margin-left: 8px;
-        }
-
-        .autocomplete-loading {
-            padding: 12px 16px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9em;
-        }
-
-        .autocomplete-no-results {
-            padding: 12px 16px;
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9em;
-        }
-
-        .modal-actions {
-            padding: 20px;
-            display: flex;
-            gap: 12px;
-            border-top: 1px solid var(--border-color);
-        }
-
-        /* Loading Spinner */
-        .spinner {
-            width: 24px;
-            height: 24px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-top: 2px solid var(--text-primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .main-content {
-                padding: 16px;
-            }
-
-            .card {
-                padding: 20px;
-            }
-
-            .image-grid {
-                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-                gap: 12px;
-            }
-
-            .mode-tabs {
-                margin: 16px;
-            }
-
-            .mode-tab {
-                padding: 10px 12px;
-                font-size: 13px;
-            }
-        }
-
-        /* Monetization Styles */
-        .donate-section {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 999;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            opacity: 0.8;
-            transition: var(--transition);
-        }
-
-        .donate-section:hover {
-            opacity: 1;
-        }
-
-        .donate-btn {
-            padding: 8px 16px;
-            background: var(--success-gradient);
-            color: white;
-            text-decoration: none;
-            border-radius: var(--border-radius);
-            font-size: 13px;
-            font-weight: 500;
-            box-shadow: var(--shadow-card);
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .donate-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
-        }
-
-        .donate-btn i {
-            font-size: 14px;
-        }
-
-        .banner-ad {
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 16px;
-            margin: 20px 0;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            transition: var(--transition);
-        }
-
-        .banner-ad:hover {
-            border-color: var(--border-focus);
-        }
-
-        .banner-ad-content {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            min-height: 60px;
-        }
-
-        .banner-ad-text {
-            flex: 1;
-            text-align: left;
-        }
-
-        .banner-ad-title {
-            color: var(--text-primary);
-            font-weight: 600;
-            margin-bottom: 4px;
-            font-size: 14px;
-        }
-
-        .banner-ad-subtitle {
-            color: var(--text-secondary);
-            font-size: 12px;
-        }
-
-        .banner-ad-cta {
-            background: var(--accent-gradient);
-            color: white;
-            padding: 8px 16px;
-            border-radius: var(--border-radius);
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 600;
-            transition: var(--transition);
-        }
-
-        .banner-ad-cta:hover {
-            transform: scale(1.05);
-        }
-
-        .banner-ad-close {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 16px;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: var(--transition);
-        }
-
-        .banner-ad-close:hover {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-        }
-
-        .support-notice {
-            background: var(--bg-tertiary);
-            border-left: 4px solid #667eea;
-            padding: 12px 16px;
-            margin: 20px 0;
-            border-radius: 0 var(--border-radius) var(--border-radius) 0;
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        /* Mobile responsive adjustments */
-        @media (max-width: 768px) {
-            .donate-section {
-                bottom: 10px;
-                right: 10px;
-            }
-
-            .banner-ad {
-                margin: 16px 0;
-                padding: 12px;
-            }
-
-            .banner-ad-content {
-                flex-direction: column;
-                text-align: center;
-                gap: 8px;
-            }
-
-            .banner-ad-text {
-                text-align: center;
-            }
-        }
-
-        /* Status Indicators */
-        .status-indicator {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .status-success {
-            background: rgba(79, 172, 254, 0.2);
-            color: #4facfe;
-            border: 1px solid rgba(79, 172, 254, 0.3);
-        }
-
-        .status-warning {
-            background: rgba(250, 112, 154, 0.2);
-            color: #fa709a;
-            border: 1px solid rgba(250, 112, 154, 0.3);
-        }
-
-        .status-error {
-            background: rgba(255, 107, 107, 0.2);
-            color: #ff6b6b;
-            border: 1px solid rgba(255, 107, 107, 0.3);
-        }
-
-        /* Notification Toast */
-        .toast {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 16px;
-            box-shadow: var(--shadow-card);
-            backdrop-filter: blur(20px);
-            z-index: 1001;
-            transform: translateX(100%);
-            transition: var(--transition);
-        }
-
-        .toast.show {
-            transform: translateX(0);
-        }
+        .animate-delay-1 { animation-delay: 0.2s; }
+        .animate-delay-2 { animation-delay: 0.4s; }
+        .animate-delay-3 { animation-delay: 0.6s; }
     </style>
 </head>
-
 <body>
-    <div class="app-container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <div class="app-title">
-                    <div class="app-logo">D4</div>
-                    <div class="app-name">
-                        <h1 class="app-title-text">Dirty4 - Anime Art Gallery</h1>
-                        <div class="app-subtitle">Danbooru Alternative & Gaming Archival Tool</div>
-                    </div>
-                </div>
-                <div style="display: flex; gap: 8px;">
-                    <a href="landing.html" class="btn btn-icon btn-secondary" title="Landing Page">
-                        <i class="fas fa-home"></i>
-                    </a>
-                    <a href="/privacy-policy.html" class="btn btn-icon btn-secondary" title="Privacy Policy">
-                        <i class="fas fa-shield-alt"></i>
-                    </a>
-                    <button class="btn btn-icon btn-secondary" onclick="showSettings()">
-                        <i class="fas fa-cog"></i>
-                    </button>
-                </div>
-            </div>
-        </header>
+    <div class="bg-animation">
+        <!-- Abstract Geometric Shapes -->
+        <div class="abstract-shape shape-1"></div>
+        <div class="abstract-shape shape-2"></div>
+        <div class="abstract-shape shape-3"></div>
+        <div class="abstract-shape shape-4"></div>
+        <div class="abstract-shape shape-5"></div>
+        <div class="abstract-shape shape-6"></div>
 
-        <!-- Mode Tabs -->
-        <div class="mode-tabs">
-            <!-- COMMENTED OUT FOR WEB VERSION - NEEDED FOR ANDROID APP ONLY
-            <button class="mode-tab active" data-mode="downloader">
-                <i class="fas fa-download"></i>
-                <span>Downloader</span>
-            </button>
-            -->
-            <button class="mode-tab active" data-mode="browser">
-                <i class="fas fa-images"></i>
-                <span>Browser</span>
-            </button>
-            <button class="mode-tab" data-mode="gallery">
-                <i class="fas fa-star"></i>
-                <span>Gallery</span>
-            </button>
-        </div>
+        <!-- Abstract Lines -->
+        <div class="abstract-line line-1"></div>
+        <div class="abstract-line line-2"></div>
+        <div class="abstract-line line-3"></div>
 
-        <!-- Source Status -->
-        <div class="site-switcher">
-            <span class="site-switcher-label">Source:</span>
-            <div class="site-tab active" style="cursor: default; flex: none; padding: 8px 16px;">
-                <i class="fas fa-layer-group site-icon"></i>
-                <span class="site-name">Multiple Sources</span>
-                <span class="status-indicator status-success" style="margin-left: 8px;">
-                    <i class="fas fa-check"></i>
-                    Auto
-                </span>
-            </div>
-        </div>
+        <!-- Dot Patterns -->
+        <div class="dots-pattern"></div>
+        <div class="dots-pattern-2"></div>
 
-        <!-- AdSense Top Banner -->
-        <div class="banner-ad" id="top-banner" style="position: relative;">
-            <button class="banner-ad-close" onclick="closeBanner('top-banner')">&times;</button>
-            <div class="banner-ad-content">
-                <!-- AdSense Horizontal Banner -->
-                <ins class="adsbygoogle"
-                     style="display:block"
-                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXXX"
-                     data-ad-slot="XXXXXXXXX"
-                     data-ad-format="horizontal"
-                     data-full-width-responsive="true"></ins>
-                <script>
-                     (adsbygoogle = window.adsbygoogle || []).push({});
-                </script>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- COMMENTED OUT FOR WEB VERSION - NEEDED FOR ANDROID APP ONLY
-            <div id="downloader-view" class="mode-view active">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-search"></i>
-                        </div>
-                        <div>
-                            <div class="card-title">Search Configuration</div>
-                            <div class="card-subtitle">Configure your download parameters</div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Search Type</label>
-                        <div class="radio-group">
-                            <div class="radio-option">
-                                <input type="radio" id="search-tags" name="searchType" value="tags" checked>
-                                <label for="search-tags">Tags</label>
-                            </div>
-                            <div class="radio-option">
-                                <input type="radio" id="search-artist" name="searchType" value="artist">
-                                <label for="search-artist">Artist</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="search-query">Search Query</label>
-                        <div class="autocomplete-container">
-                            <input type="text" id="search-query" class="form-input" placeholder="Enter tags or artist name..." autocomplete="off">
-                            <div class="autocomplete-dropdown" id="downloader-autocomplete"></div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="max-images">Max Images (0 = All)</label>
-                        <input type="number" id="max-images" class="form-input" value="50" min="0">
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-folder"></i>
-                        </div>
-                        <div>
-                            <div class="card-title">Download Control</div>
-                            <div class="card-subtitle">Start bulk download process</div>
-                        </div>
-                    </div>
-
-                    <button id="start-download" class="btn btn-primary" style="width: 100%;">
-                        <i class="fas fa-play"></i>
-                        Start Download
-                    </button>
-
-                    <div id="download-progress" class="progress-container" style="display: none;">
-                        <div class="progress-label">
-                            <span id="progress-text">Ready to download</span>
-                            <span id="progress-percent">0%</span>
-                        </div>
-                        <div class="progress-bar">
-                            <div id="progress-fill" class="progress-fill" style="width: 0%;"></div>
-                        </div>
-                    </div>
-
-                    <div id="download-log" class="log-container" style="display: none;">
-                        <pre id="log-text" class="log-text"></pre>
-                    </div>
-                </div>
-            </div>
-            -->
-
-            <!-- Browser Mode -->
-            <div id="browser-view" class="mode-view active">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-images"></i>
-                        </div>
-                        <div>
-                            <h2 class="card-title">Anime Art Browser & Gallery</h2>
-                            <div class="card-subtitle">Professional Danbooru alternative for gaming, anime, and art archival. Optimized for one-handed mobile browsing.</div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="browser-search">Search Anime & Gaming Art</label>
-                        <div style="display: flex; gap: 12px;">
-                            <div class="autocomplete-container" style="flex: 1;">
-                                <input type="text" id="browser-search" class="form-input" placeholder="Search anime art, gaming characters, danbooru tags..." style="width: 100%;" autocomplete="off">
-                                <div class="autocomplete-dropdown" id="browser-autocomplete"></div>
-                            </div>
-                            <button id="browse-btn" class="btn btn-primary">
-                                <i class="fas fa-search"></i>
-                                Browse
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="browser-results">
-                    <div id="image-grid" class="image-grid">
-                        <!-- Images will be populated here -->
-                    </div>
-
-                    <div id="pagination" class="pagination" style="display: none;">
-                        <button id="prev-page" class="btn btn-secondary" disabled>
-                            <i class="fas fa-chevron-left"></i>
-                            Previous
-                        </button>
-                        <div id="page-info" class="page-info">Page 1</div>
-                        <button id="next-page" class="btn btn-secondary">
-                            Next
-                            <i class="fas fa-chevron-right"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Gallery Mode -->
-            <div id="gallery-view" class="mode-view">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div>
-                            <div class="card-title">Starred Gallery</div>
-                            <div class="card-subtitle">Your favorite images</div>
-                        </div>
-                        <button id="clear-stars" class="btn btn-warning btn-icon">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Support Notice -->
-                <div class="support-notice">
-                    <i class="fas fa-heart" style="color: #f093fb; margin-right: 8px;"></i>
-                    <strong>Enjoying the app?</strong> Consider supporting development with a small donation. Your support keeps this service free and helps with server costs!
-                </div>
-
-                <div id="gallery-grid" class="image-grid">
-                    <!-- Starred images will be populated here -->
-                </div>
-
-                <!-- AdSense Gallery Banner -->
-                <div class="banner-ad" id="gallery-banner" style="position: relative;">
-                    <button class="banner-ad-close" onclick="closeBanner('gallery-banner')">&times;</button>
-                    <div class="banner-ad-content">
-                        <!-- AdSense Rectangle -->
-                        <ins class="adsbygoogle"
-                             style="display:block"
-                             data-ad-client="ca-pub-XXXXXXXXXXXXXXXXX"
-                             data-ad-slot="XXXXXXXXX"
-                             data-ad-format="rectangle"
-                             data-full-width-responsive="true"></ins>
-                        <script>
-                             (adsbygoogle = window.adsbygoogle || []).push({});
-                        </script>
-                    </div>
-                </div>
-
-                <div id="empty-gallery" style="text-align: center; padding: 60px 20px; color: var(--text-muted); display: none;">
-                    <i class="fas fa-star" style="font-size: 48px; margin-bottom: 20px; opacity: 0.3;"></i>
-                    <h3 style="margin-bottom: 8px;">No starred images yet</h3>
-                    <p>Browse images and star your favorites to see them here</p>
-                </div>
-            </div>
-        </main>
-
-        <!-- Image Preview Modal -->
-        <div id="image-modal" class="modal-overlay" onclick="if(event.target === this) closeModal();">
-            <div class="modal-content" onclick="event.stopPropagation();">
-                <div class="modal-header">
-                    <div class="modal-title" id="modal-title">Image Preview</div>
-                    <button class="modal-close" onclick="closeModal()">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-image-container">
-                    <button id="modal-prev" class="modal-nav-btn modal-prev">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <div class="modal-image-wrapper">
-                        <img id="modal-image" class="modal-image" alt="Preview">
-                    </div>
-                    <button id="modal-next" class="modal-nav-btn modal-next">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                    <button id="modal-zoom-reset" class="modal-zoom-reset" onclick="resetZoomFromButton()" title="Reset zoom (Double-tap or R key)">
-                        <i class="fas fa-search-minus"></i>
-                    </button>
-                </div>
-                <div class="modal-actions">
-                    <button id="modal-star" class="btn btn-secondary">
-                        <i class="fas fa-star"></i>
-                        Star
-                    </button>
-                    <button id="modal-download" class="btn btn-success">
-                        <i class="fas fa-download"></i>
-                        Download
-                    </button>
-                </div>
-            </div>
-        </div>
+        <!-- Additional Abstract Elements -->
+        <div class="grid-pattern"></div>
+        <div class="curved-line"></div>
+        <div class="hexagon"></div>
     </div>
+
+    <!-- Navigation -->
+    <nav class="navbar glass">
+        <div class="nav-content">
+            <div class="logo">
+                <div class="logo-icon">D4</div>
+                <span>Dirty4</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+            <a href="app.html" class="nav-cta">Launch App</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge fade-in">Revolutionary Art Platform</div>
+            <h1 class="hero-title fade-in animate-delay-1">
+                Next-Gen<br>
+                <span style="background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Anime Gallery</span>
+            </h1>
+            <p class="hero-subtitle fade-in animate-delay-2">
+                Experience the future of anime art browsing with our glassmorphism-powered platform.
+                Instant search, mobile-optimized design, and professional archival tools.
+            </p>
+            <div class="hero-cta fade-in animate-delay-3">
+                <a href="app.html" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i>
+                    Start Browsing
+                </a>
+                <a href="#features" class="btn btn-secondary">
+                    <i class="fas fa-play"></i>
+                    See Features
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="section-header">
+            <div class="section-badge">Amazing Features</div>
+            <h2 class="section-title">Why Choose Dirty4?</h2>
+            <p class="section-description">
+                Professional-grade anime art gallery with cutting-edge technology and user-focused design.
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card glass">
+                <div class="feature-icon primary">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h3 class="feature-title">Instant Search</h3>
+                <p class="feature-description">
+                    Lightning-fast autocomplete powered by Danbooru's API. Find exactly what you're looking for in milliseconds.
+                </p>
+            </div>
+
+            <div class="feature-card glass">
+                <div class="feature-icon secondary">
+                    <i class="fas fa-mobile-alt"></i>
+                </div>
+                <h3 class="feature-title">One-Handed Mobile</h3>
+                <p class="feature-description">
+                    Optimized for mobile browsing with intuitive gestures and thumb-friendly navigation design.
+                </p>
+            </div>
+
+            <div class="feature-card glass">
+                <div class="feature-icon accent">
+                    <i class="fas fa-archive"></i>
+                </div>
+                <h3 class="feature-title">Pro Archival</h3>
+                <p class="feature-description">
+                    Advanced gallery management with starring, downloading, and organization features for serious collectors.
+                </p>
+            </div>
+
+            <div class="feature-card glass">
+                <div class="feature-icon primary">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3 class="feature-title">Glassmorphism UI</h3>
+                <p class="feature-description">
+                    Beautiful modern interface with glass effects, smooth animations, and premium visual design.
+                </p>
+            </div>
+
+            <div class="feature-card glass">
+                <div class="feature-icon secondary">
+                    <i class="fas fa-gamepad"></i>
+                </div>
+                <h3 class="feature-title">Gaming Focus</h3>
+                <p class="feature-description">
+                    Specialized for gaming artwork and characters with curated content from multiple sources.
+                </p>
+            </div>
+
+            <div class="feature-card glass">
+                <div class="feature-icon accent">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="feature-title">Multi-Source</h3>
+                <p class="feature-description">
+                    Aggregates content from Danbooru, Rule34, and other sources for comprehensive art discovery.
+                </p>
+            </div>
+        </div>
+
+        <!-- AdSense Ad Unit 1 - Between Features and Stats -->
+        <div style="text-align: center; margin: 60px auto; max-width: 728px;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-4520354171749096"
+                 data-ad-slot="1234567890"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container glass">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">1M+</div>
+                    <div class="stat-label">Artworks Indexed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50ms</div>
+                    <div class="stat-label">Search Speed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Mobile Optimized</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Always Available</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AdSense Ad Unit 2 - Before CTA -->
+    <div style="text-align: center; margin: 80px auto; max-width: 728px; padding: 0 20px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-4520354171749096"
+             data-ad-slot="9876543210"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-container glass">
+            <h2 class="cta-title">Ready to Explore?</h2>
+            <p class="cta-description">
+                Join thousands of anime and gaming enthusiasts who trust Dirty4 for their art browsing needs.
+            </p>
+            <a href="app.html" class="btn btn-primary" style="font-size: 1.1rem; padding: 20px 40px;">
+                <i class="fas fa-arrow-right"></i>
+                Launch Dirty4 Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">© 2025 Dirty4. Professional anime art gallery platform.</p>
+            <div class="footer-links">
+                <a href="/privacy-policy.html">Privacy Policy</a>
+                <a href="#features">Features</a>
+                <a href="app.html">App</a>
+            </div>
+        </div>
+    </footer>
 
     <script>
-        // Global functions for onclick handlers
-        function closeModal() {
-            if (window.rule34App) {
-                window.rule34App.closeModal();
-            }
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.animationPlayState = 'paused';
+            observer.observe(el);
+        });
+
+        // Counter animation for stats
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+
+                if (target >= 1000000) {
+                    element.textContent = (current / 1000000).toFixed(1) + 'M+';
+                } else if (element.textContent.includes('ms')) {
+                    element.textContent = Math.floor(current) + 'ms';
+                } else if (element.textContent.includes('%')) {
+                    element.textContent = Math.floor(current) + '%';
+                } else {
+                    element.textContent = element.textContent.replace(/\d+/, Math.floor(current));
+                }
+            }, 20);
         }
 
-        function resetZoomFromButton() {
-            if (window.rule34App && window.rule34App.resetZoom) {
-                window.rule34App.resetZoom();
-            }
-        }
+        // Trigger counter animations when stats section is visible
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        const text = stat.textContent;
+                        if (text.includes('M+')) {
+                            animateCounter(stat, 1000000);
+                        } else if (text.includes('ms')) {
+                            animateCounter(stat, 50);
+                        } else if (text.includes('%')) {
+                            animateCounter(stat, 100);
+                        } else if (text.includes('24/7')) {
+                            // Keep as is
+                        }
+                    });
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
 
-        function showPreviousImage() {
-            console.log('Global showPreviousImage called');
-            if (window.rule34App) {
-                window.rule34App.showPreviousImage();
-            }
-        }
-
-        function showNextImage() {
-            console.log('Global showNextImage called');
-            if (window.rule34App) {
-                window.rule34App.showNextImage();
-            }
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) {
+            statsObserver.observe(statsSection);
         }
     </script>
-    <script src="app.js"></script>
-
-    <!-- Floating Donation Section -->
-    <div class="donate-section" id="donate-section">
-        <a href="https://ko-fi.com/yourusername" target="_blank" class="donate-btn" id="kofi-btn">
-            <i class="fas fa-coffee"></i>
-            Ko-fi
-        </a>
-        <a href="https://paypal.me/yourusername" target="_blank" class="donate-btn" id="paypal-btn">
-            <i class="fab fa-paypal"></i>
-            PayPal
-        </a>
-    </div>
-
-    <!-- SEO Content Section -->
-    <footer style="position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;">
-        <h3>Dirty4 - Professional Anime Art Gallery and Archival Tool</h3>
-        <p>Discover the ultimate Danbooru alternative for anime and gaming enthusiasts. Our advanced gallery tool offers seamless browsing, downloading, and archiving of high-quality anime art, gaming characters, and digital artwork. Perfect for one-handed mobile use with instant search suggestions.</p>
-
-        <h4>Features:</h4>
-        <ul>
-            <li>Professional anime art gallery with instant search</li>
-            <li>Danbooru integration and alternative browsing</li>
-            <li>Gaming character artwork archival system</li>
-            <li>One-handed mobile optimization for easy browsing</li>
-            <li>High-quality image downloader and organizer</li>
-            <li>Real-time tag suggestions and autocomplete</li>
-            <li>Multi-source artwork aggregation</li>
-            <li>Advanced filtering and search capabilities</li>
-        </ul>
-
-        <h4>Perfect For:</h4>
-        <p>Anime fans, gaming enthusiasts, digital art collectors, and anyone looking for a professional alternative to Danbooru. Our tool combines the best of gallery browsing, archival functionality, and mobile-optimized design for the ultimate anime art experience.</p>
-
-        <p>Keywords: danbooru alternative, anime art gallery, gaming artwork, digital art archival, mobile art browser, one handed browsing, anime character gallery, gaming art downloader, professional art tool</p>
-    </footer>
 </body>
 </html>
