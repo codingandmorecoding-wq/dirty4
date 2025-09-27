@@ -1037,8 +1037,46 @@ class Rule34MobileApp {
         actions.appendChild(starBtn);
         actions.appendChild(downloadBtn);
 
+        // Add artist info for Danbooru images
+        let artistInfo = null;
+        if (imageData.site === 'danbooru' && imageData.artists && imageData.artists.length > 0) {
+            artistInfo = document.createElement('div');
+            artistInfo.className = 'image-artist-info';
+            artistInfo.style.cssText = `
+                padding: 8px 0 4px 0;
+                font-size: 11px;
+                color: var(--text-muted);
+                text-align: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                margin-bottom: 8px;
+            `;
+
+            const validArtists = imageData.artists.filter(artist => artist && artist.trim().length > 0);
+            if (validArtists.length > 0) {
+                const artistLabel = validArtists.length === 1 ? 'Artist:' : 'Artists:';
+                const artistLinksHtml = validArtists.map(artist =>
+                    `<span class="artist-link" data-artist="${artist}" style="color: #667eea; cursor: pointer; text-decoration: underline; margin: 0 2px;">${artist}</span>`
+                ).join(', ');
+
+                artistInfo.innerHTML = `${artistLabel} ${artistLinksHtml}`;
+
+                // Add click event listeners to artist links
+                artistInfo.addEventListener('click', (e) => {
+                    if (e.target.classList.contains('artist-link')) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        const artist = e.target.getAttribute('data-artist');
+                        this.searchByArtist(artist);
+                    }
+                });
+            }
+        }
+
         card.appendChild(loadingDiv);
         card.appendChild(img);
+        if (artistInfo) {
+            card.appendChild(artistInfo);
+        }
         card.appendChild(actions);
 
         // Set image source to start loading
