@@ -1,7 +1,7 @@
 // Production Configuration
 const CONFIG = {
     PRODUCTION: true,
-    API_BASE: 'https://dirty4-vercel-4l9gc8bsb-codingandmorecoding-wqs-projects.vercel.app/api',
+    API_BASE: 'https://dirty4-vercel-b18y66uhz-codingandmorecoding-wqs-projects.vercel.app/api',
     FALLBACK_PROXIES: [
         'https://api.allorigins.win/get?url=',
         'https://thingproxy.freeboard.io/fetch/',
@@ -42,9 +42,15 @@ class Rule34MobileApp {
             console.warn('Primary proxy failed:', error.message);
         }
 
-        // Try fallback proxies
-        for (const proxyBase of CONFIG.FALLBACK_PROXIES) {
+        // Try fallback proxies with delays
+        for (let i = 0; i < CONFIG.FALLBACK_PROXIES.length; i++) {
+            const proxyBase = CONFIG.FALLBACK_PROXIES[i];
             try {
+                // Add delay between fallback attempts
+                if (i > 0) {
+                    await new Promise(resolve => setTimeout(resolve, 2000 + Math.random() * 1000));
+                }
+
                 const fallbackUrl = proxyBase + encodeURIComponent(targetUrl);
                 console.log(`Trying fallback proxy: ${fallbackUrl}`);
 
@@ -536,6 +542,18 @@ class Rule34MobileApp {
         }
 
         console.log(`HTML content length: ${htmlContent.length}`);
+
+        // Check for CAPTCHA or blocking page
+        if (htmlContent.includes('CAPTCHA') ||
+            htmlContent.includes('Cloudflare') ||
+            htmlContent.includes('challenge') ||
+            htmlContent.includes('Please wait while your request is being verified') ||
+            htmlContent.includes('Enable JavaScript and cookies') ||
+            htmlContent.includes('Rule34.xxx CAPTCHA')) {
+
+            console.log('CAPTCHA or blocking page detected');
+            throw new Error('Rule34.xxx is currently blocking requests. This is a temporary protection measure by the site. Please try again later or use a different search term.');
+        }
 
         const parser = new DOMParser();
         const doc = parser.parseFromString(htmlContent, 'text/html');
