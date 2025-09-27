@@ -779,12 +779,8 @@ class Rule34MobileApp {
         const searchInput = document.getElementById('browser-search');
         searchInput.value = artistName;
 
-        // Update the current search query and trigger search
-        this.currentSearchQuery = artistName;
-        this.currentPage = 0;
-
-        // Trigger the search
-        this.loadBrowserImages();
+        // Use the standard search flow
+        this.startBrowsing();
 
         // Show success message
         this.showToast(`Searching for artist: ${artistName}`, 'info');
