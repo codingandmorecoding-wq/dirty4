@@ -718,82 +718,79 @@ class Rule34MobileApp {
 
     async loadBrowserImagesProgressive() {
         const imageGrid = document.getElementById('image-grid');
-        let allResults = [];
+        let danbooruResults = [];
+        let rule34Results = [];
         let hasShownResults = false;
 
         // Function to update display when results come in
-        const updateDisplay = (newResults, sourcesCompleted, totalSources) => {
-            if (newResults && newResults.length > 0) {
-                allResults = [...newResults];
-                this.currentImages = allResults;
+        const updateDisplay = (source, newResults) => {
+            if (source === 'danbooru') {
+                danbooruResults = newResults || [];
+            } else if (source === 'rule34') {
+                rule34Results = newResults || [];
+            }
 
+            // Combine all available results
+            const allResults = [...danbooruResults, ...rule34Results];
+
+            if (allResults.length > 0) {
                 if (!hasShownResults) {
                     // First results - clear loading spinner
                     imageGrid.innerHTML = '';
                     hasShownResults = true;
                 }
 
-                this.displayBrowserImages(allResults);
+                // Shuffle and limit combined results
+                const shuffledResults = this.shuffleAndLimitResults(allResults, 42);
+                this.currentImages = shuffledResults;
+                this.displayBrowserImages(shuffledResults);
                 this.updatePagination();
 
-                // Update status message
-                const statusMsg = sourcesCompleted === totalSources
-                    ? `Loaded ${allResults.length} images from multiple sources`
-                    : `Loading... ${allResults.length} images found (${sourcesCompleted}/${totalSources} sources)`;
-
-                console.log(statusMsg);
+                console.log(`Updated display: ${danbooruResults.length} Danbooru + ${rule34Results.length} Rule34 = ${allResults.length} total`);
             }
         };
 
-        // Start progressive search
-        const searchPromises = [];
-
-        // Search Danbooru first (usually faster)
-        searchPromises.push(
+        // Start both searches in parallel
+        const searchPromises = [
+            // Search Danbooru
             this.fetchDanbooruData(this.currentSearchQuery, this.currentPage)
                 .then(results => {
                     if (results && results.length > 0) {
                         console.log(`Danbooru returned ${results.length} results`);
-                        updateDisplay(this.shuffleAndLimitResults([...allResults, ...results], 42), 1, 2);
+                        updateDisplay('danbooru', results);
                     }
                     return results || [];
                 })
                 .catch(error => {
                     console.log('Danbooru failed:', error.message);
                     return [];
-                })
-        );
+                }),
 
-        // Search Rule34 in parallel but with more aggressive timeout
-        searchPromises.push(
+            // Search Rule34
             this.fetchRule34Data(this.currentSearchQuery, this.currentPage)
                 .then(results => {
                     if (results && results.length > 0) {
                         console.log(`Rule34 returned ${results.length} results`);
-                        const combinedResults = [...allResults, ...results];
-                        updateDisplay(this.shuffleAndLimitResults(combinedResults, 42), 2, 2);
+                        updateDisplay('rule34', results);
                     }
                     return results || [];
                 })
                 .catch(error => {
                     console.log('Rule34 failed:', error.message);
-                    // If Rule34 fails but we have Danbooru results, just log and continue
-                    if (allResults.length > 0) {
-                        updateDisplay(allResults, 2, 2);
-                    }
                     return [];
                 })
-        );
+        ];
 
         // Wait for both to complete
         const results = await Promise.all(searchPromises);
 
         // Final check - if no results from either source
-        if (allResults.length === 0) {
+        const totalResults = danbooruResults.length + rule34Results.length;
+        if (totalResults === 0) {
             throw new Error('No results found from any source');
         }
 
-        console.log(`Progressive loading complete: ${allResults.length} total images`);
+        console.log(`Progressive loading complete: ${totalResults} total images`);
     }
 
     async getBrowserImageData(searchQuery, page) {
