@@ -971,6 +971,84 @@
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
 
+        /* Real Image Styles */
+        .gallery-card-content {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-card:hover .gallery-image {
+            transform: scale(1.05);
+        }
+
+        .gallery-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--glass-bg-strong);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .gallery-placeholder i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(
+                transparent 0%,
+                rgba(0, 0, 0, 0.3) 50%,
+                rgba(0, 0, 0, 0.8) 100%
+            );
+            padding: 20px 15px 15px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 3;
+        }
+
+        .gallery-card:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-info h4 {
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 0 0 5px 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-info p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.75rem;
+            line-height: 1.3;
+            margin: 0;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
         /* Loading State */
         .gallery-loading {
             display: flex;
@@ -1424,44 +1502,73 @@
                 const galleryGrid = document.getElementById('gallery-grid');
                 const galleryLoading = document.querySelector('.gallery-loading');
 
-                // For now, let's use curated demo content with proper anime art themes
-                // This avoids CORS issues and provides consistent, high-quality preview
-                console.log('Loading curated gallery preview...');
+                console.log('Loading latest Safebooru images...');
+                console.log('=== ATTEMPTING REAL API CALL ===');
 
-                // Simulate loading delay for better UX
-                setTimeout(() => {
+                try {
+                    // Use CORS proxy to fetch real Safebooru images
+                    const proxyUrl = 'https://api.allorigins.win/get?url=';
+                    const safebooruUrl = 'https://safebooru.org/index.php?page=dapi&s=post&q=index&json=1&limit=15&tags=rating:safe';
+                    const fullUrl = proxyUrl + encodeURIComponent(safebooruUrl);
+
+                    console.log('Fetching from:', fullUrl);
+
+                    const response = await fetch(fullUrl);
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const data = await response.json();
+                    const images = JSON.parse(data.contents);
+
+                    console.log('Successfully loaded', images.length, 'images from Safebooru');
+                    this.displayRealImages(images);
+
+                } catch (error) {
+                    console.error('Failed to load Safebooru images:', error);
+                    console.log('Falling back to demo content...');
                     this.showCuratedGallery();
-                }, 1000);
-
-                // Optional: Try to load real images in background for future enhancement
-                this.tryLoadRealImages();
+                }
             }
 
-            async tryLoadRealImages() {
-                // This runs in background without affecting the UI
-                try {
-                    // Try a few CORS-friendly APIs quietly
-                    const corsApis = [
-                        'https://api.waifu.pics/sfw/waifu',
-                        'https://nekos.life/api/v2/img/neko',
-                        'https://api.nekosapi.com/v3/images/sfw/img/neko'
-                    ];
+            displayRealImages(images) {
+                console.log('=== DISPLAYING REAL IMAGES ===', images.length, 'images');
+                const galleryGrid = document.getElementById('gallery-grid');
+                const galleryLoading = document.querySelector('.gallery-loading');
 
-                    for (const api of corsApis) {
-                        try {
-                            const response = await fetch(api);
-                            if (response.ok) {
-                                console.log(`Found working API: ${api}`);
-                                // Could implement real image loading here in future
-                                break;
-                            }
-                        } catch (e) {
-                            continue;
-                        }
-                    }
-                } catch (error) {
-                    // Silent background check - doesn't affect UI
-                }
+                galleryLoading.style.display = 'none';
+                galleryGrid.style.display = 'grid';
+                galleryGrid.innerHTML = '';
+
+                images.slice(0, 15).forEach((image, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'gallery-card';
+                    card.style.animationDelay = `${index * 0.1}s`;
+
+                    const imageUrl = `https://safebooru.org/images/${image.directory}/${image.image}`;
+                    const tags = image.tags ? image.tags.split(' ').slice(0, 3).join(', ') : 'anime, art';
+
+                    card.innerHTML = `
+                        <div class="gallery-card-content">
+                            <img src="${imageUrl}" alt="Safebooru Image" class="gallery-image" loading="lazy"
+                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                            <div class="gallery-placeholder" style="display: none;">
+                                <i class="fas fa-image"></i>
+                                <span>Image Loading...</span>
+                            </div>
+                            <div class="gallery-overlay">
+                                <div class="gallery-info">
+                                    <h4>Image #${image.id}</h4>
+                                    <p>${tags}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    galleryGrid.appendChild(card);
+                });
+
+                console.log(`Displayed ${Math.min(images.length, 15)} real images from Safebooru`);
             }
 
             showCuratedGallery() {
