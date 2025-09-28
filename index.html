@@ -1424,64 +1424,279 @@
                 const galleryGrid = document.getElementById('gallery-grid');
                 const galleryLoading = document.querySelector('.gallery-loading');
 
+                // For now, let's use curated demo content with proper anime art themes
+                // This avoids CORS issues and provides consistent, high-quality preview
+                console.log('Loading curated gallery preview...');
+
+                // Simulate loading delay for better UX
+                setTimeout(() => {
+                    this.showCuratedGallery();
+                }, 1000);
+
+                // Optional: Try to load real images in background for future enhancement
+                this.tryLoadRealImages();
+            }
+
+            async tryLoadRealImages() {
+                // This runs in background without affecting the UI
                 try {
-                    // Try multiple proxy services for better reliability
-                    const proxyServices = [
-                        `https://api.allorigins.win/get?url=${encodeURIComponent('https://safebooru.org/index.php?page=dapi&s=post&q=index&json=1&limit=15&tags=rating:safe')}`,
-                        `https://cors-anywhere.herokuapp.com/https://safebooru.org/index.php?page=dapi&s=post&q=index&json=1&limit=15&tags=rating:safe`,
-                        `https://corsproxy.io/?https://safebooru.org/index.php?page=dapi&s=post&q=index&json=1&limit=15&tags=rating:safe`
+                    // Try a few CORS-friendly APIs quietly
+                    const corsApis = [
+                        'https://api.waifu.pics/sfw/waifu',
+                        'https://nekos.life/api/v2/img/neko',
+                        'https://api.nekosapi.com/v3/images/sfw/img/neko'
                     ];
 
-                    for (const proxyUrl of proxyServices) {
+                    for (const api of corsApis) {
                         try {
-                            console.log(`Trying proxy: ${proxyUrl.split('?')[0]}...`);
-                            const response = await fetch(proxyUrl);
-
+                            const response = await fetch(api);
                             if (response.ok) {
-                                let images;
-
-                                if (proxyUrl.includes('allorigins.win')) {
-                                    const data = await response.json();
-                                    images = JSON.parse(data.contents);
-                                } else {
-                                    images = await response.json();
-                                }
-
-                                if (images && Array.isArray(images) && images.length > 0) {
-                                    console.log(`Successfully loaded ${images.length} images from Safebooru`);
-                                    this.renderGallery(images);
-                                    return;
-                                }
+                                console.log(`Found working API: ${api}`);
+                                // Could implement real image loading here in future
+                                break;
                             }
-                        } catch (proxyError) {
-                            console.log(`Proxy failed: ${proxyError.message}`);
+                        } catch (e) {
                             continue;
                         }
                     }
-
-                    // If all proxies fail, try Danbooru API (which sometimes has better CORS)
-                    try {
-                        console.log('Trying Danbooru API as fallback...');
-                        const danbooruUrl = `https://danbooru.donmai.us/posts.json?limit=15&tags=rating:safe`;
-                        const danbooruResponse = await fetch(danbooruUrl);
-
-                        if (danbooruResponse.ok) {
-                            const danbooruImages = await danbooruResponse.json();
-                            if (danbooruImages && danbooruImages.length > 0) {
-                                console.log(`Successfully loaded ${danbooruImages.length} images from Danbooru`);
-                                this.renderDanbooruGallery(danbooruImages);
-                                return;
-                            }
-                        }
-                    } catch (danbooruError) {
-                        console.log('Danbooru API also failed:', danbooruError.message);
-                    }
-
-                    throw new Error('All image sources failed');
                 } catch (error) {
-                    console.log('All APIs failed, showing demo content:', error.message);
-                    this.showFallbackImages();
+                    // Silent background check - doesn't affect UI
                 }
+            }
+
+            showCuratedGallery() {
+                const galleryGrid = document.getElementById('gallery-grid');
+                const galleryLoading = document.querySelector('.gallery-loading');
+
+                galleryLoading.style.display = 'none';
+                galleryGrid.style.display = 'grid';
+
+                // Curated gallery with anime art themes
+                const curatedImages = [
+                    {
+                        title: 'Anime Character Design',
+                        tags: 'anime, character, design, art',
+                        color: '#667eea',
+                        icon: 'fas fa-user-circle',
+                        gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
+                    },
+                    {
+                        title: 'Digital Illustration',
+                        tags: 'digital, art, illustration, anime',
+                        color: '#f093fb',
+                        icon: 'fas fa-paint-brush',
+                        gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'
+                    },
+                    {
+                        title: 'Fantasy Artwork',
+                        tags: 'fantasy, magic, anime, art',
+                        color: '#4facfe',
+                        icon: 'fas fa-magic',
+                        gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'
+                    },
+                    {
+                        title: 'Gaming Character',
+                        tags: 'gaming, character, anime, design',
+                        color: '#f5576c',
+                        icon: 'fas fa-gamepad',
+                        gradient: 'linear-gradient(135deg, #f5576c 0%, #f093fb 100%)'
+                    },
+                    {
+                        title: 'Kawaii Style',
+                        tags: 'kawaii, cute, anime, style',
+                        color: '#764ba2',
+                        icon: 'fas fa-heart',
+                        gradient: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)'
+                    },
+                    {
+                        title: 'Manga Art',
+                        tags: 'manga, anime, art, style',
+                        color: '#667eea',
+                        icon: 'fas fa-book-open',
+                        gradient: 'linear-gradient(135deg, #667eea 0%, #4facfe 100%)'
+                    },
+                    {
+                        title: 'Cyberpunk Anime',
+                        tags: 'cyberpunk, futuristic, anime',
+                        color: '#f093fb',
+                        icon: 'fas fa-robot',
+                        gradient: 'linear-gradient(135deg, #f093fb 0%, #764ba2 100%)'
+                    },
+                    {
+                        title: 'Chibi Character',
+                        tags: 'chibi, cute, anime, character',
+                        color: '#4facfe',
+                        icon: 'fas fa-baby',
+                        gradient: 'linear-gradient(135deg, #4facfe 0%, #f5576c 100%)'
+                    },
+                    {
+                        title: 'Mecha Design',
+                        tags: 'mecha, robot, anime, design',
+                        color: '#f5576c',
+                        icon: 'fas fa-cog',
+                        gradient: 'linear-gradient(135deg, #f5576c 0%, #667eea 100%)'
+                    },
+                    {
+                        title: 'School Theme',
+                        tags: 'school, uniform, anime, slice of life',
+                        color: '#764ba2',
+                        icon: 'fas fa-graduation-cap',
+                        gradient: 'linear-gradient(135deg, #764ba2 0%, #f093fb 100%)'
+                    },
+                    {
+                        title: 'Magical Girl',
+                        tags: 'magical girl, anime, fantasy',
+                        color: '#667eea',
+                        icon: 'fas fa-star',
+                        gradient: 'linear-gradient(135deg, #667eea 0%, #f093fb 100%)'
+                    },
+                    {
+                        title: 'Fantasy Warrior',
+                        tags: 'warrior, fantasy, anime, action',
+                        color: '#f093fb',
+                        icon: 'fas fa-sword',
+                        gradient: 'linear-gradient(135deg, #f093fb 0%, #4facfe 100%)'
+                    },
+                    {
+                        title: 'Neko Character',
+                        tags: 'neko, cat ears, anime, cute',
+                        color: '#4facfe',
+                        icon: 'fas fa-cat',
+                        gradient: 'linear-gradient(135deg, #4facfe 0%, #764ba2 100%)'
+                    },
+                    {
+                        title: 'Princess Art',
+                        tags: 'princess, royal, anime, elegant',
+                        color: '#f5576c',
+                        icon: 'fas fa-crown',
+                        gradient: 'linear-gradient(135deg, #f5576c 0%, #667eea 100%)'
+                    },
+                    {
+                        title: 'Dark Fantasy',
+                        tags: 'dark, fantasy, anime, gothic',
+                        color: '#764ba2',
+                        icon: 'fas fa-moon',
+                        gradient: 'linear-gradient(135deg, #764ba2 0%, #4facfe 100%)'
+                    }
+                ];
+
+                galleryGrid.innerHTML = '';
+                curatedImages.forEach((image, index) => {
+                    const card = this.createCuratedCard(image, index);
+                    galleryGrid.appendChild(card);
+                });
+
+                this.setupGalleryAnimations();
+            }
+
+            createCuratedCard(image, index) {
+                const card = document.createElement('div');
+                card.className = 'gallery-card';
+
+                card.innerHTML = `
+                    <div class="gallery-card-image" style="
+                        background: ${image.gradient};
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        color: white;
+                        font-size: 14px;
+                        font-weight: 600;
+                        text-align: center;
+                        padding: 20px;
+                        position: relative;
+                        overflow: hidden;
+                    ">
+                        <div style="
+                            position: absolute;
+                            top: -50%;
+                            left: -50%;
+                            width: 200%;
+                            height: 200%;
+                            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+                            animation: shimmer 4s ease-in-out infinite;
+                        "></div>
+                        <i class="${image.icon}" style="font-size: 40px; margin-bottom: 15px; opacity: 0.9; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));"></i>
+                        <div style="text-shadow: 0 1px 3px rgba(0,0,0,0.5);">${image.title}</div>
+                        <small style="opacity: 0.8; font-size: 11px; margin-top: 8px; text-shadow: 0 1px 2px rgba(0,0,0,0.5);">Preview Gallery</small>
+                    </div>
+                    <div class="gallery-card-overlay">
+                        <div class="gallery-card-title">${image.title}</div>
+                        <div class="gallery-card-tags">${image.tags}</div>
+                    </div>
+                `;
+
+                // Add click handler for demo
+                card.addEventListener('click', () => {
+                    this.showDemoMessage(image.title);
+                });
+
+                return card;
+            }
+
+            showDemoMessage(title) {
+                // Show a nice message about the gallery preview
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.8);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10000;
+                    backdrop-filter: blur(10px);
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                `;
+
+                modal.innerHTML = `
+                    <div style="
+                        background: var(--glass-bg-strong);
+                        border: 1px solid var(--glass-border);
+                        border-radius: 20px;
+                        padding: 40px;
+                        text-align: center;
+                        max-width: 400px;
+                        backdrop-filter: blur(20px);
+                    ">
+                        <i class="fas fa-images" style="font-size: 48px; color: var(--text-primary); margin-bottom: 20px;"></i>
+                        <h3 style="color: var(--text-primary); margin-bottom: 15px; font-size: 1.5rem;">Gallery Preview</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 25px; line-height: 1.5;">
+                            This is a preview of "${title}". The full gallery with thousands of anime artworks is available in the main application.
+                        </p>
+                        <div style="display: flex; gap: 15px; justify-content: center;">
+                            <button onclick="this.closest('div').remove()" style="
+                                background: var(--glass-bg);
+                                border: 1px solid var(--glass-border);
+                                color: var(--text-primary);
+                                padding: 12px 24px;
+                                border-radius: 25px;
+                                cursor: pointer;
+                                font-weight: 500;
+                            ">Close</button>
+                            <a href="app.html" style="
+                                background: var(--primary-gradient);
+                                color: white;
+                                padding: 12px 24px;
+                                border-radius: 25px;
+                                text-decoration: none;
+                                font-weight: 600;
+                            ">Launch App</a>
+                        </div>
+                    </div>
+                `;
+
+                document.body.appendChild(modal);
+                setTimeout(() => modal.style.opacity = '1', 10);
+
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) modal.remove();
+                });
             }
 
             renderGallery(images) {
