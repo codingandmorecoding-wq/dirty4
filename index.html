@@ -996,6 +996,11 @@
             100% { transform: rotate(360deg); }
         }
 
+        @keyframes shimmer {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); opacity: 0.3; }
+            50% { transform: translate(-30%, -30%) rotate(180deg); opacity: 0.6; }
+        }
+
         /* Card Drawing Animation */
         @keyframes cardDraw {
             0% {
@@ -1420,41 +1425,62 @@
                 const galleryLoading = document.querySelector('.gallery-loading');
 
                 try {
-                    // Safebooru API endpoint for latest posts
-                    const response = await fetch('https://safebooru.org/index.php?page=dapi&s=post&q=index&json=1&limit=15&tags=rating:safe');
+                    // Try multiple proxy services for better reliability
+                    const proxyServices = [
+                        `https://api.allorigins.win/get?url=${encodeURIComponent('https://safebooru.org/index.php?page=dapi&s=post&q=index&json=1&limit=15&tags=rating:safe')}`,
+                        `https://cors-anywhere.herokuapp.com/https://safebooru.org/index.php?page=dapi&s=post&q=index&json=1&limit=15&tags=rating:safe`,
+                        `https://corsproxy.io/?https://safebooru.org/index.php?page=dapi&s=post&q=index&json=1&limit=15&tags=rating:safe`
+                    ];
 
-                    if (!response.ok) {
-                        throw new Error('Safebooru API request failed');
+                    for (const proxyUrl of proxyServices) {
+                        try {
+                            console.log(`Trying proxy: ${proxyUrl.split('?')[0]}...`);
+                            const response = await fetch(proxyUrl);
+
+                            if (response.ok) {
+                                let images;
+
+                                if (proxyUrl.includes('allorigins.win')) {
+                                    const data = await response.json();
+                                    images = JSON.parse(data.contents);
+                                } else {
+                                    images = await response.json();
+                                }
+
+                                if (images && Array.isArray(images) && images.length > 0) {
+                                    console.log(`Successfully loaded ${images.length} images from Safebooru`);
+                                    this.renderGallery(images);
+                                    return;
+                                }
+                            }
+                        } catch (proxyError) {
+                            console.log(`Proxy failed: ${proxyError.message}`);
+                            continue;
+                        }
                     }
 
-                    const images = await response.json();
-
-                    if (images && images.length > 0) {
-                        this.renderGallery(images);
-                    } else {
-                        throw new Error('No images returned from API');
-                    }
-                } catch (error) {
-                    console.log('Direct API failed, trying proxy...');
-
+                    // If all proxies fail, try Danbooru API (which sometimes has better CORS)
                     try {
-                        const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent('https://safebooru.org/index.php?page=dapi&s=post&q=index&json=1&limit=15&tags=rating:safe')}`;
-                        const proxyResponse = await fetch(proxyUrl);
+                        console.log('Trying Danbooru API as fallback...');
+                        const danbooruUrl = `https://danbooru.donmai.us/posts.json?limit=15&tags=rating:safe`;
+                        const danbooruResponse = await fetch(danbooruUrl);
 
-                        if (proxyResponse.ok) {
-                            const data = await proxyResponse.json();
-                            const images = JSON.parse(data.contents);
-
-                            if (images && images.length > 0) {
-                                this.renderGallery(images);
+                        if (danbooruResponse.ok) {
+                            const danbooruImages = await danbooruResponse.json();
+                            if (danbooruImages && danbooruImages.length > 0) {
+                                console.log(`Successfully loaded ${danbooruImages.length} images from Danbooru`);
+                                this.renderDanbooruGallery(danbooruImages);
                                 return;
                             }
                         }
-                    } catch (proxyError) {
-                        console.log('Proxy failed:', proxyError);
+                    } catch (danbooruError) {
+                        console.log('Danbooru API also failed:', danbooruError.message);
                     }
 
-                    throw error;
+                    throw new Error('All image sources failed');
+                } catch (error) {
+                    console.log('All APIs failed, showing demo content:', error.message);
+                    this.showFallbackImages();
                 }
             }
 
@@ -1476,6 +1502,58 @@
 
                 // Trigger animations with intersection observer
                 this.setupGalleryAnimations();
+            }
+
+            renderDanbooruGallery(images) {
+                const galleryGrid = document.getElementById('gallery-grid');
+                const galleryLoading = document.querySelector('.gallery-loading');
+
+                // Hide loading, show grid
+                galleryLoading.style.display = 'none';
+                galleryGrid.style.display = 'grid';
+
+                // Clear existing content
+                galleryGrid.innerHTML = '';
+
+                images.slice(0, 15).forEach((image, index) => {
+                    const card = this.createDanbooruCard(image, index);
+                    galleryGrid.appendChild(card);
+                });
+
+                // Trigger animations with intersection observer
+                this.setupGalleryAnimations();
+            }
+
+            createDanbooruCard(image, index) {
+                const card = document.createElement('div');
+                card.className = 'gallery-card';
+
+                // Danbooru API structure
+                const thumbnailUrl = image.preview_file_url || image.large_file_url || image.file_url;
+                const fullImageUrl = image.large_file_url || image.file_url;
+
+                // Clean and limit tags
+                const tags = image.tag_string ? image.tag_string.split(' ').slice(0, 4).join(', ') : 'anime art';
+                const title = tags.split(',')[0] || `Artwork ${index + 1}`;
+
+                card.innerHTML = `
+                    <img class="gallery-card-image"
+                         src="${thumbnailUrl}"
+                         alt="${title}"
+                         loading="lazy"
+                         onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjI2NyIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjI2NyIgZmlsbD0iIzY2N2VlYSIvPjx0ZXh0IHg9IjEwMCIgeT0iMTMzIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkeT0iLjNlbSI+QW5pbWUgQXJ0PC90ZXh0Pjwvc3ZnPg=='">
+                    <div class="gallery-card-overlay">
+                        <div class="gallery-card-title">${title}</div>
+                        <div class="gallery-card-tags">${tags}</div>
+                    </div>
+                `;
+
+                // Add click handler to view full image
+                card.addEventListener('click', () => {
+                    this.openImageModal(fullImageUrl, title, tags);
+                });
+
+                return card;
             }
 
             createGalleryCard(image, index) {
@@ -1614,21 +1692,73 @@
                 galleryLoading.style.display = 'none';
                 galleryGrid.style.display = 'grid';
 
-                // Create fallback demo images
-                const fallbackImages = Array.from({length: 15}, (_, i) => ({
-                    directory: 'demo',
-                    image: `demo_${i + 1}.jpg`,
-                    tags: `anime art artwork digital illustration character design fantasy ${i % 2 === 0 ? 'girl' : 'boy'} cute`,
-                    id: `demo_${i + 1}`
-                }));
+                // Create attractive demo images with placeholder service
+                const placeholderImages = [
+                    { tags: 'anime girl character design', title: 'Anime Character', color: '#667eea' },
+                    { tags: 'digital art illustration', title: 'Digital Art', color: '#f093fb' },
+                    { tags: 'fantasy artwork magic', title: 'Fantasy Art', color: '#4facfe' },
+                    { tags: 'gaming character design', title: 'Game Character', color: '#f5576c' },
+                    { tags: 'kawaii cute anime', title: 'Kawaii Art', color: '#764ba2' },
+                    { tags: 'manga style illustration', title: 'Manga Style', color: '#667eea' },
+                    { tags: 'cyberpunk futuristic art', title: 'Cyberpunk', color: '#f093fb' },
+                    { tags: 'chibi cute character', title: 'Chibi Art', color: '#4facfe' },
+                    { tags: 'mecha robot design', title: 'Mecha Design', color: '#f5576c' },
+                    { tags: 'school uniform anime', title: 'School Theme', color: '#764ba2' },
+                    { tags: 'magical girl design', title: 'Magical Girl', color: '#667eea' },
+                    { tags: 'warrior fantasy art', title: 'Fantasy Warrior', color: '#f093fb' },
+                    { tags: 'neko cat ears cute', title: 'Neko Character', color: '#4facfe' },
+                    { tags: 'princess royal design', title: 'Princess Art', color: '#f5576c' },
+                    { tags: 'demon fantasy dark', title: 'Dark Fantasy', color: '#764ba2' }
+                ];
 
                 galleryGrid.innerHTML = '';
-                fallbackImages.forEach((image, index) => {
-                    const card = this.createFallbackCard(image, index);
+                placeholderImages.forEach((image, index) => {
+                    const card = this.createEnhancedFallbackCard(image, index);
                     galleryGrid.appendChild(card);
                 });
 
                 this.setupGalleryAnimations();
+            }
+
+            createEnhancedFallbackCard(image, index) {
+                const card = document.createElement('div');
+                card.className = 'gallery-card';
+
+                card.innerHTML = `
+                    <div class="gallery-card-image" style="
+                        background: linear-gradient(135deg, ${image.color}80 0%, ${image.color} 100%);
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        color: white;
+                        font-size: 14px;
+                        font-weight: 600;
+                        text-align: center;
+                        padding: 20px;
+                        position: relative;
+                        overflow: hidden;
+                    ">
+                        <div style="
+                            position: absolute;
+                            top: -50%;
+                            left: -50%;
+                            width: 200%;
+                            height: 200%;
+                            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+                            animation: shimmer 3s ease-in-out infinite;
+                        "></div>
+                        <i class="fas fa-image" style="font-size: 32px; margin-bottom: 10px; opacity: 0.8;"></i>
+                        <div>${image.title}</div>
+                        <small style="opacity: 0.8; font-size: 12px; margin-top: 5px;">Demo Content</small>
+                    </div>
+                    <div class="gallery-card-overlay">
+                        <div class="gallery-card-title">${image.title}</div>
+                        <div class="gallery-card-tags">${image.tags}</div>
+                    </div>
+                `;
+
+                return card;
             }
 
             createFallbackCard(image, index) {
