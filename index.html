@@ -1508,7 +1508,7 @@
                 try {
                     // Use CORS proxy to fetch real Safebooru images
                     const proxyUrl = 'https://api.allorigins.win/get?url=';
-                    const safebooruUrl = 'https://safebooru.org/index.php?page=dapi&s=post&q=index&json=1&limit=15&tags=rating:safe';
+                    const safebooruUrl = 'https://safebooru.org/index.php?page=dapi&s=post&q=index&json=1&limit=15&tags=anime+rating:safe';
                     const fullUrl = proxyUrl + encodeURIComponent(safebooruUrl);
 
                     console.log('Fetching from:', fullUrl);
