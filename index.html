@@ -1568,6 +1568,9 @@
                     galleryGrid.appendChild(card);
                 });
 
+                // Trigger animation observer for the new cards
+                this.setupGalleryAnimations();
+
                 console.log(`Displayed ${Math.min(images.length, 15)} real images from Safebooru`);
             }
 
