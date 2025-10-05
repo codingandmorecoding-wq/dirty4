@@ -1486,9 +1486,9 @@ class Rule34MobileApp {
         card.appendChild(img);
         card.appendChild(actions);
 
-        // Set image source - handle both property names
-        const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl;
-        console.log('Gallery image:', imageData.id, 'thumbUrl:', imageData.thumbUrl, 'thumbnailUrl:', imageData.thumbnailUrl, 'using:', thumbnailUrl);
+        // Set image source - handle both property names (thumbUrl, thumbnailUrl, preview_url)
+        const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl || imageData.preview_url;
+        console.log('Gallery image:', imageData.id, 'thumbUrl:', imageData.thumbUrl, 'thumbnailUrl:', imageData.thumbnailUrl, 'preview_url:', imageData.preview_url, 'using:', thumbnailUrl);
 
         if (thumbnailUrl) {
             img.src = thumbnailUrl;
