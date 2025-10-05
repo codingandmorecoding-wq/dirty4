@@ -1102,13 +1102,15 @@ class Rule34MobileApp {
         loadingDiv.className = 'image-loading';
         loadingDiv.innerHTML = '<div class="spinner"></div>';
 
-        const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl;
+        const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl || imageData.preview_url;
 
         // Check if this is a video file for display purposes (but always use img element for thumbnails)
-        const isVideoContent = imageData.fileExt && ['webm', 'mp4', 'mov'].includes(imageData.fileExt.toLowerCase()) &&
+        const isVideoContent = (imageData.fileExt && ['webm', 'mp4', 'mov'].includes(imageData.fileExt.toLowerCase()) &&
                                imageData.fullUrl && !imageData.fullUrl.toLowerCase().includes('.jpg') &&
                                !imageData.fullUrl.toLowerCase().includes('.png') &&
-                               !imageData.fullUrl.toLowerCase().includes('.gif');
+                               !imageData.fullUrl.toLowerCase().includes('.gif')) ||
+                               // Also check historical archive videos by file URL
+                               (imageData.file_url && isVideoUrl(imageData.file_url));
 
         const isVideo = false; // Always use img element for thumbnails to avoid JPEG loading issues
 
@@ -1581,6 +1583,48 @@ class Rule34MobileApp {
                     modalImage.src = fullImageUrl;
                     modalImage.style.opacity = '1';
                 }
+                return;
+            }
+
+            // Check if historical archive video
+            if (imageData.source === 'historical' && isVideoUrl(imageData.file_url)) {
+                console.log(`Loading historical video: ${imageData.file_url}`);
+
+                const { videoElement, controlsOverlay } = createEnhancedVideoPlayer(imageData.file_url, {
+                    autoplay: true,
+                    muted: true,
+                    loop: true
+                });
+
+                // Replace image with video
+                const container = modalImage.parentNode;
+                container.removeChild(modalImage);
+                container.appendChild(videoElement);
+
+                // Add controls overlay
+                const modalContent = container.closest('.modal-image-container');
+                if (modalContent && !modalContent.querySelector('.video-controls-overlay')) {
+                    modalContent.appendChild(controlsOverlay);
+                }
+
+                videoElement.style.opacity = '1';
+                videoElement.play().catch(() => {});
+                return;
+            }
+
+            // Check if historical archive image (not video)
+            if (imageData.source === 'historical' && imageData.file_url) {
+                console.log(`Loading historical image: ${imageData.file_url}`);
+                modalImage.src = imageData.file_url;
+                modalImage.style.opacity = '1';
+                return;
+            }
+
+            // Skip if no postUrl (for test data or incomplete records)
+            if (!imageData.postUrl) {
+                console.warn('No postUrl available, cannot load full image');
+                modalImage.src = imageData.preview_url || imageData.thumbnailUrl || '';
+                modalImage.style.opacity = '1';
                 return;
             }
 
