@@ -719,6 +719,52 @@ class Rule34MobileApp {
 
     async loadBrowserImagesProgressive() {
         const imageGrid = document.getElementById('image-grid');
+
+        try {
+            // Use unified search API that prioritizes historical archive
+            const backendUrl = 'https://dirty4-vercel.vercel.app/api/search';
+            const params = new URLSearchParams({
+                tags: this.currentSearchQuery || '',
+                page: (this.currentPage + 1).toString(),
+                limit: '42',
+                mode: 'unified'
+            });
+
+            console.log(`Fetching from unified search API: ${backendUrl}?${params}`);
+
+            const response = await fetch(`${backendUrl}?${params}`);
+            const data = await response.json();
+
+            console.log(`Unified search returned: ${data.posts?.length || 0} results`);
+            console.log(`Sources: Historical=${data.sources?.historical || 0}, Danbooru=${data.sources?.danbooru || 0}`);
+
+            if (data.posts && data.posts.length > 0) {
+                imageGrid.innerHTML = '';
+                this.currentImages = data.posts;
+                this.displayBrowserImages(data.posts);
+                this.updatePagination();
+                return;
+            }
+
+            // No results found
+            imageGrid.innerHTML = `
+                <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: var(--text-muted);">
+                    <i class="fas fa-search" style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
+                    <h3>No results found</h3>
+                    <p>Try different tags or check your spelling</p>
+                </div>
+            `;
+
+        } catch (error) {
+            console.error('Unified search API failed, falling back to legacy method:', error);
+
+            // Fallback to old method if API fails
+            await this.loadBrowserImagesProgressive_Legacy();
+        }
+    }
+
+    async loadBrowserImagesProgressive_Legacy() {
+        const imageGrid = document.getElementById('image-grid');
         let danbooruResults = [];
         let rule34Results = [];
         let hasShownResults = false;
