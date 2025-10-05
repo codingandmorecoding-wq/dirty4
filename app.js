@@ -547,6 +547,25 @@ class Rule34MobileApp {
     async downloadSingleImage(imageData) {
         try {
             // For Danbooru images, we already have the full image URL
+            // For historical archive images, we already have the full image URL
+            if (imageData.source === 'historical') {
+                console.log(`Downloading historical archive image: ${imageData.id}`);
+
+                const imageUrl = imageData.file_url || imageData.large_file_url;
+                const fileName = `historical_${imageData.id}.${imageUrl.split('.').pop()}`;
+
+                // Create download link
+                const link = document.createElement('a');
+                link.href = imageUrl;
+                link.download = fileName;
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                return true;
+            }
+
             if (imageData.site === 'danbooru') {
                 console.log(`Downloading Danbooru image: ${imageData.fullUrl}`);
 
