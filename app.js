@@ -2766,59 +2766,29 @@ class Rule34MobileApp {
     }
 
     async fetchNetworkSuggestions(query) {
-        // Use Danbooru's fast tag autocomplete API with timeout
-        const danbooruUrl = `https://danbooru.donmai.us/tags.json?search[name_matches]=${encodeURIComponent(query)}*&search[order]=count&limit=10`;
+        // Use our backend autocomplete API backed by historical archive
+        const backendUrl = `${this.baseUrl}/api/search?autocomplete=${encodeURIComponent(query)}`;
 
         try {
-            // Try direct fetch first with 3 second timeout
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 3000);
 
-            const response = await fetch(danbooruUrl, { signal: controller.signal });
+            const response = await fetch(backendUrl, { signal: controller.signal });
             clearTimeout(timeoutId);
 
             if (response.ok) {
                 const tags = await response.json();
-                console.log(`Danbooru API returned ${tags.length} suggestions for "${query}"`);
+                console.log(`Backend autocomplete returned ${tags.length} suggestions for "${query}"`);
                 return tags.map(tag => ({
                     name: tag.name,
                     count: tag.post_count || 0
                 })).slice(0, 8);
             }
         } catch (error) {
-            console.log('Direct Danbooru fetch failed, trying proxy...');
+            console.error('Backend autocomplete error:', error);
         }
 
-        // Fallback to proxy if direct fails
-        try {
-            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(danbooruUrl)}`;
-            const response = await fetch(proxyUrl);
-            if (response.ok) {
-                const data = await response.json();
-                const tags = JSON.parse(data.contents);
-                return tags.map(tag => ({
-                    name: tag.name,
-                    count: tag.post_count || 0
-                })).slice(0, 8);
-            }
-        } catch (error) {
-            console.log('Proxy Danbooru fetch failed:', error.message);
-        }
-
-        // Final fallback to popular tags
-        const popularTags = [
-            'anime', 'manga', 'girl', 'cute', 'kawaii', 'beautiful', 'art', 'artwork',
-            'ahri', 'jinx', 'lux', 'katarina', 'sona', 'miss_fortune', 'akali', 'riven',
-            'blonde_hair', 'brown_hair', 'blue_eyes', 'long_hair', 'solo', 'smile'
-        ];
-
-        return popularTags
-            .filter(tag => tag.includes(query.toLowerCase()))
-            .slice(0, 6)
-            .map(tag => ({
-                name: tag,
-                count: Math.floor(Math.random() * 3000) + 500
-            }));
+        return [];
     }
 
     getLocalMatches(query) {
