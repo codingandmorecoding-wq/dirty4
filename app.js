@@ -2767,7 +2767,7 @@ class Rule34MobileApp {
 
     async fetchNetworkSuggestions(query) {
         // Use our backend autocomplete API backed by historical archive
-        const backendUrl = `${this.baseUrl}/api/search?autocomplete=${encodeURIComponent(query)}`;
+        const backendUrl = `https://dirty4-vercel.vercel.app/api/search?autocomplete=${encodeURIComponent(query)}`;
 
         try {
             const controller = new AbortController();
