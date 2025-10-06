@@ -2771,7 +2771,7 @@ class Rule34MobileApp {
 
         try {
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 3000);
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // Increased to 10s for cold starts
 
             const response = await fetch(backendUrl, { signal: controller.signal });
             clearTimeout(timeoutId);
@@ -2785,7 +2785,11 @@ class Rule34MobileApp {
                 })).slice(0, 8);
             }
         } catch (error) {
-            console.error('Backend autocomplete error:', error);
+            if (error.name === 'AbortError') {
+                console.log('Backend autocomplete timed out, using local cache');
+            } else {
+                console.error('Backend autocomplete error:', error);
+            }
         }
 
         return [];
