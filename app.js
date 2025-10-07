@@ -1613,14 +1613,15 @@ class Rule34MobileApp {
 
         try {
             // For Danbooru images, we already have the full image URL
-            if (imageData.site === 'danbooru') {
-                console.log(`Loading Danbooru full-size media: ${imageData.fullUrl}`);
+            if (imageData.source === 'danbooru' || imageData.site === 'danbooru') {
+                const fullImageUrl = imageData.large_file_url || imageData.file_url || imageData.largeUrl || imageData.fullUrl;
+                console.log(`Loading Danbooru full-size media: ${fullImageUrl}`);
 
                 // Check if this is a video file - be more careful about detection
                 const isVideo = imageData.fileExt && ['webm', 'mp4', 'mov'].includes(imageData.fileExt.toLowerCase()) &&
-                               imageData.fullUrl && !imageData.fullUrl.toLowerCase().includes('.jpg') &&
-                               !imageData.fullUrl.toLowerCase().includes('.png') &&
-                               !imageData.fullUrl.toLowerCase().includes('.gif');
+                               fullImageUrl && !fullImageUrl.toLowerCase().includes('.jpg') &&
+                               !fullImageUrl.toLowerCase().includes('.png') &&
+                               !fullImageUrl.toLowerCase().includes('.gif');
 
                 if (isVideo) {
                     // Create video element for modal
@@ -1631,8 +1632,7 @@ class Rule34MobileApp {
                     videoElement.loop = true;
                     videoElement.style.cssText = 'max-width: 100%; max-height: 100%; object-fit: contain;';
 
-                    const fullVideoUrl = imageData.largeUrl || imageData.fullUrl;
-                    videoElement.src = fullVideoUrl;
+                    videoElement.src = fullImageUrl;
 
                     // Replace the image with video
                     const container = modalImage.parentNode;
@@ -1644,7 +1644,6 @@ class Rule34MobileApp {
                     videoElement.play().catch(() => {});
                 } else {
                     // Use large or full URL directly for images
-                    const fullImageUrl = imageData.largeUrl || imageData.fullUrl;
                     modalImage.src = fullImageUrl;
                     modalImage.style.opacity = '1';
                 }
