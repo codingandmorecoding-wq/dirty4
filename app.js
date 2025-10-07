@@ -1167,7 +1167,7 @@ class Rule34MobileApp {
         loadingDiv.className = 'image-loading';
         loadingDiv.innerHTML = '<div class="spinner"></div>';
 
-        const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl || imageData.preview_url || imageData.file_url;
+        const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl || imageData.preview_url;
 
         // Skip if no valid thumbnail URL
         if (!thumbnailUrl) {
