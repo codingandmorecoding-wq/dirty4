@@ -1633,7 +1633,7 @@ class Rule34MobileApp {
                     videoElement.controls = true;
                     videoElement.muted = true;
                     videoElement.loop = true;
-                    videoElement.style.cssText = 'max-width: 100%; max-height: 100%; object-fit: contain;';
+                    videoElement.style.cssText = 'width: 100%; height: 100%; max-width: 100%; max-height: 100%; object-fit: contain;';
 
                     videoElement.src = fullImageUrl;
 
