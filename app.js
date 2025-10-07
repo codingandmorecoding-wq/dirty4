@@ -1170,10 +1170,12 @@ class Rule34MobileApp {
         const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl || imageData.preview_url;
 
         // Check if this is a video file for display purposes (but always use img element for thumbnails)
-        const isVideoContent = (imageData.fileExt && ['webm', 'mp4', 'mov'].includes(imageData.fileExt.toLowerCase()) &&
-                               imageData.fullUrl && !imageData.fullUrl.toLowerCase().includes('.jpg') &&
-                               !imageData.fullUrl.toLowerCase().includes('.png') &&
-                               !imageData.fullUrl.toLowerCase().includes('.gif')) ||
+        const fileExt = imageData.fileExt || imageData.file_ext || '';
+        const fullUrl = imageData.fullUrl || imageData.file_url || '';
+        const isVideoContent = (fileExt && ['webm', 'mp4', 'mov'].includes(fileExt.toLowerCase()) &&
+                               fullUrl && !fullUrl.toLowerCase().includes('.jpg') &&
+                               !fullUrl.toLowerCase().includes('.png') &&
+                               !fullUrl.toLowerCase().includes('.gif')) ||
                                // Also check historical archive videos by file URL
                                (imageData.file_url && isVideoUrl(imageData.file_url));
 
@@ -1618,7 +1620,8 @@ class Rule34MobileApp {
                 console.log(`Loading Danbooru full-size media: ${fullImageUrl}`);
 
                 // Check if this is a video file - be more careful about detection
-                const isVideo = imageData.fileExt && ['webm', 'mp4', 'mov'].includes(imageData.fileExt.toLowerCase()) &&
+                const fileExt = imageData.fileExt || imageData.file_ext || '';
+                const isVideo = fileExt && ['webm', 'mp4', 'mov'].includes(fileExt.toLowerCase()) &&
                                fullImageUrl && !fullImageUrl.toLowerCase().includes('.jpg') &&
                                !fullImageUrl.toLowerCase().includes('.png') &&
                                !fullImageUrl.toLowerCase().includes('.gif');
