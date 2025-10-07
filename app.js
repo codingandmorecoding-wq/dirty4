@@ -1167,7 +1167,15 @@ class Rule34MobileApp {
         loadingDiv.className = 'image-loading';
         loadingDiv.innerHTML = '<div class="spinner"></div>';
 
-        const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl || imageData.preview_url;
+        const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl || imageData.preview_url || imageData.file_url;
+
+        // Skip if no valid thumbnail URL
+        if (!thumbnailUrl) {
+            console.warn('Skipping image with no thumbnail URL:', imageData);
+            loadingDiv.innerHTML = '<i class="fas fa-image" style="color: var(--text-muted); font-size: 24px;"></i><div style="margin-top: 8px; font-size: 12px;">No thumbnail</div>';
+            card.appendChild(loadingDiv);
+            return card;
+        }
 
         // Check if this is a video file for display purposes (but always use img element for thumbnails)
         const fileExt = imageData.fileExt || imageData.file_ext || '';
