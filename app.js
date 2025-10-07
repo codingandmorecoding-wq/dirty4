@@ -1630,10 +1630,10 @@ class Rule34MobileApp {
                     // Create video element for modal
                     const videoElement = document.createElement('video');
                     videoElement.id = 'modal-image'; // Keep the same ID
+                    videoElement.className = 'modal-image';
                     videoElement.controls = true;
                     videoElement.muted = true;
                     videoElement.loop = true;
-                    videoElement.style.cssText = 'width: 100%; height: 100%; max-width: 100%; max-height: 100%; object-fit: contain;';
 
                     videoElement.src = fullImageUrl;
 
