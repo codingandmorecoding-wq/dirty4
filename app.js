@@ -2917,13 +2917,23 @@ class Rule34MobileApp {
         let debounceTimeout;
         let selectedIndex = -1;
         let suggestions = [];
+        let pendingFetchController = null;
 
         const hideSuggestions = () => {
             overlay.style.display = 'none';
             selectedIndex = -1;
+            // Cancel any pending fetch
+            if (pendingFetchController) {
+                pendingFetchController.abort();
+                pendingFetchController = null;
+            }
         };
 
         const showSuggestions = () => {
+            // Only show if input is currently focused
+            if (document.activeElement !== input) {
+                return;
+            }
             if (suggestions.length > 0) {
                 console.log('Showing autocomplete dropdown for:', inputId);
 
@@ -3041,6 +3051,12 @@ class Rule34MobileApp {
                 return;
             }
 
+            // Cancel previous pending fetch
+            if (pendingFetchController) {
+                pendingFetchController.abort();
+            }
+            pendingFetchController = new AbortController();
+
             // Show loading immediately and fetch from Danbooru API (fastest)
             dropdown.innerHTML = '<div class="autocomplete-loading">Loading...</div>';
             showSuggestions();
@@ -3067,6 +3083,10 @@ class Rule34MobileApp {
                     }
                 }
             } catch (error) {
+                // Ignore aborted requests (user moved focus)
+                if (error.name === 'AbortError') {
+                    return;
+                }
                 console.log('Danbooru API failed, using local suggestions:', error.message);
                 // Fallback to local matches
                 const localMatches = this.getLocalMatches(queryLower);
@@ -3080,6 +3100,8 @@ class Rule34MobileApp {
                 if (localMatches.length === 0) {
                     hideSuggestions();
                 }
+            } finally {
+                pendingFetchController = null;
             }
         };
 
