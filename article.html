@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">Article | Dirty4 Art Blog</title>
+    <meta name="description" content="Read our latest article about digital art, artists, and the creative community.">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            background: #0f0f0f;
+            color: #e0e0e0;
+            line-height: 1.8;
+        }
+
+        header {
+            background: #1a1a1a;
+            padding: 20px;
+            border-bottom: 2px solid #ff1744;
+        }
+
+        header h1 {
+            font-size: 1.5em;
+            color: #ff1744;
+        }
+
+        nav a {
+            color: #e0e0e0;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        article {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .article-header {
+            margin-bottom: 40px;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            color: #999;
+            flex-wrap: wrap;
+        }
+
+        .article-category {
+            background: #ff1744;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .article-title {
+            font-size: 3em;
+            line-height: 1.2;
+            margin: 20px 0;
+            color: #fff;
+        }
+
+        .article-subtitle {
+            font-size: 1.3em;
+            color: #999;
+            font-style: italic;
+        }
+
+        .article-content {
+            font-size: 1.1em;
+            line-height: 1.9;
+        }
+
+        .article-content h2 {
+            font-size: 2em;
+            margin: 40px 0 20px;
+            color: #fff;
+            border-left: 4px solid #ff1744;
+            padding-left: 20px;
+        }
+
+        .article-content h3 {
+            font-size: 1.5em;
+            margin: 30px 0 15px;
+            color: #fff;
+        }
+
+        .article-content p {
+            margin: 20px 0;
+            text-align: justify;
+        }
+
+        .article-content ul, .article-content ol {
+            margin: 20px 0 20px 40px;
+        }
+
+        .article-content li {
+            margin: 10px 0;
+        }
+
+        .quote {
+            border-left: 4px solid #ff1744;
+            padding: 20px 30px;
+            margin: 30px 0;
+            background: #1a1a1a;
+            font-style: italic;
+            font-size: 1.2em;
+        }
+
+        .tip-box {
+            background: #1a3a1a;
+            border: 2px solid #4caf50;
+            padding: 20px;
+            margin: 30px 0;
+            border-radius: 10px;
+        }
+
+        .tip-box h4 {
+            color: #4caf50;
+            margin-bottom: 10px;
+        }
+
+        #disqus_thread {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid #333;
+        }
+
+        footer {
+            background: #1a1a1a;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 80px;
+            border-top: 2px solid #ff1744;
+        }
+
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: 2em;
+            }
+
+            .article-content {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎨 Art Blog</h1>
+        <nav>
+            <a href="index.html">🏠 Home</a>
+            <a href="blog.html">📝 Blog</a>
+            <a href="app.html">🖼️ Gallery</a>
+        </nav>
+    </header>
+
+    <article>
+        <div class="article-header">
+            <div class="article-meta">
+                <span class="article-category" id="category">Loading...</span>
+                <span id="date">...</span>
+                <span id="readTime">...</span>
+                <span id="views">...</span>
+            </div>
+            <h1 class="article-title" id="title">Loading...</h1>
+            <p class="article-subtitle" id="subtitle"></p>
+        </div>
+
+        <div class="article-content" id="content">
+            <!-- Article content will be loaded here -->
+        </div>
+
+        <!-- Comments Section -->
+        <div id="disqus_thread"></div>
+    </article>
+
+    <footer>
+        <p>&copy; 2024 Dirty4 Art Gallery. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Article database - FULL ORIGINAL CONTENT
+        const articleDatabase = {
+            'top-digital-artists-2024': {
+                title: 'Top 10 Digital Artists to Follow in 2024',
+                subtitle: 'Discover the most influential creators shaping the digital art landscape',
+                category: 'Artist Spotlight',
+                date: '2024-10-10',
+                readTime: '8 min read',
+                views: '2.5K',
+                content: `
+                    <p>The digital art world continues to evolve at a breathtaking pace, with talented artists pushing the boundaries of what's possible with digital tools. Whether you're an aspiring artist looking for inspiration or an art enthusiast seeking new favorites, these ten creators represent the pinnacle of digital artistry in 2024.</p>
+
+                    <h2>1. The Evolution of Digital Art</h2>
+                    <p>Digital art has come a long way from its humble beginnings. What started as simple pixel art and basic digital paintings has transformed into a sophisticated medium that rivals traditional art forms in complexity and emotional impact. Today's digital artists utilize cutting-edge software, drawing tablets, and even AI tools to create stunning works that captivate millions.</p>
+
+                    <p>The accessibility of digital art tools has democratized art creation, allowing talented individuals from all backgrounds to share their work with global audiences. Platforms like ArtStation, DeviantArt, and social media have created communities where artists can learn, collaborate, and gain recognition.</p>
+
+                    <h2>2. What Makes a Great Digital Artist?</h2>
+                    <p>Great digital artists combine technical skill with artistic vision. They understand fundamental art principles like composition, color theory, and anatomy, while also mastering digital-specific techniques such as layer management, digital brushwork, and post-processing effects.</p>
+
+                    <p>Beyond technical ability, the best artists have a unique style that makes their work immediately recognizable. They tell stories through their art, evoke emotions, and often tackle complex themes or showcase incredible imagination.</p>
+
+                    <h2>3. Criteria for Our Top 10</h2>
+                    <p>When selecting our top artists for 2024, we considered several factors:</p>
+                    <ul>
+                        <li><strong>Technical Excellence:</strong> Mastery of their chosen tools and techniques</li>
+                        <li><strong>Originality:</strong> A unique style that sets them apart</li>
+                        <li><strong>Consistency:</strong> Regular output of high-quality work</li>
+                        <li><strong>Community Impact:</strong> Influence on other artists and the broader community</li>
+                        <li><strong>Innovation:</strong> Pushing boundaries and trying new approaches</li>
+                    </ul>
+
+                    <h2>4. The Artists (In No Particular Order)</h2>
+
+                    <h3>Contemporary Illustrators</h3>
+                    <p>Modern digital illustrators are creating work that blurs the line between traditional and digital art. They combine classical techniques with digital innovations to produce stunning character designs, environmental art, and narrative illustrations.</p>
+
+                    <p>Many of these artists have built successful careers creating concept art for games and films, while others focus on personal projects and commissions. Their work often features incredible attention to detail, sophisticated color palettes, and dynamic compositions that draw viewers in.</p>
+
+                    <h3>3D Artists and Sculptors</h3>
+                    <p>The rise of 3D art has opened new possibilities for digital creators. These artists use software like Blender, ZBrush, and Cinema 4D to create everything from photorealistic renders to stylized character sculptures.</p>
+
+                    <p>3D artists often work in game development, animation, and product visualization, but many also create stunning standalone art pieces that showcase the potential of dimensional art in the digital space.</p>
+
+                    <h3>Motion Graphics and Animation</h3>
+                    <p>Animated digital art brings static images to life. These artists combine traditional animation principles with modern tools to create everything from short loops to full narratives.</p>
+
+                    <div class="tip-box">
+                        <h4>💡 Pro Tip</h4>
+                        <p>Follow artists across multiple platforms to see their full range of work. Many artists share different types of content on different platforms - tutorials on YouTube, works-in-progress on Twitter, and finished pieces on ArtStation.</p>
+                    </div>
+
+                    <h2>5. Supporting Digital Artists</h2>
+                    <p>If you appreciate an artist's work, there are many ways to support them:</p>
+                    <ul>
+                        <li>Commission personal artwork</li>
+                        <li>Support them on Patreon or similar platforms</li>
+                        <li>Share their work (with proper credit)</li>
+                        <li>Purchase prints or digital products</li>
+                        <li>Engage with their content through likes and comments</li>
+                    </ul>
+
+                    <p>Remember that creating art is often these creators' livelihood, and your support helps them continue making the work you love.</p>
+
+                    <h2>6. Learning from the Best</h2>
+                    <p>Many top artists share their knowledge through tutorials, streams, and educational content. Watching their process can be incredibly educational for aspiring artists. You'll learn not just technical skills, but also workflow optimization, problem-solving approaches, and artistic decision-making.</p>
+
+                    <p>Don't try to copy their style exactly - instead, study their techniques and principles, then apply them in your own unique way. Every great artist started by learning from others before developing their own voice.</p>
+
+                    <h2>7. The Future of Digital Art</h2>
+                    <p>As we look ahead, digital art continues to evolve. AI-assisted tools are becoming more sophisticated, VR painting is gaining traction, and NFTs have created new markets for digital artwork. The artists on this list aren't just adapting to these changes - they're driving them forward.</p>
+
+                    <p>The democratization of art tools means we'll continue to see new talents emerge from unexpected places. The barrier to entry is lower than ever, which means more diversity in styles, perspectives, and voices in the digital art community.</p>
+
+                    <div class="quote">
+                        "The best time to start creating digital art was ten years ago. The second best time is now." - Unknown
+                    </div>
+
+                    <h2>Conclusion</h2>
+                    <p>The artists highlighted here represent just a fraction of the incredible talent in the digital art community. Each brings something unique to the table, whether it's technical wizardry, innovative storytelling, or a distinctive aesthetic that captures hearts and minds.</p>
+
+                    <p>As you explore their work, remember that every master was once a beginner. If you're inspired to create your own art, the tools are more accessible than ever. Start learning, start creating, and who knows - you might be featured in a "Top Artists" list someday!</p>
+                `
+            },
+            'understanding-art-tags': {
+                title: 'A Complete Guide to Understanding Art Tags',
+                subtitle: 'Master the art of tagging and searching for digital artwork',
+                category: 'Tutorial',
+                date: '2024-10-09',
+                readTime: '6 min read',
+                views: '1.8K',
+                content: `
+                    <p>Art tags are the backbone of organizing and discovering digital artwork. Whether you're an artist tagging your own work or a viewer searching for specific content, understanding how tags work is essential for navigating art galleries effectively.</p>
+
+                    <h2>What Are Art Tags?</h2>
+                    <p>Art tags are keywords or labels attached to artwork that describe various aspects of the piece. They can describe the subject matter, style, technique, characters, themes, and more. Good tagging makes art discoverable and helps users find exactly what they're looking for.</p>
+
+                    <p>Think of tags as a filing system. Just as you might organize physical documents into folders by topic, tags organize digital art into searchable categories.</p>
+
+                    <h2>Types of Tags</h2>
+
+                    <h3>1. Subject Tags</h3>
+                    <p>These describe what's in the artwork:</p>
+                    <ul>
+                        <li><strong>Character tags:</strong> Specific character names</li>
+                        <li><strong>Object tags:</strong> Important objects in the scene</li>
+                        <li><strong>Setting tags:</strong> Where the scene takes place</li>
+                        <li><strong>Action tags:</strong> What's happening in the image</li>
+                    </ul>
+
+                    <h3>2. Technical Tags</h3>
+                    <p>These describe how the art was created:</p>
+                    <ul>
+                        <li>Digital painting</li>
+                        <li>3D render</li>
+                        <li>Pixel art</li>
+                        <li>Vector art</li>
+                        <li>Photo manipulation</li>
+                    </ul>
+
+                    <h3>3. Style Tags</h3>
+                    <p>These describe the artistic style:</p>
+                    <ul>
+                        <li>Anime/manga style</li>
+                        <li>Realistic</li>
+                        <li>Cartoon</li>
+                        <li>Abstract</li>
+                        <li>Minimalist</li>
+                    </ul>
+
+                    <h3>4. Metadata Tags</h3>
+                    <p>Information about the artwork itself:</p>
+                    <ul>
+                        <li>Artist name</li>
+                        <li>Series/franchise</li>
+                        <li>Copyright information</li>
+                        <li>Original/fan art</li>
+                    </ul>
+
+                    <h2>Best Practices for Tagging Artwork</h2>
+
+                    <p><strong>Be Specific:</strong> Use precise tags rather than vague ones. "Character portrait" is more useful than just "portrait".</p>
+
+                    <p><strong>Be Comprehensive:</strong> Include all relevant tags, but avoid spam tagging irrelevant terms just for visibility.</p>
+
+                    <p><strong>Use Standard Terms:</strong> Stick to commonly used tags when possible. If everyone uses slightly different tags for the same thing, it fractures the search results.</p>
+
+                    <p><strong>Consider Your Audience:</strong> Think about what terms people would actually search for to find your art.</p>
+
+                    <div class="tip-box">
+                        <h4>💡 Pro Tip for Artists</h4>
+                        <p>Check how similar artwork is tagged in your community. This helps you use tags that people are actually searching for, making your work more discoverable.</p>
+                    </div>
+
+                    <h2>Advanced Searching with Tags</h2>
+
+                    <p>Most art platforms support advanced tag searching:</p>
+
+                    <h3>Boolean Operators</h3>
+                    <ul>
+                        <li><strong>AND:</strong> Find art with multiple tags (dragon AND knight)</li>
+                        <li><strong>OR:</strong> Find art with either tag (cat OR dog)</li>
+                        <li><strong>NOT:</strong> Exclude certain tags (portrait NOT anime)</li>
+                    </ul>
+
+                    <h3>Wildcards</h3>
+                    <p>Use asterisks (*) to match partial terms. For example, "paint*" would match "painting", "painter", "paintbrush", etc.</p>
+
+                    <h2>Common Tagging Mistakes</h2>
+
+                    <p><strong>Over-tagging:</strong> Adding every conceivable tag makes your work harder to find, not easier. Focus on the most relevant tags.</p>
+
+                    <p><strong>Under-tagging:</strong> Too few tags means people won't discover your work through search.</p>
+
+                    <p><strong>Inconsistent tagging:</strong> Using different tags for the same concept across your portfolio makes it harder for fans to find your work.</p>
+
+                    <p><strong>Spelling errors:</strong> Misspelled tags mean missed searches. Double-check your tags before posting.</p>
+
+                    <h2>Tag Etiquette</h2>
+
+                    <p>In art communities, certain tagging conventions have emerged:</p>
+
+                    <ul>
+                        <li>Always credit the original artist if reposting</li>
+                        <li>Use content warning tags when appropriate</li>
+                        <li>Respect community-specific tagging guidelines</li>
+                        <li>Don't use misleading tags to gain views</li>
+                    </ul>
+
+                    <h2>The Future of Tagging</h2>
+
+                    <p>AI and machine learning are beginning to assist with automatic tagging. These systems can recognize objects, styles, and even artistic techniques to suggest tags automatically. However, human judgment is still crucial for accurate, contextual tagging.</p>
+
+                    <p>As art communities grow and evolve, so do tagging systems. Some platforms are experimenting with hierarchical tags, tag groups, and more sophisticated organization systems.</p>
+
+                    <h2>Conclusion</h2>
+
+                    <p>Mastering art tags improves your experience whether you're creating or consuming art. For artists, good tagging means better discoverability and more engagement. For viewers, understanding tags means finding exactly what you want, when you want it.</p>
+
+                    <p>Take time to learn the tagging conventions of the communities you participate in, and don't be afraid to refine your tagging strategy over time. Good tagging is a skill that develops with practice.</p>
+                `
+            },
+            'digital-art-techniques': {
+                title: 'Essential Digital Art Techniques Explained',
+                subtitle: 'Master the fundamental techniques used by professional digital artists',
+                category: 'Education',
+                date: '2024-10-08',
+                readTime: '10 min read',
+                views: '3.2K',
+                content: `
+                    <p>Digital art encompasses a wide range of techniques and styles, each with its own unique characteristics and applications. Whether you're just starting your digital art journey or looking to expand your skillset, understanding these essential techniques will help you create more compelling artwork.</p>
+
+                    <h2>1. Digital Painting</h2>
+                    <p>Digital painting is perhaps the most fundamental technique in digital art. It mimics traditional painting but offers unique advantages like unlimited colors, easy corrections, and non-destructive editing.</p>
+
+                    <h3>Core Concepts</h3>
+                    <p>Digital painting relies heavily on understanding brush dynamics, layer management, and color theory. Modern painting software like Photoshop, Procreate, and Clip Studio Paint offer thousands of brush presets that simulate everything from oils to watercolors.</p>
+
+                    <p>The key to successful digital painting is understanding how to build up your image in layers. Start with rough sketches, block in basic colors, add shadows and highlights, and finally refine details. This layered approach allows for easy corrections and experimentation.</p>
+
+                    <div class="tip-box">
+                        <h4>💡 Beginner Tip</h4>
+                        <p>Start with a limited brush set. Many beginners get overwhelmed by thousands of brushes. Master 3-5 basic brushes before expanding your toolkit.</p>
+                    </div>
+
+                    <h2>2. Cell Shading</h2>
+                    <p>Cell shading, also known as toon shading, creates a flat, cartoon-like appearance with distinct areas of color separated by sharp boundaries. This technique is popular in anime, comics, and stylized game art.</p>
+
+                    <h3>How Cell Shading Works</h3>
+                    <p>Unlike realistic shading with gradual transitions, cell shading uses distinct color zones:</p>
+                    <ul>
+                        <li><strong>Base Color:</strong> The primary local color of the object</li>
+                        <li><strong>Shadow:</strong> A darker, cooler version of the base color</li>
+                        <li><strong>Highlight:</strong> A lighter, warmer version</li>
+                        <li><strong>Rim Light:</strong> Optional edge lighting for extra pop</li>
+                    </ul>
+
+                    <p>The magic of cell shading lies in the placement and shape of these color zones. Clean, confident shapes create dynamic, appealing images even with simple color palettes.</p>
+
+                    <h2>3. Line Art</h2>
+                    <p>Line art forms the foundation of many digital artworks, especially in illustration and character design. Creating clean, expressive lines is a skill that takes practice but dramatically improves your work.</p>
+
+                    <h3>Line Weight Variation</h3>
+                    <p>Professional line art uses varying line weights to create depth and visual interest:</p>
+                    <ul>
+                        <li><strong>Thick Lines:</strong> Use for outlines and foreground elements</li>
+                        <li><strong>Thin Lines:</strong> Use for details and background elements</li>
+                        <li><strong>Tapered Lines:</strong> Create dynamic, flowing forms</li>
+                    </ul>
+
+                    <p>Most drawing software offers pressure sensitivity, allowing your line weight to vary naturally based on how hard you press with your stylus. This creates more organic, hand-drawn looking results.</p>
+
+                    <h2>4. Blending and Rendering</h2>
+                    <p>Rendering is the process of refining your artwork from rough sketches to finished pieces. It involves careful observation of how light interacts with forms and materials.</p>
+
+                    <h3>Blending Techniques</h3>
+                    <p>Different blending approaches create different effects:</p>
+
+                    <p><strong>Soft Blending:</strong> Creates smooth transitions perfect for skin, clouds, and soft materials. Use soft round brushes or dedicated smudge tools.</p>
+
+                    <p><strong>Hard Blending:</strong> Maintains distinct color boundaries while still creating transitions. Good for metallic surfaces and stylized work.</p>
+
+                    <p><strong>Color Picking:</strong> Sample colors from your image and paint new strokes between them. This creates natural-looking blends while maintaining vibrant colors.</p>
+
+                    <h2>5. Layer Modes and Effects</h2>
+                    <p>Digital art's non-destructive workflow is powered by layers and blending modes. Understanding these tools opens up endless creative possibilities.</p>
+
+                    <h3>Essential Layer Modes</h3>
+                    <p><strong>Multiply:</strong> Darkens the layer below, perfect for shadows and adding depth.</p>
+
+                    <p><strong>Screen:</strong> Lightens the layer below, great for glows and highlights.</p>
+
+                    <p><strong>Overlay:</strong> Increases contrast, useful for adding color variations and texture.</p>
+
+                    <p><strong>Color:</strong> Changes hue without affecting values, perfect for color adjustments.</p>
+
+                    <p>These modes, combined with layer masks and adjustment layers, allow you to make dramatic changes to your artwork without permanently altering your work.</p>
+
+                    <div class="quote">
+                        "The real power of digital art isn't in replicating traditional media—it's in the unique possibilities that only digital tools can provide." - Anonymous Digital Artist
+                    </div>
+
+                    <h2>6. Texture and Detail</h2>
+                    <p>Adding texture brings life and believability to digital artwork. Whether creating realistic materials or stylized surfaces, texture adds visual interest and depth.</p>
+
+                    <h3>Texture Application Methods</h3>
+                    <p><strong>Overlay Textures:</strong> Apply photo textures or custom patterns over your artwork using blending modes. This quickly adds surface detail.</p>
+
+                    <p><strong>Custom Brushes:</strong> Use brushes with built-in texture to paint details directly. This gives you more control over where and how texture appears.</p>
+
+                    <p><strong>Noise and Filters:</strong> Add subtle noise or use filters to create grain, roughness, or other surface qualities.</p>
+
+                    <h2>7. Color Theory in Practice</h2>
+                    <p>Understanding color theory is crucial for creating harmonious, impactful artwork. Digital tools make it easy to experiment with color, but knowing the principles helps you make intentional choices.</p>
+
+                    <h3>Color Schemes</h3>
+                    <ul>
+                        <li><strong>Complementary:</strong> Opposite colors on the color wheel create vibrant contrast</li>
+                        <li><strong>Analogous:</strong> Adjacent colors create harmonious, cohesive palettes</li>
+                        <li><strong>Triadic:</strong> Three evenly-spaced colors create balanced, dynamic compositions</li>
+                        <li><strong>Monochromatic:</strong> Variations of a single hue create sophisticated, unified pieces</li>
+                    </ul>
+
+                    <p>Don't forget about color temperature! Warm and cool colors can create depth, mood, and visual interest even within a limited palette.</p>
+
+                    <h2>8. Composition and Layout</h2>
+                    <p>Before diving into details, plan your composition. Digital tools make it easy to try different layouts, but understanding composition principles guides your decisions.</p>
+
+                    <h3>Rule of Thirds</h3>
+                    <p>Divide your canvas into a 3×3 grid. Place important elements along these lines or at their intersections for more dynamic compositions.</p>
+
+                    <h3>Leading Lines</h3>
+                    <p>Use lines within your artwork to guide the viewer's eye toward focal points. This can be literal lines or implied through the arrangement of elements.</p>
+
+                    <h3>Negative Space</h3>
+                    <p>Don't be afraid of empty space. Strategic use of negative space can make your subject stand out and create breathing room in your composition.</p>
+
+                    <h2>9. Speed Painting and Studies</h2>
+                    <p>Not every piece needs to be a masterpiece. Speed paintings and studies help you practice techniques, experiment with ideas, and improve faster.</p>
+
+                    <p>Set time limits for yourself—30 minutes, an hour, or even just 15 minutes. These constraints force you to focus on the most important elements and not get bogged down in details. Over time, you'll develop a more efficient workflow.</p>
+
+                    <h2>10. Photo Manipulation and Compositing</h2>
+                    <p>Combining photography with painted elements creates unique artwork that blends realism with artistic vision. This technique is common in concept art, book covers, and digital illustration.</p>
+
+                    <h3>Key Steps</h3>
+                    <ul>
+                        <li>Select high-quality source images</li>
+                        <li>Match lighting and perspective</li>
+                        <li>Blend edges carefully</li>
+                        <li>Add painted details to unify elements</li>
+                        <li>Adjust colors for consistency</li>
+                    </ul>
+
+                    <div class="tip-box">
+                        <h4>💡 Advanced Tip</h4>
+                        <p>Use adjustment layers to match the mood and lighting across all elements in your composite. This creates cohesion even when using images from different sources.</p>
+                    </div>
+
+                    <h2>Practice Makes Progress</h2>
+                    <p>These techniques are tools in your artistic toolkit. Mastering them takes time and practice, but each one you learn expands your creative possibilities. Don't try to master everything at once—pick one technique, practice it until you're comfortable, then move on to the next.</p>
+
+                    <p>Remember, the goal isn't to use every technique in every piece. The best artists know which techniques to apply for their artistic vision. As you gain experience, you'll develop your own preferences and workflow that feels natural to you.</p>
+
+                    <h2>Conclusion</h2>
+                    <p>Digital art techniques continue to evolve as software improves and artists experiment with new approaches. Stay curious, keep practicing, and don't be afraid to break the rules once you understand them. The techniques covered here form a solid foundation, but your unique artistic voice comes from how you apply and combine them.</p>
+                `
+            },
+            'supporting-artists': {
+                title: 'How to Support Your Favorite Digital Artists',
+                subtitle: 'Practical ways to help creators continue making the art you love',
+                category: 'Community',
+                date: '2024-10-07',
+                readTime: '5 min read',
+                views: '1.5K',
+                content: `
+                    <p>Behind every piece of artwork you enjoy is an artist who invested time, skill, and passion into creating it. For many artists, creating art is not just a hobby—it's their livelihood. Supporting the artists you love helps ensure they can continue creating the work that brings joy to your life and enriches the digital art community.</p>
+
+                    <h2>Why Support Matters</h2>
+                    <p>Creating quality digital art takes significant time and effort. A single detailed illustration might take anywhere from 10 to 40 hours or more. Beyond creation time, artists invest in expensive equipment (tablets, software, computers), continuous learning, and building their skills over years.</p>
+
+                    <p>When you support an artist, you're not just paying for a product—you're investing in their ability to create more art, experiment with new ideas, and continue improving their craft.</p>
+
+                    <h2>1. Commission Custom Artwork</h2>
+                    <p>Commissioning custom artwork is one of the most direct ways to support an artist while getting something personalized for yourself.</p>
+
+                    <h3>What to Know About Commissions</h3>
+                    <ul>
+                        <li><strong>Check Guidelines:</strong> Most artists post commission guidelines detailing their prices, terms, and what they will or won't draw</li>
+                        <li><strong>Respect Pricing:</strong> Artists set prices based on their skill level, time investment, and market rates. Don't ask for discounts</li>
+                        <li><strong>Be Clear:</strong> Provide clear references and descriptions of what you want</li>
+                        <li><strong>Be Patient:</strong> Quality work takes time. Respect the timeline provided</li>
+                    </ul>
+
+                    <p>Commission prices vary widely based on the artist's experience and the complexity of your request, ranging from $20 for simple sketches to $500+ for detailed, fully rendered pieces.</p>
+
+                    <div class="tip-box">
+                        <h4>💡 Commission Etiquette</h4>
+                        <p>Always pay promptly, provide feedback during agreed-upon checkpoints, and don't make excessive revision requests beyond what's included in the terms. Good clients often get priority for future commissions!</p>
+                    </div>
+
+                    <h2>2. Support on Patreon and Ko-fi</h2>
+                    <p>Subscription platforms like Patreon and Ko-fi allow you to provide ongoing support to artists in exchange for exclusive content and perks.</p>
+
+                    <h3>Patreon Benefits</h3>
+                    <p>For a monthly pledge (typically $1-$20), you might receive:</p>
+                    <ul>
+                        <li>Early access to new artwork</li>
+                        <li>Exclusive artwork not shared publicly</li>
+                        <li>Process videos and tutorials</li>
+                        <li>High-resolution files for personal use</li>
+                        <li>Voting rights on future projects</li>
+                        <li>Discord access for direct interaction</li>
+                    </ul>
+
+                    <p>Even small monthly contributions add up and provide artists with stable, predictable income that helps them plan long-term projects.</p>
+
+                    <h3>Ko-fi and One-Time Donations</h3>
+                    <p>If subscriptions aren't your style, Ko-fi allows one-time "coffee" donations. It's a simple way to say "thanks for the great art!" with a small monetary tip.</p>
+
+                    <h2>3. Purchase Prints and Merchandise</h2>
+                    <p>Many artists sell physical or digital products featuring their work. This allows you to enjoy their art in your space while supporting them financially.</p>
+
+                    <h3>Common Products</h3>
+                    <ul>
+                        <li><strong>Art Prints:</strong> High-quality reproductions perfect for framing</li>
+                        <li><strong>Digital Downloads:</strong> Wallpapers, phone backgrounds, or high-res files</li>
+                        <li><strong>Stickers:</strong> Affordable collectibles great for laptops and journals</li>
+                        <li><strong>Apparel:</strong> T-shirts, hoodies, and other clothing with their designs</li>
+                        <li><strong>Art Books:</strong> Collections of an artist's work with commentary</li>
+                    </ul>
+
+                    <p>Purchase directly from the artist when possible rather than third-party sellers to ensure they receive the full benefit of your support.</p>
+
+                    <h2>4. Engage with Their Content</h2>
+                    <p>Not everyone can provide financial support, but engagement is valuable too. Social media algorithms favor content with high engagement, helping artists reach new audiences.</p>
+
+                    <h3>Free Ways to Support</h3>
+                    <ul>
+                        <li><strong>Like and Share:</strong> Simple clicks help more than you might think</li>
+                        <li><strong>Leave Comments:</strong> Thoughtful feedback brightens an artist's day and increases post visibility</li>
+                        <li><strong>Tag Friends:</strong> Share art with people who might appreciate it</li>
+                        <li><strong>Follow:</strong> Stay updated on new work and support their growing audience</li>
+                    </ul>
+
+                    <p>When sharing, always include proper credit and links back to the artist's official accounts. Never repost without permission.</p>
+
+                    <h2>5. Respect Copyright and Terms</h2>
+                    <p>Supporting artists also means respecting their rights as creators.</p>
+
+                    <h3>Don't:</h3>
+                    <ul>
+                        <li>Repost artwork without permission</li>
+                        <li>Remove watermarks or signatures</li>
+                        <li>Use artwork commercially without a license</li>
+                        <li>Claim artwork as your own</li>
+                        <li>Edit or modify artwork without permission</li>
+                    </ul>
+
+                    <h3>Do:</h3>
+                    <ul>
+                        <li>Share official posts directly</li>
+                        <li>Credit clearly when allowed to repost</li>
+                        <li>Link back to the artist's profiles</li>
+                        <li>Ask permission for uses beyond personal enjoyment</li>
+                    </ul>
+
+                    <div class="quote">
+                        "Art is not a luxury, it's a necessity. And artists need support to continue creating the cultural touchstones that enrich our lives." - Anonymous
+                    </div>
+
+                    <h2>6. Recommend to Friends</h2>
+                    <p>Word-of-mouth recommendations are incredibly valuable. When you find an artist you love, tell your friends! Personal recommendations carry more weight than algorithm-driven suggestions.</p>
+
+                    <p>If you're part of online communities related to art or specific interests, recommend relevant artists when appropriate. Just be genuine—forced promotion comes across as spam.</p>
+
+                    <h2>7. Attend Virtual Events and Streams</h2>
+                    <p>Many artists host live streams where they create art in real-time. Attending these streams, even if you can't donate during them, provides support through viewership and engagement.</p>
+
+                    <p>Some artists also participate in online conventions, charity art auctions, and community events. Participating in these events supports not just individual artists but the entire creative community.</p>
+
+                    <h2>8. Leave Reviews and Testimonials</h2>
+                    <p>If you've commissioned artwork or purchased products, leaving a review helps other potential clients feel confident in working with the artist. Positive reviews build trust and can lead to more commissions and sales.</p>
+
+                    <h2>The Bigger Picture</h2>
+                    <p>Supporting artists isn't just about the individual relationship—it's about fostering a thriving creative ecosystem. When artists can sustain themselves through their work, they can create more freely, take creative risks, and push the boundaries of what's possible in digital art.</p>
+
+                    <p>Your support, whether financial or through engagement, directly contributes to the vibrant, diverse art community we all enjoy. Every artist started somewhere, and community support helps them grow into the creators whose work inspires future generations.</p>
+
+                    <h2>Conclusion</h2>
+                    <p>There are countless ways to support artists, from direct financial contributions to simple acts of engagement. Choose the methods that work for your situation—even small gestures add up when multiplied across many supporters.</p>
+
+                    <p>Remember, artists create because they love it, but support helps them continue doing what they love. By supporting the artists who bring joy to your life, you become part of their creative journey and help ensure they can continue sharing their gifts with the world.</p>
+                `
+            },
+            'art-styles-guide': {
+                title: 'Understanding Different Art Styles and Genres',
+                subtitle: 'A comprehensive guide to the diverse world of digital art aesthetics',
+                category: 'Education',
+                date: '2024-10-06',
+                readTime: '7 min read',
+                views: '2.1K',
+                content: `
+                    <p>Digital art encompasses an incredible variety of styles, each with its own unique characteristics, cultural roots, and aesthetic principles. Understanding these different styles helps you appreciate the diversity of digital art and might even inspire you to explore new directions in your own creative work.</p>
+
+                    <h2>1. Anime and Manga Style</h2>
+                    <p>Originating from Japan, anime and manga styles have become globally influential in digital art. This style is characterized by distinctive visual elements that have evolved over decades.</p>
+
+                    <h3>Key Characteristics</h3>
+                    <ul>
+                        <li><strong>Eyes:</strong> Large, expressive eyes with detailed highlights</li>
+                        <li><strong>Proportions:</strong> Often stylized with elongated limbs and simplified features</li>
+                        <li><strong>Hair:</strong> Gravity-defying, vibrant, and highly stylized</li>
+                        <li><strong>Color:</strong> Bold, saturated colors with clear cell shading</li>
+                        <li><strong>Lines:</strong> Clean linework with varied line weight</li>
+                    </ul>
+
+                    <p>Within anime style, there are many sub-genres ranging from shoujo (targeting young female audiences with softer features) to shounen (action-oriented with dynamic poses) to seinen (mature themes with more realistic proportions).</p>
+
+                    <div class="tip-box">
+                        <h4>💡 Style Note</h4>
+                        <p>Anime style isn't monolithic—it ranges from super-deformed chibi characters to semi-realistic portrayals. The unifying factor is the cultural aesthetic rather than specific proportions.</p>
+                    </div>
+
+                    <h2>2. Western Comic Art</h2>
+                    <p>Western comic book art has its own rich tradition, heavily influenced by American and European comic publishing. This style emphasizes dynamic action, bold storytelling, and dramatic rendering.</p>
+
+                    <h3>Subgenres</h3>
+                    <p><strong>Superhero Comic Style:</strong> Heroic proportions, dynamic poses, dramatic lighting, and detailed musculature. Think Marvel and DC Comics.</p>
+
+                    <p><strong>Indie Comic Style:</strong> More varied and experimental, often with unique linework and unconventional panel layouts.</p>
+
+                    <p><strong>European BD Style:</strong> (Bande Dessinée) Features detailed backgrounds, realistic proportions, and often sophisticated color palettes. Examples include Tintin and The Incal.</p>
+
+                    <h2>3. Realistic and Semi-Realistic</h2>
+                    <p>Realistic digital art aims to capture life-like detail, light, and form. This style requires strong understanding of anatomy, lighting, and materials.</p>
+
+                    <h3>Applications</h3>
+                    <ul>
+                        <li>Character design for games and film</li>
+                        <li>Concept art for realistic settings</li>
+                        <li>Digital portraiture</li>
+                        <li>Architectural visualization</li>
+                    </ul>
+
+                    <p>Semi-realistic style maintains realistic proportions and lighting but often simplifies details or enhances colors for aesthetic effect. This creates a polished, idealized look while remaining grounded in reality.</p>
+
+                    <h2>4. Cartoon and Caricature</h2>
+                    <p>Cartoon styles exaggerate features for comedic or expressive effect. This approach prioritizes personality and appeal over realism.</p>
+
+                    <h3>Classic Cartoon</h3>
+                    <p>Inspired by traditional animation, featuring simple shapes, bold outlines, and exaggerated expressions. Think Disney, Warner Bros, and modern animation.</p>
+
+                    <h3>Modern Cartoon</h3>
+                    <p>Contemporary cartoon styles often incorporate elements from various influences, creating unique hybrids. Shows like Adventure Time and Steven Universe demonstrate how cartoon styles continue to evolve.</p>
+
+                    <h2>5. Pixel Art</h2>
+                    <p>Pixel art creates images from individual pixels, often at low resolutions. This style emerged from early computer and video game limitations but has become an artistic choice in its own right.</p>
+
+                    <h3>Characteristics</h3>
+                    <ul>
+                        <li>Limited color palettes</li>
+                        <li>Precise pixel placement</li>
+                        <li>Dithering for gradients</li>
+                        <li>Economical use of space</li>
+                    </ul>
+
+                    <p>Modern pixel art ranges from simple 8-bit style to highly detailed pieces with hundreds of colors, showing the style's versatility.</p>
+
+                    <h2>6. Vector and Flat Design</h2>
+                    <p>Vector art uses mathematical curves rather than pixels, allowing infinite scaling without quality loss. Flat design emphasizes simple shapes, bold colors, and minimal shading.</p>
+
+                    <h3>Common Uses</h3>
+                    <ul>
+                        <li>Logo design and branding</li>
+                        <li>UI/UX design</li>
+                        <li>Infographics</li>
+                        <li>Modern illustration</li>
+                    </ul>
+
+                    <p>This style prioritizes clean, readable designs that work across different sizes and contexts. It's particularly popular in web design and mobile applications.</p>
+
+                    <div class="quote">
+                        "Style is knowing who you are, what you want to say, and not giving a damn." - Gore Vidal (applicable to art too!)
+                    </div>
+
+                    <h2>7. Painterly and Impressionistic</h2>
+                    <p>Painterly digital art mimics traditional painting techniques, often with visible brush strokes and textural elements. This style emphasizes mood and atmosphere over precise details.</p>
+
+                    <p>Digital impressionism focuses on capturing light and color rather than detailed forms, creating dreamy, atmospheric pieces that prioritize emotional impact.</p>
+
+                    <h2>8. Minimalist and Abstract</h2>
+                    <p>Minimalist art reduces subjects to their essential elements, using simple forms, limited colors, and negative space effectively.</p>
+
+                    <h3>Abstract Digital Art</h3>
+                    <p>Abstract art moves away from representational accuracy, instead using color, form, and composition to create emotional or aesthetic impact. This can range from geometric abstractions to gestural, organic forms.</p>
+
+                    <h2>9. Cyberpunk and Sci-Fi</h2>
+                    <p>Cyberpunk style features neon colors, urban dystopias, and high-tech aesthetics. It's characterized by:</p>
+                    <ul>
+                        <li>Neon lights and reflections</li>
+                        <li>Dark, moody atmospheres</li>
+                        <li>Technology and urban integration</li>
+                        <li>Asian cultural influences (often Japanese)</li>
+                        <li>Rain, fog, and atmospheric effects</li>
+                    </ul>
+
+                    <p>Broader sci-fi styles can range from sleek, utopian futures to gritty space operas, each with distinct visual languages.</p>
+
+                    <h2>10. Fantasy and Surrealism</h2>
+                    <p>Fantasy art depicts imaginary worlds, creatures, and magic. It often combines realistic rendering with impossible subjects.</p>
+
+                    <h3>Surrealism</h3>
+                    <p>Surrealist digital art creates dream-like imagery by juxtaposing unexpected elements, distorting reality, and challenging viewers' perceptions. This style emphasizes creativity and imagination over logical consistency.</p>
+
+                    <h2>Finding Your Style</h2>
+                    <p>Many artists spend years developing their personal style, which often combines elements from multiple genres. Don't feel pressured to fit neatly into one category—your unique perspective is what makes your art valuable.</p>
+
+                    <h3>Tips for Style Development</h3>
+                    <ul>
+                        <li><strong>Study widely:</strong> Explore different styles to understand what resonates with you</li>
+                        <li><strong>Practice fundamentals:</strong> Strong basics allow you to stylize effectively</li>
+                        <li><strong>Experiment:</strong> Try combining elements from different styles</li>
+                        <li><strong>Be patient:</strong> Style develops naturally over time through consistent work</li>
+                        <li><strong>Stay authentic:</strong> Create what you enjoy, not what you think will be popular</li>
+                    </ul>
+
+                    <h2>Style Evolution</h2>
+                    <p>Remember that art styles aren't static—they evolve constantly as artists experiment and cultural influences shift. Many successful artists have changed their style significantly over their careers, adapting to new interests and skills.</p>
+
+                    <p>What matters most isn't perfectly replicating a particular style, but using visual language effectively to communicate your ideas and emotions.</p>
+
+                    <h2>Conclusion</h2>
+                    <p>The diversity of digital art styles reflects the medium's incredible flexibility and the creativity of artists worldwide. Whether you're drawn to anime, realism, abstract art, or something entirely unique, there's room for every style in the digital art world.</p>
+
+                    <p>Understanding these styles helps you appreciate the breadth of digital art and might inspire you to explore new directions in your own work. The best part? Digital tools make it easier than ever to experiment with different styles and find what speaks to you.</p>
+                `
+            }
+        };
+
+        // Get article ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('id');
+
+        // Load article
+        if (articleId && articleDatabase[articleId]) {
+            const article = articleDatabase[articleId];
+
+            // Set page title
+            document.getElementById('pageTitle').textContent = article.title + ' | Dirty4 Art Blog';
+
+            // Fill in article details
+            document.getElementById('title').textContent = article.title;
+            document.getElementById('subtitle').textContent = article.subtitle || '';
+            document.getElementById('category').textContent = article.category;
+            document.getElementById('date').textContent = article.date;
+            document.getElementById('readTime').textContent = article.readTime;
+            document.getElementById('views').textContent = article.views + ' views';
+
+            // Load article content
+            document.getElementById('content').innerHTML = article.content;
+
+            // Initialize Disqus comments
+            window.disqus_config = function () {
+                this.page.url = window.location.href;
+                this.page.identifier = articleId;
+                this.page.title = article.title;
+            };
+
+            (function() {
+                const d = document;
+                const s = d.createElement('script');
+                s.src = 'https://YOUR_DISQUS_SHORTNAME.disqus.com/embed.js';  // Replace with your Disqus shortname
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        } else {
+            document.getElementById('content').innerHTML = '<p>Article not found. <a href="blog.html">Return to blog</a></p>';
+        }
+    </script>
+</body>
+</html>

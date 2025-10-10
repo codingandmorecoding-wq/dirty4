@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Blog - Digital Art News, Tips & Artist Spotlights | Dirty4</title>
+    <meta name="description" content="Explore digital art trends, artist interviews, tutorials, and in-depth articles about the digital art community.">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #0f0f0f;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        header {
+            background: #1a1a1a;
+            padding: 20px;
+            border-bottom: 2px solid #ff1744;
+        }
+
+        header h1 {
+            font-size: 2em;
+            color: #ff1744;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav a {
+            color: #e0e0e0;
+            text-decoration: none;
+            margin-right: 20px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        nav a:hover {
+            background: #333;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .blog-intro {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .blog-intro h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .blog-intro p {
+            font-size: 1.2em;
+            color: #999;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .articles {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .article-card {
+            background: #1a1a1a;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 23, 68, 0.3);
+        }
+
+        .article-thumbnail {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #ff1744, #7c4dff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+        }
+
+        .article-content {
+            padding: 20px;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            color: #999;
+        }
+
+        .article-category {
+            background: #ff1744;
+            color: white;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-size: 0.85em;
+        }
+
+        .article-title {
+            font-size: 1.5em;
+            margin: 15px 0;
+            color: #fff;
+        }
+
+        .article-excerpt {
+            color: #999;
+            margin-bottom: 15px;
+        }
+
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #333;
+        }
+
+        .read-more {
+            color: #ff1744;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        .article-stats {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        footer {
+            background: #1a1a1a;
+            padding: 40px 20px;
+            text-align: center;
+            margin-top: 80px;
+            border-top: 2px solid #ff1744;
+        }
+
+        @media (max-width: 768px) {
+            .articles {
+                grid-template-columns: 1fr;
+            }
+
+            .blog-intro h2 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>🎨 Art Blog</h1>
+        <nav>
+            <a href="index.html">🏠 Home</a>
+            <a href="blog.html">📝 Blog</a>
+            <a href="app.html">🖼️ Gallery</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="blog-intro">
+            <h2>Digital Art Insights & Community</h2>
+            <p>Explore the world of digital art through artist spotlights, technique breakdowns, industry trends, and community discussions. Stay updated with the latest in the digital art scene.</p>
+        </div>
+
+        <div class="articles" id="articlesContainer">
+            <!-- Articles will be loaded here -->
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Dirty4 Art Gallery. All rights reserved.</p>
+        <p style="margin-top: 10px; color: #666;">Original content created for educational and appreciation purposes.</p>
+    </footer>
+
+    <script>
+        // Sample articles - This is YOUR original content!
+        const articles = [
+            {
+                id: 'top-digital-artists-2024',
+                title: 'Top 10 Digital Artists to Follow in 2024',
+                category: 'Artist Spotlight',
+                excerpt: 'Discover the most influential digital artists creating groundbreaking work in 2024. From innovative techniques to unique styles, these creators are pushing boundaries.',
+                icon: '🎨',
+                date: '2024-10-10',
+                readTime: '8 min read',
+                views: '2.5K'
+            },
+            {
+                id: 'understanding-art-tags',
+                title: 'A Complete Guide to Understanding Art Tags',
+                category: 'Tutorial',
+                excerpt: 'Learn how to effectively use and search art tags. This comprehensive guide covers common tags, best practices, and how to find exactly what you\'re looking for.',
+                icon: '🏷️',
+                date: '2024-10-09',
+                readTime: '6 min read',
+                views: '1.8K'
+            },
+            {
+                id: 'digital-art-techniques',
+                title: 'Essential Digital Art Techniques Explained',
+                category: 'Education',
+                excerpt: 'From cell shading to digital painting, understand the core techniques used by professional digital artists. Includes visual examples and practical tips.',
+                icon: '🖌️',
+                date: '2024-10-08',
+                readTime: '10 min read',
+                views: '3.2K'
+            },
+            {
+                id: 'supporting-artists',
+                title: 'How to Support Your Favorite Digital Artists',
+                category: 'Community',
+                excerpt: 'Learn the best ways to support the artists you love, from commissions to Patreon subscriptions. Help your favorite creators thrive.',
+                icon: '💖',
+                date: '2024-10-07',
+                readTime: '5 min read',
+                views: '1.5K'
+            },
+            {
+                id: 'art-styles-guide',
+                title: 'Understanding Different Art Styles and Genres',
+                category: 'Education',
+                excerpt: 'A deep dive into various art styles from anime and manga to Western comic art, realistic portraits, and abstract designs.',
+                icon: '🎭',
+                date: '2024-10-06',
+                readTime: '7 min read',
+                views: '2.1K'
+            },
+            {
+                id: 'artist-interview-series',
+                title: 'Artist Interview Series: Behind the Canvas',
+                category: 'Interview',
+                excerpt: 'Go behind the scenes with professional digital artists. Learn about their creative process, inspirations, and journey in the art world.',
+                icon: '🎤',
+                date: '2024-10-05',
+                readTime: '12 min read',
+                views: '4.3K'
+            }
+        ];
+
+        // Render articles
+        function renderArticles() {
+            const container = document.getElementById('articlesContainer');
+
+            articles.forEach(article => {
+                const card = document.createElement('div');
+                card.className = 'article-card';
+                card.onclick = () => window.location.href = `article.html?id=${article.id}`;
+
+                card.innerHTML = `
+                    <div class="article-thumbnail">${article.icon}</div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="article-category">${article.category}</span>
+                            <span>${article.date}</span>
+                        </div>
+                        <h2 class="article-title">${article.title}</h2>
+                        <p class="article-excerpt">${article.excerpt}</p>
+                        <div class="article-footer">
+                            <a href="article.html?id=${article.id}" class="read-more">Read More →</a>
+                            <div class="article-stats">
+                                ${article.readTime} · ${article.views} views
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // Load articles on page load
+        renderArticles();
+    </script>
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</body>
+</html>
