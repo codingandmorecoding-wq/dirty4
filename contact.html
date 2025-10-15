@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - Dirty4 Support & Feedback</title>
     <meta name="description" content="Get in touch with the Dirty4 team. Contact us for support, feedback, questions, or business inquiries about our anime art gallery platform.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
         * {
@@ -36,10 +37,7 @@
 
         h1 {
             font-size: 3em;
-            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #fff;
             margin-bottom: 15px;
             font-weight: 900;
         }
@@ -93,8 +91,18 @@
         }
 
         .contact-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(102, 126, 234, 0.15);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 15px;
+            margin: 0 auto 20px;
+            font-size: 28px;
+            color: #667eea;
+            backdrop-filter: blur(10px);
         }
 
         .contact-title {
@@ -158,19 +166,21 @@
         .submit-btn {
             width: 100%;
             padding: 18px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: rgba(102, 126, 234, 0.2);
+            border: 2px solid #667eea;
             color: white;
-            border: none;
             border-radius: 10px;
             font-size: 1.1em;
             font-weight: 700;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
         }
 
         .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            background: rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
         }
 
         .submit-btn:active {
@@ -203,10 +213,7 @@
         .response-time {
             font-size: 2em;
             font-weight: 900;
-            background: linear-gradient(135deg, #f093fb 0%, #667eea 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #667eea;
             margin-bottom: 8px;
         }
 
@@ -271,7 +278,7 @@
 
             <div class="contact-methods">
                 <div class="contact-card">
-                    <div class="contact-icon">📧</div>
+                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
                     <div class="contact-title">Email Support</div>
                     <div class="contact-detail">
                         <a href="mailto:support@dirty4.com">support@dirty4.com</a>
@@ -280,7 +287,7 @@
                 </div>
 
                 <div class="contact-card">
-                    <div class="contact-icon">⚖️</div>
+                    <div class="contact-icon"><i class="fas fa-balance-scale"></i></div>
                     <div class="contact-title">Legal & DMCA</div>
                     <div class="contact-detail">
                         <a href="mailto:legal@dirty4.com">legal@dirty4.com</a>
@@ -289,7 +296,7 @@
                 </div>
 
                 <div class="contact-card">
-                    <div class="contact-icon">💼</div>
+                    <div class="contact-icon"><i class="fas fa-briefcase"></i></div>
                     <div class="contact-title">Business</div>
                     <div class="contact-detail">
                         <a href="mailto:business@dirty4.com">business@dirty4.com</a>
@@ -299,7 +306,7 @@
             </div>
 
             <div class="info-box">
-                <strong>📞 Note:</strong> We currently operate as a digital-first platform. For fastest response, please use email or our contact form below.
+                <strong><i class="fas fa-phone"></i> Note:</strong> We currently operate as a digital-first platform. For fastest response, please use email or our contact form below.
             </div>
         </div>
 
@@ -421,10 +428,10 @@
             <h2>Social Media</h2>
             <p>Stay updated with the latest news and updates:</p>
 
-            <div style="margin: 25px 0; font-size: 2em;">
-                <span style="margin: 0 15px; opacity: 0.5;" title="Coming soon">🐦</span>
-                <span style="margin: 0 15px; opacity: 0.5;" title="Coming soon">📷</span>
-                <span style="margin: 0 15px; opacity: 0.5;" title="Coming soon">💬</span>
+            <div style="margin: 25px 0; font-size: 2em; display: flex; gap: 20px; justify-content: center;">
+                <i class="fab fa-twitter" style="opacity: 0.3;" title="Coming soon"></i>
+                <i class="fab fa-instagram" style="opacity: 0.3;" title="Coming soon"></i>
+                <i class="fab fa-discord" style="opacity: 0.3;" title="Coming soon"></i>
             </div>
 
             <p style="color: #999; font-size: 0.95em;">Social media channels coming soon! Follow our <a href="blog.html" style="color: #667eea;">blog</a> for announcements.</p>

@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Help & FAQ - Dirty4 User Guide</title>
     <meta name="description" content="Get help using Dirty4. Find answers to frequently asked questions about search, tags, downloads, mobile usage, and more.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
         * {
@@ -36,10 +37,7 @@
 
         h1 {
             font-size: 3.5em;
-            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #fff;
             margin-bottom: 15px;
             font-weight: 900;
         }
@@ -97,8 +95,18 @@
         }
 
         .category-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(102, 126, 234, 0.15);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 15px;
+            margin: 0 auto 20px;
+            font-size: 32px;
+            color: #667eea;
+            backdrop-filter: blur(10px);
         }
 
         .category-title {
@@ -227,12 +235,14 @@
             display: inline-block;
             margin-top: 30px;
             padding: 12px 24px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: rgba(102, 126, 234, 0.2);
+            border: 2px solid #667eea;
             color: white;
             text-decoration: none;
-            border-radius: 25px;
+            border-radius: 12px;
             font-weight: 600;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
         }
 
         .back-link:hover {
@@ -261,44 +271,44 @@
             <p class="subtitle">Everything you need to know about using Dirty4</p>
 
             <div class="search-box">
-                <span style="font-size: 1.5em;">🔍</span>
+                <i class="fas fa-search" style="font-size: 1.5em; color: #667eea;"></i>
                 <input type="text" id="helpSearch" placeholder="Search for help topics..." onkeyup="searchFAQ()">
             </div>
         </header>
 
         <div class="categories">
             <div class="category-card" onclick="scrollToSection('getting-started')">
-                <div class="category-icon">🚀</div>
+                <div class="category-icon"><i class="fas fa-rocket"></i></div>
                 <div class="category-title">Getting Started</div>
                 <div class="category-desc">New to Dirty4? Start here</div>
             </div>
 
             <div class="category-card" onclick="scrollToSection('search-tags')">
-                <div class="category-icon">🔍</div>
+                <div class="category-icon"><i class="fas fa-search"></i></div>
                 <div class="category-title">Search & Tags</div>
                 <div class="category-desc">Master advanced searching</div>
             </div>
 
             <div class="category-card" onclick="scrollToSection('features')">
-                <div class="category-icon">⭐</div>
+                <div class="category-icon"><i class="fas fa-star"></i></div>
                 <div class="category-title">Features</div>
                 <div class="category-desc">Starring, downloads, and more</div>
             </div>
 
             <div class="category-card" onclick="scrollToSection('mobile')">
-                <div class="category-icon">📱</div>
+                <div class="category-icon"><i class="fas fa-mobile-alt"></i></div>
                 <div class="category-title">Mobile</div>
                 <div class="category-desc">Using Dirty4 on mobile</div>
             </div>
 
             <div class="category-card" onclick="scrollToSection('troubleshooting')">
-                <div class="category-icon">🔧</div>
+                <div class="category-icon"><i class="fas fa-wrench"></i></div>
                 <div class="category-title">Troubleshooting</div>
                 <div class="category-desc">Fix common issues</div>
             </div>
 
             <div class="category-card" onclick="scrollToSection('privacy')">
-                <div class="category-icon">🔒</div>
+                <div class="category-icon"><i class="fas fa-shield-alt"></i></div>
                 <div class="category-title">Privacy & Security</div>
                 <div class="category-desc">Your data and privacy</div>
             </div>
@@ -306,11 +316,11 @@
 
         <!-- Getting Started Section -->
         <div class="content-section" id="getting-started">
-            <h2>🚀 Getting Started</h2>
+            <h2><i class="fas fa-rocket" style="margin-right: 12px;"></i>Getting Started</h2>
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     What is Dirty4?
                 </div>
                 <div class="faq-answer">
@@ -320,7 +330,7 @@
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     Do I need to create an account?
                 </div>
                 <div class="faq-answer">
@@ -330,7 +340,7 @@
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     How do I start browsing?
                 </div>
                 <div class="faq-answer">
@@ -346,7 +356,7 @@
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     Is Dirty4 free to use?
                 </div>
                 <div class="faq-answer">
@@ -357,11 +367,11 @@
 
         <!-- Search & Tags Section -->
         <div class="content-section" id="search-tags">
-            <h2>🔍 Search & Tags</h2>
+            <h2><i class="fas fa-search" style="margin-right: 12px;"></i>Search & Tags</h2>
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     How do I search for artwork?
                 </div>
                 <div class="faq-answer">
@@ -372,14 +382,14 @@
                         <li><strong>Specific characters:</strong> Search character names directly</li>
                     </ul>
                     <div class="tip-box">
-                        <strong>💡 Pro Tip:</strong> The search has autocomplete! Start typing and suggestions will appear to help you find the right tags.
+                        <strong><i class="fas fa-lightbulb"></i> Pro Tip:</strong> The search has autocomplete! Start typing and suggestions will appear to help you find the right tags.
                     </div>
                 </div>
             </div>
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     What are tags?
                 </div>
                 <div class="faq-answer">
@@ -397,7 +407,7 @@
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     How do advanced search operators work?
                 </div>
                 <div class="faq-answer">
@@ -415,11 +425,11 @@
 
         <!-- Features Section -->
         <div class="content-section" id="features">
-            <h2>⭐ Features</h2>
+            <h2><i class="fas fa-star" style="margin-right: 12px;"></i>Features</h2>
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     How do I save favorite artwork?
                 </div>
                 <div class="faq-answer">
@@ -429,20 +439,20 @@
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     Can I download images?
                 </div>
                 <div class="faq-answer">
                     Yes! Click on an image to view it full-size, then use the download button. Images are sourced from public repositories like Danbooru and Safebooru. Please respect copyright and use downloaded images responsibly.
                     <div class="warning-box">
-                        <strong>⚠️ Copyright Notice:</strong> Downloaded images are for personal use only unless you have permission from the artist. Do not redistribute or use commercially without proper licensing.
+                        <strong><i class="fas fa-exclamation-triangle"></i> Copyright Notice:</strong> Downloaded images are for personal use only unless you have permission from the artist. Do not redistribute or use commercially without proper licensing.
                     </div>
                 </div>
             </div>
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     What's the difference between sources?
                 </div>
                 <div class="faq-answer">
@@ -459,11 +469,11 @@
 
         <!-- Mobile Section -->
         <div class="content-section" id="mobile">
-            <h2>📱 Mobile Usage</h2>
+            <h2><i class="fas fa-mobile-alt" style="margin-right: 12px;"></i>Mobile Usage</h2>
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     Is Dirty4 mobile-friendly?
                 </div>
                 <div class="faq-answer">
@@ -473,7 +483,7 @@
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     Can I install Dirty4 as an app?
                 </div>
                 <div class="faq-answer">
@@ -489,7 +499,7 @@
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     What mobile gestures are supported?
                 </div>
                 <div class="faq-answer">
@@ -506,11 +516,11 @@
 
         <!-- Troubleshooting Section -->
         <div class="content-section" id="troubleshooting">
-            <h2>🔧 Troubleshooting</h2>
+            <h2><i class="fas fa-wrench" style="margin-right: 12px;"></i>Troubleshooting</h2>
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     Images aren't loading. What should I do?
                 </div>
                 <div class="faq-answer">
@@ -528,7 +538,7 @@
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     Search isn't working properly
                 </div>
                 <div class="faq-answer">
@@ -544,7 +554,7 @@
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     I lost my starred items!
                 </div>
                 <div class="faq-answer">
@@ -556,14 +566,14 @@
                         <li>Used a browser cleaner tool</li>
                     </ul>
                     <div class="tip-box">
-                        <strong>💡 Prevention Tip:</strong> Regularly export your starred items (feature coming soon) or take screenshots of important artwork.
+                        <strong><i class="fas fa-lightbulb"></i> Prevention Tip:</strong> Regularly export your starred items (feature coming soon) or take screenshots of important artwork.
                     </div>
                 </div>
             </div>
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     The site is slow or laggy
                 </div>
                 <div class="faq-answer">
@@ -581,11 +591,11 @@
 
         <!-- Privacy Section -->
         <div class="content-section" id="privacy">
-            <h2>🔒 Privacy & Security</h2>
+            <h2><i class="fas fa-shield-alt" style="margin-right: 12px;"></i>Privacy & Security</h2>
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     What data does Dirty4 collect?
                 </div>
                 <div class="faq-answer">
@@ -601,7 +611,7 @@
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     Can others see my browsing history?
                 </div>
                 <div class="faq-answer">
@@ -611,7 +621,7 @@
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     How do I delete my data?
                 </div>
                 <div class="faq-answer">
@@ -628,7 +638,7 @@
 
             <div class="faq-item">
                 <div class="faq-question">
-                    <span>❓</span>
+                    <i class="fas fa-question-circle" style="color: #667eea;"></i>
                     How do I opt out of ads?
                 </div>
                 <div class="faq-answer">
@@ -645,7 +655,7 @@
 
         <!-- Quick Links -->
         <div class="content-section">
-            <h2>📚 More Resources</h2>
+            <h2><i class="fas fa-book" style="margin-right: 12px;"></i>More Resources</h2>
             <div class="quick-links">
                 <a href="about.html" class="quick-link">About Dirty4</a>
                 <a href="blog.html" class="quick-link">Art Blog</a>

@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Dirty4 - Professional Anime Art Gallery Platform</title>
     <meta name="description" content="Learn about Dirty4, the revolutionary anime art gallery and archival platform. Discover our mission, features, and commitment to the digital art community.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
         * {
@@ -38,23 +39,21 @@
             width: 120px;
             height: 120px;
             margin: 0 auto 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: rgba(102, 126, 234, 0.15);
+            border: 2px solid rgba(102, 126, 234, 0.3);
             border-radius: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 48px;
             font-weight: 900;
-            color: white;
-            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+            color: #667eea;
+            backdrop-filter: blur(20px);
         }
 
         h1 {
             font-size: 3.5em;
-            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #fff;
             margin-bottom: 20px;
             font-weight: 900;
         }
@@ -83,9 +82,17 @@
 
         h3 {
             font-size: 1.5em;
-            color: #f093fb;
+            color: #fff;
             margin: 30px 0 15px;
             font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h3 i {
+            color: #667eea;
+            font-size: 0.9em;
         }
 
         p {
@@ -121,17 +128,29 @@
             border: 1px solid rgba(102, 126, 234, 0.3);
             border-radius: 15px;
             padding: 25px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            backdrop-filter: blur(10px);
         }
 
         .feature-box:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
         }
 
         .feature-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(102, 126, 234, 0.15);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #667eea;
+            backdrop-filter: blur(10px);
         }
 
         .feature-title {
@@ -156,18 +175,16 @@
         .stat-box {
             text-align: center;
             padding: 30px 20px;
-            background: rgba(240, 147, 251, 0.1);
-            border: 1px solid rgba(240, 147, 251, 0.3);
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
             border-radius: 15px;
+            backdrop-filter: blur(10px);
         }
 
         .stat-number {
             font-size: 3em;
             font-weight: 900;
-            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #667eea;
             margin-bottom: 10px;
         }
 
@@ -196,7 +213,7 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
+            background: #667eea;
             border: 4px solid #0a0a0f;
         }
 
@@ -214,9 +231,11 @@
         .cta-section {
             text-align: center;
             padding: 60px 40px;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(240, 147, 251, 0.2) 100%);
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
             border-radius: 20px;
             margin: 40px 0;
+            backdrop-filter: blur(20px);
         }
 
         .cta-title {
@@ -229,19 +248,22 @@
         .cta-btn {
             display: inline-block;
             padding: 18px 40px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: rgba(102, 126, 234, 0.2);
+            border: 2px solid #667eea;
             color: white;
             text-decoration: none;
-            border-radius: 50px;
+            border-radius: 12px;
             font-weight: 700;
             font-size: 1.2em;
             margin-top: 20px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
         }
 
         .cta-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+            background: rgba(102, 126, 234, 0.3);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
         }
 
         footer {
@@ -266,7 +288,7 @@
         }
 
         .footer-links a:hover {
-            color: #f093fb;
+            color: #fff;
         }
 
         @media (max-width: 768px) {
@@ -308,37 +330,37 @@
 
             <div class="features-grid">
                 <div class="feature-box">
-                    <div class="feature-icon">🎨</div>
+                    <div class="feature-icon"><i class="fas fa-palette"></i></div>
                     <div class="feature-title">Modern Design</div>
                     <div class="feature-desc">Beautiful glassmorphism UI with smooth animations and premium visual design that puts the art first.</div>
                 </div>
 
                 <div class="feature-box">
-                    <div class="feature-icon">⚡</div>
+                    <div class="feature-icon"><i class="fas fa-bolt"></i></div>
                     <div class="feature-title">Lightning Fast</div>
                     <div class="feature-desc">Instant search with autocomplete, optimized loading, and responsive performance on any device.</div>
                 </div>
 
                 <div class="feature-box">
-                    <div class="feature-icon">📱</div>
+                    <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
                     <div class="feature-title">Mobile First</div>
                     <div class="feature-desc">Designed from the ground up for one-handed mobile browsing with intuitive gestures and touch controls.</div>
                 </div>
 
                 <div class="feature-box">
-                    <div class="feature-icon">🔍</div>
+                    <div class="feature-icon"><i class="fas fa-search"></i></div>
                     <div class="feature-title">Powerful Search</div>
                     <div class="feature-desc">Advanced tag-based search system that helps you find exactly what you're looking for in seconds.</div>
                 </div>
 
                 <div class="feature-box">
-                    <div class="feature-icon">💾</div>
+                    <div class="feature-icon"><i class="fas fa-archive"></i></div>
                     <div class="feature-title">Archival Tools</div>
                     <div class="feature-desc">Professional features for serious collectors including starring, downloading, and organization capabilities.</div>
                 </div>
 
                 <div class="feature-box">
-                    <div class="feature-icon">🌐</div>
+                    <div class="feature-icon"><i class="fas fa-layer-group"></i></div>
                     <div class="feature-title">Multi-Source</div>
                     <div class="feature-desc">Aggregates content from Danbooru, Rule34, Safebooru, and other public galleries for comprehensive coverage.</div>
                 </div>
@@ -411,19 +433,19 @@
         <div class="content-section">
             <h2>Our Values</h2>
 
-            <h3>🎯 User Experience First</h3>
+            <h3><i class="fas fa-bullseye"></i> User Experience First</h3>
             <p>Every decision we make prioritizes the user experience. From our glassmorphism design to our lightning-fast search, we obsess over making Dirty4 a joy to use.</p>
 
-            <h3>🎨 Respect for Artists</h3>
+            <h3><i class="fas fa-palette"></i> Respect for Artists</h3>
             <p>We deeply respect digital artists and their work. While we aggregate content from public sources, we always maintain proper attribution and encourage users to support the artists they love.</p>
 
-            <h3>🔒 Privacy & Security</h3>
+            <h3><i class="fas fa-shield-alt"></i> Privacy & Security</h3>
             <p>Your privacy matters. We collect minimal data, store preferences locally, and are transparent about our practices. Read our comprehensive <a href="privacy-policy.html" style="color: #667eea;">Privacy Policy</a> to learn more.</p>
 
-            <h3>💡 Continuous Improvement</h3>
+            <h3><i class="fas fa-lightbulb"></i> Continuous Improvement</h3>
             <p>We're never satisfied with "good enough." We continuously iterate, improve, and add new features based on user feedback and technological advances.</p>
 
-            <h3>🌍 Community Focus</h3>
+            <h3><i class="fas fa-users"></i> Community Focus</h3>
             <p>Dirty4 exists to serve the digital art community. We actively listen to user feedback and engage with our community through our blog, social media, and support channels.</p>
         </div>
 
