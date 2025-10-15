@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">Article | Dirty4 Art Blog</title>
     <meta name="description" content="Read our latest article about digital art, artists, and the creative community.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
         * {
@@ -14,27 +15,56 @@
         }
 
         body {
-            font-family: Georgia, 'Times New Roman', serif;
-            background: #0f0f0f;
+            font-family: 'Inter', Georgia, 'Times New Roman', serif;
+            background: #0a0a0f;
             color: #e0e0e0;
             line-height: 1.8;
         }
 
         header {
-            background: #1a1a1a;
-            padding: 20px;
-            border-bottom: 2px solid #ff1744;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            padding: 30px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         header h1 {
-            font-size: 1.5em;
-            color: #ff1744;
+            font-size: 2em;
+            color: #fff;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        header h1 i {
+            color: #667eea;
+        }
+
+        nav {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
         }
 
         nav a {
             color: #e0e0e0;
             text-decoration: none;
-            margin-right: 20px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav a:hover {
+            background: rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.5);
+            transform: translateY(-2px);
         }
 
         article {
@@ -56,7 +86,7 @@
         }
 
         .article-category {
-            background: #ff1744;
+            background: #667eea;
             color: white;
             padding: 5px 15px;
             border-radius: 5px;
@@ -85,7 +115,7 @@
             font-size: 2em;
             margin: 40px 0 20px;
             color: #fff;
-            border-left: 4px solid #ff1744;
+            border-left: 4px solid #667eea;
             padding-left: 20px;
         }
 
@@ -109,7 +139,7 @@
         }
 
         .quote {
-            border-left: 4px solid #ff1744;
+            border-left: 4px solid #667eea;
             padding: 20px 30px;
             margin: 30px 0;
             background: #1a1a1a;
@@ -137,11 +167,30 @@
         }
 
         footer {
-            background: #1a1a1a;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
             padding: 40px 20px;
             text-align: center;
             margin-top: 80px;
-            border-top: 2px solid #ff1744;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .footer-links a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #fff;
         }
 
         @media (max-width: 768px) {
@@ -157,11 +206,11 @@
 </head>
 <body>
     <header>
-        <h1>🎨 Art Blog</h1>
+        <h1><i class="fas fa-palette"></i>Art Blog</h1>
         <nav>
-            <a href="index.html">🏠 Home</a>
-            <a href="blog.html">📝 Blog</a>
-            <a href="app.html">🖼️ Gallery</a>
+            <a href="index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="blog.html"><i class="fas fa-blog"></i> Blog</a>
+            <a href="app.html"><i class="fas fa-images"></i> Gallery</a>
         </nav>
     </header>
 
@@ -186,7 +235,16 @@
     </article>
 
     <footer>
-        <p>&copy; 2024 Dirty4 Art Gallery. All rights reserved.</p>
+        <p>&copy; 2025 Dirty4 Art Gallery. All rights reserved.</p>
+        <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="blog.html">Blog</a>
+            <a href="help.html">Help & FAQ</a>
+            <a href="privacy-policy.html">Privacy Policy</a>
+            <a href="terms-of-service.html">Terms of Service</a>
+            <a href="contact.html">Contact</a>
+        </div>
     </footer>
 
     <script>
