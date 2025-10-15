@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="google-adsense-account" content="ca-pub-4520354171749096">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4520354171749096"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Dirty4 - Professional Anime Art Gallery Platform</title>
+    <meta name="description" content="Learn about Dirty4, the revolutionary anime art gallery and archival platform. Discover our mission, features, and commitment to the digital art community.">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 900;
+            color: white;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+        }
+
+        h1 {
+            font-size: 3.5em;
+            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        .tagline {
+            font-size: 1.5em;
+            color: #999;
+            margin-bottom: 40px;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(20px);
+        }
+
+        h2 {
+            font-size: 2.2em;
+            color: #667eea;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            color: #f093fb;
+            margin: 30px 0 15px;
+            font-weight: 700;
+        }
+
+        p {
+            margin: 15px 0;
+            color: #c0c0c0;
+            font-size: 1.1em;
+        }
+
+        ul, ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        li {
+            margin: 12px 0;
+            color: #c0c0c0;
+            font-size: 1.05em;
+        }
+
+        strong {
+            color: #fff;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .feature-box {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            font-size: 1.3em;
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            color: #999;
+            font-size: 0.95em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(240, 147, 251, 0.1);
+            border: 1px solid rgba(240, 147, 251, 0.3);
+            border-radius: 15px;
+        }
+
+        .stat-number {
+            font-size: 3em;
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            color: #999;
+            font-weight: 600;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+            border-left: 3px solid rgba(102, 126, 234, 0.3);
+            margin: 30px 0;
+        }
+
+        .timeline-item {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -47px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
+            border: 4px solid #0a0a0f;
+        }
+
+        .timeline-date {
+            color: #667eea;
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-bottom: 8px;
+        }
+
+        .timeline-content {
+            color: #c0c0c0;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 60px 40px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(240, 147, 251, 0.2) 100%);
+            border-radius: 20px;
+            margin: 40px 0;
+        }
+
+        .cta-title {
+            font-size: 2.5em;
+            color: #fff;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2em;
+            margin-top: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 60px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .footer-links a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #f093fb;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .tagline {
+                font-size: 1.2em;
+            }
+
+            .content-section {
+                padding: 25px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">D4</div>
+            <h1>About Dirty4</h1>
+            <p class="tagline">Revolutionary Anime Art Gallery & Archival Platform</p>
+        </header>
+
+        <div class="content-section">
+            <h2>Our Mission</h2>
+            <p>Dirty4 was created with a simple yet ambitious goal: to provide the best possible experience for browsing, discovering, and archiving anime and gaming artwork. We believe that digital art deserves a platform that combines beautiful design with powerful functionality, making art discovery both effortless and enjoyable.</p>
+
+            <p>In a world where digital art is often scattered across countless platforms with clunky interfaces and limited search capabilities, we saw an opportunity to do better. Dirty4 represents our commitment to creating a professional-grade art gallery that respects both the art and the artists who create it.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>What Makes Dirty4 Different</h2>
+
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="feature-icon">🎨</div>
+                    <div class="feature-title">Modern Design</div>
+                    <div class="feature-desc">Beautiful glassmorphism UI with smooth animations and premium visual design that puts the art first.</div>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-title">Lightning Fast</div>
+                    <div class="feature-desc">Instant search with autocomplete, optimized loading, and responsive performance on any device.</div>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">📱</div>
+                    <div class="feature-title">Mobile First</div>
+                    <div class="feature-desc">Designed from the ground up for one-handed mobile browsing with intuitive gestures and touch controls.</div>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">🔍</div>
+                    <div class="feature-title">Powerful Search</div>
+                    <div class="feature-desc">Advanced tag-based search system that helps you find exactly what you're looking for in seconds.</div>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">💾</div>
+                    <div class="feature-title">Archival Tools</div>
+                    <div class="feature-desc">Professional features for serious collectors including starring, downloading, and organization capabilities.</div>
+                </div>
+
+                <div class="feature-box">
+                    <div class="feature-icon">🌐</div>
+                    <div class="feature-title">Multi-Source</div>
+                    <div class="feature-desc">Aggregates content from Danbooru, Rule34, Safebooru, and other public galleries for comprehensive coverage.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Platform Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="stat-number">1M+</div>
+                    <div class="stat-label">Artworks Indexed</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">50ms</div>
+                    <div class="stat-label">Search Speed</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Mobile Optimized</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Always Available</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Our Story</h2>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2024 - The Beginning</div>
+                    <div class="timeline-content">
+                        <p>Dirty4 started as a personal project born from frustration with existing art gallery platforms. We wanted something faster, more beautiful, and more user-friendly.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">Early 2025 - Public Launch</div>
+                    <div class="timeline-content">
+                        <p>After months of development and refinement, we launched Dirty4 to the public. The response from the community exceeded our expectations.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">Mid 2025 - Major Updates</div>
+                    <div class="timeline-content">
+                        <p>Implemented real API integrations with Safebooru and Danbooru, added mobile optimizations, and introduced advanced archival features.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">Late 2025 - Community Growth</div>
+                    <div class="timeline-content">
+                        <p>Launched our blog featuring digital art insights, tutorials, and artist spotlights. The Dirty4 community continues to grow daily.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-date">Today - Continuous Innovation</div>
+                    <div class="timeline-content">
+                        <p>We continue to improve Dirty4 based on user feedback, adding new features and optimizing performance. The journey has just begun.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2>Our Values</h2>
+
+            <h3>🎯 User Experience First</h3>
+            <p>Every decision we make prioritizes the user experience. From our glassmorphism design to our lightning-fast search, we obsess over making Dirty4 a joy to use.</p>
+
+            <h3>🎨 Respect for Artists</h3>
+            <p>We deeply respect digital artists and their work. While we aggregate content from public sources, we always maintain proper attribution and encourage users to support the artists they love.</p>
+
+            <h3>🔒 Privacy & Security</h3>
+            <p>Your privacy matters. We collect minimal data, store preferences locally, and are transparent about our practices. Read our comprehensive <a href="privacy-policy.html" style="color: #667eea;">Privacy Policy</a> to learn more.</p>
+
+            <h3>💡 Continuous Improvement</h3>
+            <p>We're never satisfied with "good enough." We continuously iterate, improve, and add new features based on user feedback and technological advances.</p>
+
+            <h3>🌍 Community Focus</h3>
+            <p>Dirty4 exists to serve the digital art community. We actively listen to user feedback and engage with our community through our blog, social media, and support channels.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Technology & Innovation</h2>
+
+            <p>Dirty4 is built using modern web technologies to ensure fast, reliable performance:</p>
+
+            <ul>
+                <li><strong>Progressive Web App (PWA):</strong> Works offline and can be installed on any device</li>
+                <li><strong>Glassmorphism Design:</strong> Cutting-edge visual design that's both beautiful and functional</li>
+                <li><strong>API Integrations:</strong> Real-time data from Danbooru, Safebooru, and other public galleries</li>
+                <li><strong>Local-First Architecture:</strong> Your data stays on your device for privacy and performance</li>
+                <li><strong>Responsive Design:</strong> Flawless experience on desktop, tablet, and mobile devices</li>
+                <li><strong>Optimized Performance:</strong> Sub-100ms search times and lightning-fast page loads</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>Our Commitment</h2>
+
+            <p>We're committed to:</p>
+
+            <ul>
+                <li>Maintaining a free, accessible platform for all art enthusiasts</li>
+                <li>Continuously improving and adding new features</li>
+                <li>Protecting user privacy and data security</li>
+                <li>Supporting the digital art community through education and resources</li>
+                <li>Providing transparent, ethical service</li>
+                <li>Responding to user feedback and implementing requested features</li>
+            </ul>
+
+            <p>Dirty4 is more than just an art gallery—it's a platform built by art enthusiasts, for art enthusiasts. We're passionate about digital art and committed to providing the best possible way to discover and enjoy it.</p>
+        </div>
+
+        <div class="content-section">
+            <h2>Content & Sources</h2>
+
+            <p>Dirty4 aggregates artwork from public art galleries and repositories, including:</p>
+
+            <ul>
+                <li><strong>Danbooru:</strong> One of the largest anime-style image boards with millions of tagged images</li>
+                <li><strong>Safebooru:</strong> Family-friendly version of the popular imageboard</li>
+                <li><strong>Public Galleries:</strong> Various other publicly accessible art repositories</li>
+            </ul>
+
+            <p>All content displayed on Dirty4 is sourced from these public repositories. We do not host the images ourselves; we simply provide a better interface to browse and discover them. We respect copyright and intellectual property—if you're an artist and have concerns about your work, please <a href="contact.html" style="color: #667eea;">contact us</a>.</p>
+        </div>
+
+        <div class="cta-section">
+            <h2 class="cta-title">Ready to Explore?</h2>
+            <p style="font-size: 1.2em; color: #999; margin-bottom: 10px;">Join thousands of art enthusiasts discovering amazing artwork every day</p>
+            <a href="app.html" class="cta-btn">Launch Dirty4 Gallery</a>
+        </div>
+
+        <footer>
+            <p style="color: #999;">&copy; 2025 Dirty4. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="blog.html">Blog</a>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-of-service.html">Terms of Service</a>
+                <a href="contact.html">Contact</a>
+                <a href="help.html">Help & FAQ</a>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Google AdSense Ad Unit -->
+    <div style="text-align: center; margin: 40px auto; max-width: 728px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-4520354171749096"
+             data-ad-slot="1234567890"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+</body>
+</html>

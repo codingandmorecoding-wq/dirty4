@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="google-adsense-account" content="ca-pub-4520354171749096">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4520354171749096"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & FAQ - Dirty4 User Guide</title>
+    <meta name="description" content="Get help using Dirty4. Find answers to frequently asked questions about search, tags, downloads, mobile usage, and more.">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: #0a0a0f;
+            color: #e0e0e0;
+            line-height: 1.8;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            background: linear-gradient(135deg, #667eea 0%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            color: #999;
+        }
+
+        .search-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 15px 25px;
+            margin: 30px auto;
+            max-width: 600px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .search-box input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.1em;
+            outline: none;
+        }
+
+        .search-box input::placeholder {
+            color: #666;
+        }
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .category-card {
+            background: rgba(102, 126, 234, 0.1);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .category-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .category-title {
+            font-size: 1.4em;
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .category-desc {
+            color: #999;
+            font-size: 0.95em;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(20px);
+        }
+
+        h2 {
+            font-size: 2.2em;
+            color: #667eea;
+            margin-bottom: 25px;
+            font-weight: 800;
+        }
+
+        h3 {
+            font-size: 1.5em;
+            color: #f093fb;
+            margin: 30px 0 15px;
+            font-weight: 700;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+
+        .faq-question {
+            font-size: 1.2em;
+            color: #fff;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-answer {
+            color: #c0c0c0;
+            font-size: 1.05em;
+            line-height: 1.7;
+        }
+
+        .faq-answer ul {
+            padding-left: 25px;
+            margin: 10px 0;
+        }
+
+        .faq-answer li {
+            margin: 8px 0;
+        }
+
+        .faq-answer code {
+            background: rgba(102, 126, 234, 0.2);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            color: #4facfe;
+        }
+
+        .tip-box {
+            background: rgba(79, 172, 254, 0.1);
+            border-left: 4px solid #4facfe;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .warning-box {
+            background: rgba(255, 87, 108, 0.1);
+            border-left: 4px solid #f5576c;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .quick-link {
+            background: rgba(240, 147, 251, 0.1);
+            border: 1px solid rgba(240, 147, 251, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            color: #f093fb;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .quick-link:hover {
+            background: rgba(240, 147, 251, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .content-section {
+                padding: 25px;
+            }
+
+            .categories {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Help & FAQ</h1>
+            <p class="subtitle">Everything you need to know about using Dirty4</p>
+
+            <div class="search-box">
+                <span style="font-size: 1.5em;">🔍</span>
+                <input type="text" id="helpSearch" placeholder="Search for help topics..." onkeyup="searchFAQ()">
+            </div>
+        </header>
+
+        <div class="categories">
+            <div class="category-card" onclick="scrollToSection('getting-started')">
+                <div class="category-icon">🚀</div>
+                <div class="category-title">Getting Started</div>
+                <div class="category-desc">New to Dirty4? Start here</div>
+            </div>
+
+            <div class="category-card" onclick="scrollToSection('search-tags')">
+                <div class="category-icon">🔍</div>
+                <div class="category-title">Search & Tags</div>
+                <div class="category-desc">Master advanced searching</div>
+            </div>
+
+            <div class="category-card" onclick="scrollToSection('features')">
+                <div class="category-icon">⭐</div>
+                <div class="category-title">Features</div>
+                <div class="category-desc">Starring, downloads, and more</div>
+            </div>
+
+            <div class="category-card" onclick="scrollToSection('mobile')">
+                <div class="category-icon">📱</div>
+                <div class="category-title">Mobile</div>
+                <div class="category-desc">Using Dirty4 on mobile</div>
+            </div>
+
+            <div class="category-card" onclick="scrollToSection('troubleshooting')">
+                <div class="category-icon">🔧</div>
+                <div class="category-title">Troubleshooting</div>
+                <div class="category-desc">Fix common issues</div>
+            </div>
+
+            <div class="category-card" onclick="scrollToSection('privacy')">
+                <div class="category-icon">🔒</div>
+                <div class="category-title">Privacy & Security</div>
+                <div class="category-desc">Your data and privacy</div>
+            </div>
+        </div>
+
+        <!-- Getting Started Section -->
+        <div class="content-section" id="getting-started">
+            <h2>🚀 Getting Started</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    What is Dirty4?
+                </div>
+                <div class="faq-answer">
+                    Dirty4 is a modern, mobile-optimized anime art gallery and archival platform. We aggregate artwork from public sources like Danbooru and Safebooru, providing a beautiful, fast interface for browsing and discovering digital art.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    Do I need to create an account?
+                </div>
+                <div class="faq-answer">
+                    No! Dirty4 works without requiring an account. All your preferences, starred items, and search history are stored locally in your browser. This means better privacy and faster performance.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    How do I start browsing?
+                </div>
+                <div class="faq-answer">
+                    Simply go to the <a href="app.html" style="color: #667eea; font-weight: 600;">Gallery App</a> and start exploring! You can:
+                    <ul>
+                        <li>Browse the main feed for popular artwork</li>
+                        <li>Use the search bar to find specific content</li>
+                        <li>Click on tags to discover related artwork</li>
+                        <li>Star items to save them to your favorites</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    Is Dirty4 free to use?
+                </div>
+                <div class="faq-answer">
+                    Yes! Dirty4 is completely free. We display ads through Google AdSense to support development and hosting costs, but all features are available to everyone at no charge.
+                </div>
+            </div>
+        </div>
+
+        <!-- Search & Tags Section -->
+        <div class="content-section" id="search-tags">
+            <h2>🔍 Search & Tags</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    How do I search for artwork?
+                </div>
+                <div class="faq-answer">
+                    Use the search bar at the top of the gallery. You can search by:
+                    <ul>
+                        <li><strong>Tags:</strong> Enter keywords like "anime girl" or "cyberpunk"</li>
+                        <li><strong>Multiple tags:</strong> Combine tags with spaces: <code>anime landscape sunset</code></li>
+                        <li><strong>Specific characters:</strong> Search character names directly</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>💡 Pro Tip:</strong> The search has autocomplete! Start typing and suggestions will appear to help you find the right tags.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    What are tags?
+                </div>
+                <div class="faq-answer">
+                    Tags are keywords that describe artwork. They can include:
+                    <ul>
+                        <li><strong>Characters:</strong> Character names and franchises</li>
+                        <li><strong>Styles:</strong> Anime, manga, realistic, chibi, etc.</li>
+                        <li><strong>Elements:</strong> Objects, settings, actions in the image</li>
+                        <li><strong>Artists:</strong> Creator names</li>
+                        <li><strong>Meta tags:</strong> Quality, resolution, aspect ratio</li>
+                    </ul>
+                    Learn more in our <a href="blog.html" style="color: #667eea; font-weight: 600;">Guide to Understanding Art Tags</a>.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    How do advanced search operators work?
+                </div>
+                <div class="faq-answer">
+                    Use these operators for precise searches:
+                    <ul>
+                        <li><code>tag1 tag2</code> - Images with BOTH tags (AND)</li>
+                        <li><code>~tag1 ~tag2</code> - Images with EITHER tag (OR)</li>
+                        <li><code>-tag</code> - Exclude images with this tag (NOT)</li>
+                        <li><code>tag*</code> - Wildcard matching (finds tag, tags, tagging, etc.)</li>
+                    </ul>
+                    <strong>Example:</strong> <code>anime girl -blonde</code> finds anime girls without blonde hair.
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="content-section" id="features">
+            <h2>⭐ Features</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    How do I save favorite artwork?
+                </div>
+                <div class="faq-answer">
+                    Click the star icon on any image to add it to your favorites. Starred items are saved locally in your browser and accessible through the "Starred" tab. Your favorites persist across sessions until you clear your browser data.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    Can I download images?
+                </div>
+                <div class="faq-answer">
+                    Yes! Click on an image to view it full-size, then use the download button. Images are sourced from public repositories like Danbooru and Safebooru. Please respect copyright and use downloaded images responsibly.
+                    <div class="warning-box">
+                        <strong>⚠️ Copyright Notice:</strong> Downloaded images are for personal use only unless you have permission from the artist. Do not redistribute or use commercially without proper licensing.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    What's the difference between sources?
+                </div>
+                <div class="faq-answer">
+                    Dirty4 aggregates from multiple sources:
+                    <ul>
+                        <li><strong>Danbooru:</strong> Large, comprehensive imageboard with detailed tagging</li>
+                        <li><strong>Safebooru:</strong> Family-friendly version with filtered content</li>
+                        <li><strong>Other galleries:</strong> Additional public art repositories</li>
+                    </ul>
+                    You can filter by source in the gallery settings.
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Section -->
+        <div class="content-section" id="mobile">
+            <h2>📱 Mobile Usage</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    Is Dirty4 mobile-friendly?
+                </div>
+                <div class="faq-answer">
+                    Absolutely! Dirty4 is designed with mobile-first principles. Our glassmorphism UI is optimized for one-handed browsing with intuitive gestures and thumb-friendly navigation.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    Can I install Dirty4 as an app?
+                </div>
+                <div class="faq-answer">
+                    Yes! Dirty4 is a Progressive Web App (PWA). You can install it to your home screen:
+                    <ul>
+                        <li><strong>iOS:</strong> Safari → Share → Add to Home Screen</li>
+                        <li><strong>Android:</strong> Chrome → Menu → Install App</li>
+                        <li><strong>Desktop:</strong> Look for the install button in your browser's address bar</li>
+                    </ul>
+                    Installed apps work offline and provide a native app-like experience!
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    What mobile gestures are supported?
+                </div>
+                <div class="faq-answer">
+                    <ul>
+                        <li><strong>Swipe left/right:</strong> Navigate between images</li>
+                        <li><strong>Tap:</strong> View full-size image</li>
+                        <li><strong>Long press:</strong> Quick actions menu</li>
+                        <li><strong>Pinch to zoom:</strong> Zoom in on details</li>
+                        <li><strong>Pull to refresh:</strong> Reload current view</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Troubleshooting Section -->
+        <div class="content-section" id="troubleshooting">
+            <h2>🔧 Troubleshooting</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    Images aren't loading. What should I do?
+                </div>
+                <div class="faq-answer">
+                    Try these solutions:
+                    <ul>
+                        <li>Check your internet connection</li>
+                        <li>Refresh the page (Ctrl+R or Cmd+R)</li>
+                        <li>Clear your browser cache</li>
+                        <li>Disable browser extensions that might block images</li>
+                        <li>Try a different browser or device</li>
+                    </ul>
+                    If problems persist, the source server (Danbooru/Safebooru) might be temporarily down.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    Search isn't working properly
+                </div>
+                <div class="faq-answer">
+                    <ul>
+                        <li>Check spelling - tags must match exactly</li>
+                        <li>Use autocomplete suggestions</li>
+                        <li>Try broader search terms</li>
+                        <li>Remove special characters</li>
+                        <li>Clear your browser cache</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    I lost my starred items!
+                </div>
+                <div class="faq-answer">
+                    Starred items are stored in your browser's local storage. You may have lost them if you:
+                    <ul>
+                        <li>Cleared your browser data/cookies</li>
+                        <li>Used incognito/private mode</li>
+                        <li>Switched browsers or devices</li>
+                        <li>Used a browser cleaner tool</li>
+                    </ul>
+                    <div class="tip-box">
+                        <strong>💡 Prevention Tip:</strong> Regularly export your starred items (feature coming soon) or take screenshots of important artwork.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    The site is slow or laggy
+                </div>
+                <div class="faq-answer">
+                    <ul>
+                        <li>Close unnecessary browser tabs</li>
+                        <li>Disable heavy browser extensions</li>
+                        <li>Update your browser to the latest version</li>
+                        <li>Try a different browser (Chrome, Firefox, Edge, Safari)</li>
+                        <li>Check if your device has sufficient RAM available</li>
+                        <li>Reduce image quality in settings (if available)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Privacy Section -->
+        <div class="content-section" id="privacy">
+            <h2>🔒 Privacy & Security</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    What data does Dirty4 collect?
+                </div>
+                <div class="faq-answer">
+                    We collect minimal data:
+                    <ul>
+                        <li><strong>Local Storage:</strong> Preferences, starred items, search history (stored on YOUR device)</li>
+                        <li><strong>Analytics:</strong> Anonymous usage statistics to improve the platform</li>
+                        <li><strong>Cookies:</strong> For functionality and advertising (via Google AdSense)</li>
+                    </ul>
+                    We do NOT collect or store personal information. Read our full <a href="privacy-policy.html" style="color: #667eea; font-weight: 600;">Privacy Policy</a>.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    Can others see my browsing history?
+                </div>
+                <div class="faq-answer">
+                    No. Your browsing history, starred items, and preferences are stored locally in your browser. We cannot see them, and they're never transmitted to our servers. Only you have access to this data on your device.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    How do I delete my data?
+                </div>
+                <div class="faq-answer">
+                    Since data is stored locally:
+                    <ul>
+                        <li>Clear your browser cache and cookies</li>
+                        <li>Use your browser's "Clear browsing data" feature</li>
+                        <li>Select "All time" for the time range</li>
+                        <li>Ensure "Cookies and site data" is checked</li>
+                    </ul>
+                    This will remove all Dirty4 data from your device.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>❓</span>
+                    How do I opt out of ads?
+                </div>
+                <div class="faq-answer">
+                    We use Google AdSense for advertising. To control ad personalization:
+                    <ul>
+                        <li>Visit <a href="https://www.google.com/settings/ads" target="_blank" style="color: #667eea;">Google Ads Settings</a></li>
+                        <li>Turn off "Ad Personalization"</li>
+                        <li>Use browser extensions like uBlock Origin (may affect site functionality)</li>
+                    </ul>
+                    Note: Ads help keep Dirty4 free for everyone!
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="content-section">
+            <h2>📚 More Resources</h2>
+            <div class="quick-links">
+                <a href="about.html" class="quick-link">About Dirty4</a>
+                <a href="blog.html" class="quick-link">Art Blog</a>
+                <a href="privacy-policy.html" class="quick-link">Privacy Policy</a>
+                <a href="terms-of-service.html" class="quick-link">Terms of Service</a>
+                <a href="contact.html" class="quick-link">Contact Support</a>
+            </div>
+        </div>
+
+        <div class="content-section" style="text-align: center;">
+            <h2>Still Need Help?</h2>
+            <p style="font-size: 1.1em; color: #c0c0c0; margin-bottom: 25px;">
+                Can't find what you're looking for? Our support team is here to help!
+            </p>
+            <a href="contact.html" class="back-link">Contact Support</a>
+        </div>
+    </div>
+
+    <!-- Google AdSense Ad Unit -->
+    <div style="text-align: center; margin: 40px auto; max-width: 728px;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-4520354171749096"
+             data-ad-slot="1234567890"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <script>
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function searchFAQ() {
+            const input = document.getElementById('helpSearch');
+            const filter = input.value.toLowerCase();
+            const sections = document.querySelectorAll('.content-section');
+
+            sections.forEach(section => {
+                const text = section.textContent.toLowerCase();
+                if (text.includes(filter)) {
+                    section.style.display = '';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+
+            // Show all if search is empty
+            if (filter === '') {
+                sections.forEach(section => section.style.display = '');
+            }
+        }
+    </script>
+</body>
+</html>
