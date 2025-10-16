@@ -9,27 +9,10 @@
     <title>About Dirty4 - Professional Anime Art Gallery Platform</title>
     <meta name="description" content="Learn about Dirty4, the revolutionary anime art gallery and archival platform. Discover our mission, features, and commitment to the digital art community.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="shared-styles.css">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-            background: #0a0a0f;
-            color: #e0e0e0;
-            line-height: 1.8;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-
+        /* Page-specific styles */
         header {
             text-align: center;
             margin-bottom: 60px;
@@ -47,73 +30,46 @@
             justify-content: center;
             font-size: 48px;
             font-weight: 900;
-            color: #667eea;
+            color: var(--color-primary);
             backdrop-filter: blur(20px);
         }
 
         h1 {
             font-size: 3.5em;
-            color: #fff;
-            margin-bottom: 20px;
-            font-weight: 900;
         }
 
         .tagline {
             font-size: 1.5em;
-            color: #999;
+            color: var(--text-muted);
             margin-bottom: 40px;
         }
 
         .content-section {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--border-radius-lg);
             padding: 40px;
             margin-bottom: 40px;
             backdrop-filter: blur(20px);
         }
 
-        h2 {
-            font-size: 2.2em;
-            color: #667eea;
-            margin-bottom: 20px;
-            font-weight: 800;
-        }
-
         h3 {
-            font-size: 1.5em;
-            color: #fff;
-            margin: 30px 0 15px;
-            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
         h3 i {
-            color: #667eea;
+            color: var(--color-primary);
             font-size: 0.9em;
         }
 
         p {
-            margin: 15px 0;
-            color: #c0c0c0;
             font-size: 1.1em;
         }
 
-        ul, ol {
-            margin: 20px 0;
-            padding-left: 30px;
-        }
-
         li {
-            margin: 12px 0;
-            color: #c0c0c0;
             font-size: 1.05em;
-        }
-
-        strong {
-            color: #fff;
         }
 
         .features-grid {
@@ -145,23 +101,23 @@
             align-items: center;
             justify-content: center;
             background: rgba(102, 126, 234, 0.15);
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            border-radius: 12px;
+            border: 1px solid var(--color-primary-border);
+            border-radius: var(--border-radius);
             margin-bottom: 20px;
             font-size: 24px;
-            color: #667eea;
+            color: var(--color-primary);
             backdrop-filter: blur(10px);
         }
 
         .feature-title {
             font-size: 1.3em;
-            color: #fff;
+            color: var(--text-primary);
             font-weight: 700;
             margin-bottom: 10px;
         }
 
         .feature-desc {
-            color: #999;
+            color: var(--text-muted);
             font-size: 0.95em;
         }
 
@@ -175,8 +131,8 @@
         .stat-box {
             text-align: center;
             padding: 30px 20px;
-            background: rgba(102, 126, 234, 0.1);
-            border: 1px solid rgba(102, 126, 234, 0.3);
+            background: var(--color-primary-light);
+            border: 1px solid var(--color-primary-border);
             border-radius: 15px;
             backdrop-filter: blur(10px);
         }
@@ -184,19 +140,19 @@
         .stat-number {
             font-size: 3em;
             font-weight: 900;
-            color: #667eea;
+            color: var(--color-primary);
             margin-bottom: 10px;
         }
 
         .stat-label {
-            color: #999;
+            color: var(--text-muted);
             font-weight: 600;
         }
 
         .timeline {
             position: relative;
             padding-left: 40px;
-            border-left: 3px solid rgba(102, 126, 234, 0.3);
+            border-left: 3px solid var(--color-primary-border);
             margin: 30px 0;
         }
 
@@ -213,34 +169,34 @@
             width: 20px;
             height: 20px;
             border-radius: 50%;
-            background: #667eea;
-            border: 4px solid #0a0a0f;
+            background: var(--color-primary);
+            border: 4px solid var(--bg-primary);
         }
 
         .timeline-date {
-            color: #667eea;
+            color: var(--color-primary);
             font-weight: 700;
             font-size: 1.2em;
             margin-bottom: 8px;
         }
 
         .timeline-content {
-            color: #c0c0c0;
+            color: var(--text-darker);
         }
 
         .cta-section {
             text-align: center;
             padding: 60px 40px;
-            background: rgba(102, 126, 234, 0.1);
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            border-radius: 20px;
+            background: var(--color-primary-light);
+            border: 1px solid var(--color-primary-border);
+            border-radius: var(--border-radius-lg);
             margin: 40px 0;
             backdrop-filter: blur(20px);
         }
 
         .cta-title {
             font-size: 2.5em;
-            color: #fff;
+            color: var(--text-primary);
             margin-bottom: 20px;
             font-weight: 800;
         }
@@ -248,11 +204,11 @@
         .cta-btn {
             display: inline-block;
             padding: 18px 40px;
-            background: rgba(102, 126, 234, 0.2);
-            border: 2px solid #667eea;
-            color: white;
+            background: var(--color-primary-light);
+            border: 2px solid var(--color-primary);
+            color: var(--text-primary);
             text-decoration: none;
-            border-radius: 12px;
+            border-radius: var(--border-radius);
             font-weight: 700;
             font-size: 1.2em;
             margin-top: 20px;
@@ -264,31 +220,6 @@
             transform: translateY(-3px);
             background: rgba(102, 126, 234, 0.3);
             box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
-        }
-
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin-top: 60px;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .footer-links a {
-            color: #667eea;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: #fff;
         }
 
         @media (max-width: 768px) {
