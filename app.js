@@ -1560,40 +1560,26 @@ class Rule34MobileApp {
         }
 
         // Set modal title with artist info when available
-        console.log('=== MODAL TITLE DEBUG ===');
-        console.log('Modal imageData:', imageData.id, 'source:', imageData.source, 'tag_string_artist:', imageData.tag_string_artist, 'artists:', imageData.artists);
-        console.log('Full imageData object:', imageData);
-
         let titleText = '';
         let artistName = '';
 
-        // Get artist name from different sources
-        if (imageData.source === 'historical' && imageData.tag_string_artist) {
-            // Historical R2 content uses tag_string_artist field
+        // Prioritize tag_string_artist field (from R2 search API)
+        if (imageData.tag_string_artist && imageData.tag_string_artist.trim().length > 0) {
             artistName = imageData.tag_string_artist.trim();
-            console.log('Using historical artist:', artistName);
-        } else if (imageData.artists && imageData.artists.length > 0) {
-            // Danbooru content uses artists array
+        }
+        // Fallback to artists array (for Danbooru content)
+        else if (imageData.artists && imageData.artists.length > 0) {
             const validArtists = imageData.artists.filter(artist => artist && artist.trim().length > 0);
             if (validArtists.length > 0) {
                 artistName = validArtists.join(', ');
-                console.log('Using Danbooru artists:', artistName);
-            }
-        } else {
-            console.log('No artist found, checking all fields...');
-            console.log('Available keys:', Object.keys(imageData));
-            if (imageData.tag_string_artist) {
-                console.log('Found tag_string_artist but source might not be historical:', imageData.tag_string_artist);
-                artistName = imageData.tag_string_artist.trim();
             }
         }
 
         if (artistName && artistName.length > 0 && artistName !== 'unknown') {
             // Show artist name as primary title
             titleText = artistName;
-            console.log('✅ Artist name found and will be displayed:', titleText);
 
-            // Add clickable artist search for Danbooru artists
+            // Check if this is Danbooru content with clickable artists
             if (imageData.artists && imageData.artists.length > 0) {
                 const validArtists = imageData.artists.filter(artist => artist && artist.trim().length > 0);
                 if (validArtists.length > 0) {
@@ -1601,9 +1587,7 @@ class Rule34MobileApp {
                         `<span class="artist-link" data-artist="${artist}" style="color: #667eea; cursor: pointer; text-decoration: underline;">${artist}</span>`
                     ).join(', ');
 
-                    const finalTitle = `${titleText}<br><small style="color: #aaa; font-weight: normal; font-size: 14px; margin-top: 4px; display: block;">ID: ${imageData.id}</small>`;
-                    console.log('Setting modal title (Danbooru):', finalTitle);
-                    modalTitle.innerHTML = finalTitle;
+                    modalTitle.innerHTML = `${titleText}<br><small style="color: #aaa; font-weight: normal; font-size: 14px; margin-top: 4px; display: block;">ID: ${imageData.id}</small>`;
 
                     // Add click event listeners to artist links
                     setTimeout(() => {
@@ -1617,22 +1601,16 @@ class Rule34MobileApp {
                         });
                     }, 0);
                 } else {
-                    const finalTitle = `${titleText}<br><small style="color: #aaa; font-weight: normal; font-size: 14px; margin-top: 4px; display: block;">ID: ${imageData.id}</small>`;
-                    console.log('Setting modal title (Historical):', finalTitle);
-                    modalTitle.innerHTML = finalTitle;
+                    modalTitle.innerHTML = `${titleText}<br><small style="color: #aaa; font-weight: normal; font-size: 14px; margin-top: 4px; display: block;">ID: ${imageData.id}</small>`;
                 }
             } else {
-                const finalTitle = `${titleText}<br><small style="color: #aaa; font-weight: normal; font-size: 14px; margin-top: 4px; display: block;">ID: ${imageData.id}</small>`;
-                console.log('Setting modal title (No artists array):', finalTitle);
-                modalTitle.innerHTML = finalTitle;
+                modalTitle.innerHTML = `${titleText}<br><small style="color: #aaa; font-weight: normal; font-size: 14px; margin-top: 4px; display: block;">ID: ${imageData.id}</small>`;
             }
         } else {
             // Fallback to ID when no artist info available
             titleText = `Image ID: ${imageData.id}`;
-            console.log('❌ No artist found, using fallback title:', titleText);
             modalTitle.innerHTML = titleText;
         }
-        console.log('=== END MODAL TITLE DEBUG ===');
 
         // Use correct thumbnail URL for different sites
         const thumbnailUrl = imageData.thumbUrl || imageData.thumbnailUrl;
